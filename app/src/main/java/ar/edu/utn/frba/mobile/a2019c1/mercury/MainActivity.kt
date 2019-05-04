@@ -1,12 +1,10 @@
 package ar.edu.utn.frba.mobile.a2019c1.mercury
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), MainFragment.OnFragmentInteractionListener {
@@ -21,11 +19,6 @@ class MainActivity : AppCompatActivity(), MainFragment.OnFragmentInteractionList
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, MainFragment.newInstance())
                 .commit()
-        }
-
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
         }
     }
 
