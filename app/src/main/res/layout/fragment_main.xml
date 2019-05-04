@@ -7,18 +7,91 @@
     tools:context=".MainFragment">
 
     <TextView
-        android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
-        android:text="@string/NEW_ITINERARY_NAME_LABEL"
+        android:labelFor="@+id/itinerary_name"
+        android:text="@string/NEW_ITINERARY__ITINERARY_NAME_LABEL"
         android:textStyle="bold" />
 
     <EditText
+        android:id="@+id/itinerary_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="top"
-        android:importantForAutofill="no"
-        android:inputType="textAutoCorrect" />
+        android:inputType="textNoSuggestions" />
+
+    <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:labelFor="@+id/client_name"
+                android:text="@string/NEW_ITINERARY__CLIENT_NAME_LABEL" />
+
+            <EditText
+                android:id="@+id/client_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:inputType="textNoSuggestions" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:labelFor="@+id/client_phone_number"
+                android:text="@string/NEW_ITINERARY__CLIENT_PHONE_NUMBER_LABEL" />
+
+            <EditText
+                android:id="@+id/client_phone_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:inputType="phone" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:labelFor="@+id/client_location"
+                android:text="@string/NEW_ITINERARY__CLIENT_LOCATION_LABEL" />
+
+            <EditText
+                android:id="@+id/client_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:inputType="textNoSuggestions" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:labelFor="@+id/client_visit_time"
+                android:text="@string/NEW_ITINERARY__CLIENT_VISIT_TIME" />
+
+            <EditText
+                android:id="@+id/client_visit_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:inputType="time" />
+
+            <Button
+                android:id="@+id/addClientToItineraryButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/NEW_ITINERARY__ADD_CLIENT" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 
 </LinearLayout>
