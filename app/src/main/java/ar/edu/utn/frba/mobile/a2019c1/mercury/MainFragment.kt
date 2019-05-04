@@ -5,8 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Client
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_main.*
+import java.time.LocalTime
+import java.time.format.DateTimeParseException
 
 /**
  * A simple [Fragment] subclass.
@@ -36,6 +39,19 @@ class MainFragment : Fragment() {
         }
 
         addClientToItineraryButton.setOnClickListener {
+            val name = client_name.text.toString()
+            val phoneNumber = client_phone_number.text.toString()
+            val location = client_location.text.toString()
+            val visitTime: LocalTime = try {
+                LocalTime.parse(client_visit_time.text.toString())
+            } catch (e: DateTimeParseException) {
+                TODO("Handle validations")
+            }
+
+            val clientToAdd = Client(name, phoneNumber, location, visitTime)
+
+            Snackbar.make(it, clientToAdd.toString(), Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show()
         }
     }
 
