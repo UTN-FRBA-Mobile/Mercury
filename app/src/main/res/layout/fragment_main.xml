@@ -10,12 +10,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
-        android:labelFor="@+id/itinerary_name"
-        android:text="@string/NEW_ITINERARY__ITINERARY_NAME_LABEL"
+        android:labelFor="@+id/schedule_name"
+        android:text="@string/NEW_SCHEDULE__SCHEDULE_NAME_LABEL"
         android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/itinerary_name"
+        android:id="@+id/schedule_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="top"
@@ -36,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:labelFor="@+id/client_name"
-                android:text="@string/NEW_ITINERARY__CLIENT_NAME_LABEL" />
+                android:text="@string/NEW_SCHEDULE__CLIENT_NAME_LABEL" />
 
             <EditText
                 android:id="@+id/client_name"
@@ -49,7 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:labelFor="@+id/client_phone_number"
-                android:text="@string/NEW_ITINERARY__CLIENT_PHONE_NUMBER_LABEL" />
+                android:text="@string/NEW_SCHEDULE__CLIENT_PHONE_NUMBER_LABEL" />
 
             <EditText
                 android:id="@+id/client_phone_number"
@@ -62,7 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:labelFor="@+id/client_location"
-                android:text="@string/NEW_ITINERARY__CLIENT_LOCATION_LABEL" />
+                android:text="@string/NEW_SCHEDULE__CLIENT_LOCATION_LABEL" />
 
             <EditText
                 android:id="@+id/client_location"
@@ -75,7 +75,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:labelFor="@+id/client_visit_time"
-                android:text="@string/NEW_ITINERARY__CLIENT_VISIT_TIME" />
+                android:text="@string/NEW_SCHEDULE__CLIENT_VISIT_TIME" />
 
             <EditText
                 android:id="@+id/client_visit_time"
@@ -85,10 +85,10 @@
                 android:inputType="time" />
 
             <Button
-                android:id="@+id/addClientToItineraryButton"
+                android:id="@+id/addClientToScheduleButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/NEW_ITINERARY__ADD_CLIENT" />
+                android:text="@string/NEW_SCHEDULE__ADD_CLIENT" />
 
         </LinearLayout>
 

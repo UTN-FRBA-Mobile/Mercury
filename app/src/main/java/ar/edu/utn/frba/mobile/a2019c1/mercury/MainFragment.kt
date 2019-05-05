@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Client
+import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Schedule
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_main.*
 import java.time.LocalTime
@@ -22,6 +23,8 @@ import java.time.format.DateTimeParseException
  */
 class MainFragment : Fragment() {
 
+    private val clientsPerDay: MutableList<Pair<Int, Client>> = mutableListOf()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,25 +37,40 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         fab.setOnClickListener {
-            Snackbar.make(it, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
+            val scheduleName = schedule_name.text.toString()
 
-        addClientToItineraryButton.setOnClickListener {
-            val name = client_name.text.toString()
-            val phoneNumber = client_phone_number.text.toString()
-            val location = client_location.text.toString()
-            val visitTime: LocalTime = try {
-                LocalTime.parse(client_visit_time.text.toString())
-            } catch (e: DateTimeParseException) {
-                TODO("Handle validations")
+            if (scheduleName.isBlank()) {
+                TODO("No name validation")
             }
 
-            val clientToAdd = Client(name, phoneNumber, location, visitTime)
+            val scheduleToCreate = Schedule(scheduleName)
 
-            Snackbar.make(it, clientToAdd.toString(), Snackbar.LENGTH_LONG)
+            clientsPerDay.forEach { (dayNumber, client) ->
+                scheduleToCreate.addClientOnDay(dayNumber, client)
+            }
+
+            Snackbar.make(it, scheduleToCreate.toString(), Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
+
+        addClientToScheduleButton.setOnClickListener {
+            addClientToSchedule(it)
+        }
+    }
+
+    private fun addClientToSchedule(it: View) {
+        val name = client_name.text.toString()
+        val phoneNumber = client_phone_number.text.toString()
+        val location = client_location.text.toString()
+        val visitTime: LocalTime = try {
+            LocalTime.parse(client_visit_time.text.toString())
+        } catch (e: DateTimeParseException) {
+            TODO("Date parsing validation")
+        }
+
+        val clientToAdd = Client(name, phoneNumber, location, visitTime)
+        val dayNumber = 1 // TODO get actual day
+        clientsPerDay.add(Pair(dayNumber, clientToAdd))
     }
 
     /**

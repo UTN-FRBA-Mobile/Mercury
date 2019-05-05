@@ -25,6 +25,10 @@ class Schedule(val name: String) {
         return emptyDaySchedule
     }
 
+    override fun toString(): String {
+        return "Schedule(name=$name, clients=${clients().map{it.name}})"
+    }
+
 }
 
 data class DaySchedule(val dayNumber: Int, val clients: MutableList<Client>) {

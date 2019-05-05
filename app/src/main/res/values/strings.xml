@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">Mercury</string>
     <string name="action_settings">Settings</string>
-    <string name="NEW_ITINERARY__ITINERARY_NAME_LABEL">Nombre:</string>
-    <string name="NEW_ITINERARY__CLIENT_NAME_LABEL">Nombre:</string>
-    <string name="NEW_ITINERARY__CLIENT_PHONE_NUMBER_LABEL">Número:</string>
-    <string name="NEW_ITINERARY__CLIENT_LOCATION_LABEL">Ubicación</string>
-    <string name="NEW_ITINERARY__CLIENT_VISIT_TIME">Horario de visita:</string>
-    <string name="NEW_ITINERARY__ADD_CLIENT">Agregar</string>
+    <string name="NEW_SCHEDULE__SCHEDULE_NAME_LABEL">Nombre:</string>
+    <string name="NEW_SCHEDULE__CLIENT_NAME_LABEL">Nombre:</string>
+    <string name="NEW_SCHEDULE__CLIENT_PHONE_NUMBER_LABEL">Número:</string>
+    <string name="NEW_SCHEDULE__CLIENT_LOCATION_LABEL">Ubicación</string>
+    <string name="NEW_SCHEDULE__CLIENT_VISIT_TIME">Horario de visita:</string>
+    <string name="NEW_SCHEDULE__ADD_CLIENT">Agregar</string>
 </resources>

@@ -2,6 +2,7 @@ package ar.edu.utn.frba.mobile.a2019c1.mercury
 
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.ActivityTestRule
@@ -18,8 +19,10 @@ class MainActivityTest {
     var activityRule = ActivityTestRule(MainActivity::class.java)
 
     @Test
-    fun botonesDesactivadosSinTexto (){
+    fun canCreateScheduleWithNameAndNoClients(){
+        onView(withId(R.id.schedule_name)).perform(replaceText("ScheduleName"))
+
         onView(withId(R.id.fab)).perform(click())
-        onView(withText("Replace with your own action")).check(matches(isDisplayed()))
+        onView(withText("Schedule(name=ScheduleName, clients=[])")).check(matches(isDisplayed()))
     }
 }
