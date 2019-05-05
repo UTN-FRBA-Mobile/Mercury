@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.mobile.a2019c1.mercury
 
+import android.app.TimePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,8 @@ import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Client
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Schedule
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_main.*
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeParseException
 
@@ -36,6 +39,14 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        selectHourButton.setOnClickListener{
+
+            val timeSetListener=  TimePickerDialog.OnTimeSetListener{timePicker,hour,minute ->
+                client_visit_time.text = hour.toString()+":"+minute.toString()
+            }
+            val time = LocalDateTime.now()
+            TimePickerDialog(context,timeSetListener,time.hour,time.minute,true).show()
+        }
         fab.setOnClickListener {
             val scheduleName = schedule_name.text.toString()
 

@@ -77,13 +77,24 @@
                 android:labelFor="@+id/client_visit_time"
                 android:text="@string/NEW_SCHEDULE__CLIENT_VISIT_TIME" />
 
-            <EditText
-                android:id="@+id/client_visit_time"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="top"
-                android:inputType="time" />
+                android:orientation="horizontal">
 
+                <Button
+                    android:id="@+id/selectHourButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Seleccionar hora" />
+
+                <TextView
+                    android:id="@+id/client_visit_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:inputType="time" />
+            </LinearLayout>
             <Button
                 android:id="@+id/addClientToScheduleButton"
                 android:layout_width="wrap_content"
