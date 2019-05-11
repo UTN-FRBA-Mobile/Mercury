@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), MainFragment.OnFragmentInteractionListener {
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity(), MainFragment.OnFragmentInteractionList
             // Solo la primera vez que corre el activity
             // Las demás el propio manager restaura todo como estaba
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, MainFragment.newInstance())
+                .replace(R.id.fragmentContainer, ScheduleEditionFragment { onEditionCompleted() })
                 .commit()
         }
     }
@@ -38,7 +38,11 @@ class MainActivity : AppCompatActivity(), MainFragment.OnFragmentInteractionList
         }
     }
 
-    override fun showFragment(fragment: Fragment) {
+    private fun onEditionCompleted() {
+        showFragment(ScheduleListFragment())
+    }
+
+    private fun showFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
             .replace(R.id.fragmentContainer, fragment)

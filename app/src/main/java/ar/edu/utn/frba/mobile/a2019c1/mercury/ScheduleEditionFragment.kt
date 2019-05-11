@@ -9,22 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Client
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Schedule
-import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_main.*
+import kotlinx.android.synthetic.main.fragment_schedule_edition.*
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeParseException
 
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [MainFragment.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [MainFragment.newInstance] factory method to
- * create an instance of this fragment.
- *
- */
-class MainFragment : Fragment() {
+class ScheduleEditionFragment(val onEditionCompleted: () -> Unit) : Fragment() {
 
     private val viewModel: ScheduleViewModel by activityViewModels()
     private val clientsPerDay: MutableList<Pair<Int, Client>> = mutableListOf()
@@ -34,7 +24,7 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main, container, false)
+        return inflater.inflate(R.layout.fragment_schedule_edition, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -85,34 +75,7 @@ class MainFragment : Fragment() {
 
         viewModel.schedules.add(scheduleToCreate)
 
-        Snackbar.make(it, scheduleToCreate.toString(), Snackbar.LENGTH_LONG)
-            .setAction("Action", null).show()
+        onEditionCompleted()
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     *
-     *
-     * See the Android Training lesson [Communicating with Other Fragments]
-     * (http://developer.android.com/training/basics/fragments/communicating.html)
-     * for more information.
-     */
-    interface OnFragmentInteractionListener {
-        fun showFragment(fragment: Fragment)
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param title Title.
-         * @return A new instance of fragment MainFragment.
-         */
-        @JvmStatic
-        fun newInstance() = MainFragment()
-    }
 }
