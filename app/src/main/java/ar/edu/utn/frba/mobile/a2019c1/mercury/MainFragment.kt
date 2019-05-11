@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Client
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Schedule
 import com.google.android.material.snackbar.Snackbar
@@ -25,6 +26,7 @@ import java.time.format.DateTimeParseException
  */
 class MainFragment : Fragment() {
 
+    private val viewModel: ScheduleViewModel by activityViewModels()
     private val clientsPerDay: MutableList<Pair<Int, Client>> = mutableListOf()
 
     override fun onCreateView(
@@ -37,8 +39,8 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        client_visit_time.text = "00:00"
 
+        client_visit_time.text = "00:00"
         client_visit_time.setOnClickListener{
             val timeSetListener=  TimePickerDialog.OnTimeSetListener{ _, hour, minute ->
                 client_visit_time.text = "$hour:$minute"
@@ -47,27 +49,9 @@ class MainFragment : Fragment() {
             TimePickerDialog(context,timeSetListener,time.hour,time.minute,true).show()
         }
 
-        fab.setOnClickListener {
-            val scheduleName = schedule_name.text.toString()
+        addClientToScheduleButton.setOnClickListener { addClientToSchedule() }
 
-            if (scheduleName.isBlank()) {
-                schedule_name.error = "Agregar nombre"
-                return@setOnClickListener
-            }
-
-            val scheduleToCreate = Schedule(scheduleName)
-
-            clientsPerDay.forEach { (dayNumber, client) ->
-                scheduleToCreate.addClientOnDay(dayNumber, client)
-            }
-
-            Snackbar.make(it, scheduleToCreate.toString(), Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
-
-        addClientToScheduleButton.setOnClickListener {
-            addClientToSchedule()
-        }
+        fab.setOnClickListener { saveSchedule(it) }
     }
 
     private fun addClientToSchedule() {
@@ -83,6 +67,26 @@ class MainFragment : Fragment() {
         val clientToAdd = Client(name, phoneNumber, location, visitTime)
         val dayNumber = 1 // TODO get actual day
         clientsPerDay.add(Pair(dayNumber, clientToAdd))
+    }
+
+    private fun saveSchedule(it: View) {
+        val scheduleName = schedule_name.text.toString()
+
+        if (scheduleName.isBlank()) {
+            schedule_name.error = "Agregar nombre"
+            return
+        }
+
+        val scheduleToCreate = Schedule(scheduleName)
+
+        clientsPerDay.forEach { (dayNumber, client) ->
+            scheduleToCreate.addClientOnDay(dayNumber, client)
+        }
+
+        viewModel.schedules.add(scheduleToCreate)
+
+        Snackbar.make(it, scheduleToCreate.toString(), Snackbar.LENGTH_LONG)
+            .setAction("Action", null).show()
     }
 
     /**
