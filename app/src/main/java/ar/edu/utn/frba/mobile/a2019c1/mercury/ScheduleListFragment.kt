@@ -6,7 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import kotlinx.android.synthetic.main.fragment_schedule_list.*
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class ScheduleListFragment : Fragment() {
 
@@ -23,7 +24,13 @@ class ScheduleListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        schedules.text = viewModel.schedules.joinToString { it.toString() }
+        val schedules = viewModel.schedules
+        val scheduleListAdapter = ScheduleListAdapter(schedules)
+
+        with(view as RecyclerView) {
+            layoutManager = LinearLayoutManager(context)
+            adapter = scheduleListAdapter
+        }
     }
 
 }
