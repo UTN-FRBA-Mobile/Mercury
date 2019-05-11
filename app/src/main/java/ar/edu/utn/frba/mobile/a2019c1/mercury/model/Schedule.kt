@@ -3,8 +3,8 @@ package ar.edu.utn.frba.mobile.a2019c1.mercury.model
 class Schedule(val name: String) {
     private val clientsPerDay: MutableList<DaySchedule> = mutableListOf()
 
-    fun clients(): List<Client> {
-        return clientsPerDay.map { it.clients }
+    fun visits(): List<Visit> {
+        return clientsPerDay.map { it.visits }
             .flatten()
     }
 
@@ -14,8 +14,8 @@ class Schedule(val name: String) {
             ?: 0
     }
 
-    fun addClientOnDay(day: Int, client: Client) {
-        daySchedule(day).add(client)
+    fun addClientOnDay(day: Int, visit: Visit) {
+        daySchedule(day).add(visit)
     }
 
     private fun daySchedule(day: Int): DaySchedule {
@@ -30,13 +30,13 @@ class Schedule(val name: String) {
     }
 
     override fun toString(): String {
-        return "Schedule(name=$name, clients=${clients().map{it.name}})"
+        return "Schedule(name=$name, clients=${visits().map{it.client.name}})"
     }
 
 }
 
-data class DaySchedule(val dayNumber: Int, val clients: MutableList<Client>) {
-    fun add(client: Client) {
-        clients.add(client)
+data class DaySchedule(val dayNumber: Int, val visits: MutableList<Visit>) {
+    fun add(visit: Visit) {
+        visits.add(visit)
     }
 }

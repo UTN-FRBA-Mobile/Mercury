@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Client
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Schedule
+import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Visit
 import kotlinx.android.synthetic.main.fragment_schedule_edition.*
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -17,7 +18,7 @@ import java.time.format.DateTimeParseException
 class ScheduleEditionFragment(val onEditionCompleted: () -> Unit) : Fragment() {
 
     private val viewModel: ScheduleViewModel by activityViewModels()
-    private val clientsPerDay: MutableList<Pair<Int, Client>> = mutableListOf()
+    private val clientsPerDay: MutableList<Pair<Int,Visit>> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,9 +55,10 @@ class ScheduleEditionFragment(val onEditionCompleted: () -> Unit) : Fragment() {
             TODO("Date parsing validation")
         }
 
-        val clientToAdd = Client(name, phoneNumber, location, visitTime)
+        val clientToAdd = Client(name, phoneNumber, location)
         val dayNumber = 1 // TODO get actual day
-        clientsPerDay.add(Pair(dayNumber, clientToAdd))
+        val visit = Visit(clientToAdd,visitTime)
+        clientsPerDay.add(Pair(dayNumber,visit))
     }
 
     private fun saveSchedule(it: View) {
