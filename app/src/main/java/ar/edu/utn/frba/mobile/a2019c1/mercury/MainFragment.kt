@@ -10,7 +10,6 @@ import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Client
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Schedule
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_main.*
-import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeParseException
@@ -38,20 +37,22 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        client_visit_time.text = "00:00"
 
         selectHourButton.setOnClickListener{
-
-            val timeSetListener=  TimePickerDialog.OnTimeSetListener{timePicker,hour,minute ->
-                client_visit_time.text = hour.toString()+":"+minute.toString()
+            val timeSetListener=  TimePickerDialog.OnTimeSetListener{ _, hour, minute ->
+                client_visit_time.text = "$hour:$minute"
             }
             val time = LocalDateTime.now()
             TimePickerDialog(context,timeSetListener,time.hour,time.minute,true).show()
         }
+
         fab.setOnClickListener {
             val scheduleName = schedule_name.text.toString()
 
             if (scheduleName.isBlank()) {
-                TODO("No name validation")
+                schedule_name.error = "Agregar nombre"
+                return@setOnClickListener
             }
 
             val scheduleToCreate = Schedule(scheduleName)
@@ -65,11 +66,11 @@ class MainFragment : Fragment() {
         }
 
         addClientToScheduleButton.setOnClickListener {
-            addClientToSchedule(it)
+            addClientToSchedule()
         }
     }
 
-    private fun addClientToSchedule(it: View) {
+    private fun addClientToSchedule() {
         val name = client_name.text.toString()
         val phoneNumber = client_phone_number.text.toString()
         val location = client_location.text.toString()
