@@ -46,6 +46,17 @@ class ScheduleTest {
     }
 
     @Test
+    fun `Given a Schedule with multiple Clients on a specific day, its duration is of one day`() {
+        val aClient = Client("Tyrion Lannister", "1111111111", "King's Landing", LocalTime.of(10, 0))
+        val anotherClient = Client("Jaime Lannister", "1111111111", "King's Landing", LocalTime.of(12, 0))
+
+        schedule.addClientOnDay(1, aClient)
+        schedule.addClientOnDay(1, anotherClient)
+
+        assertThat(schedule.duration()).isEqualTo(1)
+    }
+
+    @Test
     fun `Given a new Schedule, can add multiple new Clients on a different days`() {
         val aClient = Client("Tyrion Lannister", "1111111111", "King's Landing", LocalTime.of(10, 0))
         val anotherClient = Client("Jaime Lannister", "1111111111", "King's Landing", LocalTime.of(12, 0))
@@ -55,5 +66,16 @@ class ScheduleTest {
 
         assertThat(schedule.clients()).hasSize(2)
         assertThat(schedule.clients()).containsExactlyInAnyOrder(aClient, anotherClient)
+    }
+
+    @Test
+    fun `Given a Schedule with multiple Clients, its duration depends on the farthest day a client has to be visited`() {
+        val aClient = Client("Tyrion Lannister", "1111111111", "King's Landing", LocalTime.of(10, 0))
+        val anotherClient = Client("Jaime Lannister", "1111111111", "King's Landing", LocalTime.of(12, 0))
+
+        schedule.addClientOnDay(1, aClient)
+        schedule.addClientOnDay(3, anotherClient)
+
+        assertThat(schedule.duration()).isEqualTo(3)
     }
 }

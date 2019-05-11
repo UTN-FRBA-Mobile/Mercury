@@ -8,7 +8,11 @@ class Schedule(val name: String) {
             .flatten()
     }
 
-    fun duration() = clients().size
+    fun duration(): Int {
+        return clientsPerDay.map { it.dayNumber }
+            .max()
+            ?: 0
+    }
 
     fun addClientOnDay(day: Int, client: Client) {
         daySchedule(day).add(client)
