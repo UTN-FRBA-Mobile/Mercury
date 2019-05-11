@@ -39,7 +39,7 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         client_visit_time.text = "00:00"
 
-        selectHourButton.setOnClickListener{
+        client_visit_time.setOnClickListener{
             val timeSetListener=  TimePickerDialog.OnTimeSetListener{ _, hour, minute ->
                 client_visit_time.text = "$hour:$minute"
             }
