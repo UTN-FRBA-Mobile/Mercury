@@ -49,12 +49,13 @@ class ScheduleEditionFragment(val onEditionCompleted: () -> Unit) : Fragment() {
         val name = client_name.text.toString()
         val phoneNumber = client_phone_number.text.toString()
         val location = client_location.text.toString()
-        val visitTime: LocalTime = try {
+        val visitTime: LocalTime =
+        try {
             LocalTime.parse(client_visit_time.text.toString())
         } catch (e: DateTimeParseException) {
-            TODO("Date parsing validation")
+            client_visit_time.error = "Formato Invalido de fecha"
+            return
         }
-
         val clientToAdd = Client(name, phoneNumber, location)
         val dayNumber = 1 // TODO get actual day
         val visit = Visit(clientToAdd,visitTime)
