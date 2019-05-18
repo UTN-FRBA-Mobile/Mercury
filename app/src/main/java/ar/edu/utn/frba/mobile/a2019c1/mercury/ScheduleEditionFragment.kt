@@ -14,9 +14,10 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeParseException
 
-class ScheduleEditionFragment(val onEditionCompleted: () -> Unit) : Fragment() {
+class ScheduleEditionFragment : Fragment() {
 
     private val viewModel: ScheduleViewModel by activityViewModels()
+    private lateinit var onEditionCompleted: () -> Unit
     private val clientsPerDay: MutableList<Pair<Int, Client>> = mutableListOf()
 
     override fun onCreateView(
@@ -76,6 +77,10 @@ class ScheduleEditionFragment(val onEditionCompleted: () -> Unit) : Fragment() {
         viewModel.schedules.add(scheduleToCreate)
 
         onEditionCompleted()
+    }
+
+    fun setOnEditionCompletedCallback(onEditionCompleted: () -> Unit) {
+        this.onEditionCompleted = onEditionCompleted
     }
 
 }

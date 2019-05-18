@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
             // Solo la primera vez que corre el activity
             // Las demás el propio manager restaura todo como estaba
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, ScheduleEditionFragment { onEditionCompleted() })
+                .replace(R.id.fragmentContainer, ScheduleEditionFragment())
                 .commit()
         }
     }
@@ -38,6 +38,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onAttachFragment(fragment: Fragment) {
+        if (fragment is ScheduleEditionFragment) {
+            fragment.setOnEditionCompletedCallback { onEditionCompleted() }
+        } else if (fragment is ScheduleListFragment) {
+            fragment.setOnAddScheduleButtonClicked { onAddScheduleButtonClicked() }
+        }
+    }
+
+    private fun onAddScheduleButtonClicked() {
+        showFragment(ScheduleEditionFragment())
+    }
+    
     private fun onEditionCompleted() {
         showFragment(ScheduleListFragment())
     }

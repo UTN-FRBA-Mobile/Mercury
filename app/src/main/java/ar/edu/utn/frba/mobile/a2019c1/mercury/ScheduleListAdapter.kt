@@ -5,12 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Schedule
-import kotlinx.android.synthetic.main.schedule_text_view.view.*
+import kotlinx.android.synthetic.main.schedule_for_list_view.view.*
 
 class ScheduleListAdapter(private var schedules: List<Schedule>) : RecyclerView.Adapter<ScheduleListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.schedule_text_view, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.schedule_for_list_view, parent, false)
         return ViewHolder(view)
     }
 
