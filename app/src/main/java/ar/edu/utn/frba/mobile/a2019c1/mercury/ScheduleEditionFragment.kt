@@ -43,7 +43,7 @@ class ScheduleEditionFragment : Fragment() {
 
         addClientToScheduleButton.setOnClickListener { addClientToSchedule() }
 
-        fab.setOnClickListener { saveSchedule(it) }
+        fab.setOnClickListener { saveSchedule() }
     }
 
     private fun addClientToSchedule() {
@@ -63,7 +63,7 @@ class ScheduleEditionFragment : Fragment() {
         clientsPerDay.add(Pair(dayNumber,visit))
     }
 
-    private fun saveSchedule(it: View) {
+    private fun saveSchedule() {
         val scheduleName = schedule_name.text.toString()
 
         if (scheduleName.isBlank()) {

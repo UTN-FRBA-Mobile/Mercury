@@ -7,4 +7,8 @@
     <string name="NEW_SCHEDULE__CLIENT_LOCATION_LABEL">Ubicación</string>
     <string name="NEW_SCHEDULE__CLIENT_VISIT_TIME">Horario de visita:</string>
     <string name="NEW_SCHEDULE__ADD_CLIENT">Agregar</string>
+    <plurals name="LIST_SCHEDULE__SCHEDULE_DURATION">
+        <item quantity="one">%d día</item>
+        <item quantity="other">%d días</item>
+    </plurals>
 </resources>
