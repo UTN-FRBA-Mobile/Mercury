@@ -17,7 +17,10 @@ class ScheduleListAdapter(private var schedules: List<Schedule>) : RecyclerView.
     override fun getItemCount() = schedules.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.itemView.schedule_name.text = schedules[position].toString()
+        val itemView = holder.itemView
+        val schedule = schedules[position]
+        itemView.schedule_name.text = schedule.name
+        itemView.schedule_duration.text = schedule.duration().toString()
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
