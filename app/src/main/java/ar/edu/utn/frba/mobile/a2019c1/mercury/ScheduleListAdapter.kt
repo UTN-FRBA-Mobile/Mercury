@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.schedule_for_list_view.view.*
 class ScheduleListAdapter(
     private val context: Context,
     private val schedules: List<Schedule>,
+    private val updateSchedule: (Schedule) -> Unit,
     private val deleteSchedule: (Schedule) -> Unit
 ) : RecyclerView.Adapter<ScheduleListAdapter.ScheduleListItemViewHolder>() {
 
@@ -23,17 +24,21 @@ class ScheduleListAdapter(
 
     override fun onBindViewHolder(holder: ScheduleListItemViewHolder, position: Int) {
         val scheduleToUpdate = schedules[position]
-        holder.bind(scheduleToUpdate, deleteSchedule)
+        holder.bind(scheduleToUpdate, updateSchedule, deleteSchedule)
     }
 
     inner class ScheduleListItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(schedule: Schedule, deleteSchedule: (Schedule) -> Unit) {
+        fun bind(schedule: Schedule, updateSchedule: (Schedule) -> Unit, deleteSchedule: (Schedule) -> Unit) {
             itemView.schedule_name.text = schedule.name
             val scheduleDuration = schedule.duration()
             itemView.schedule_duration.text = context.resources.getQuantityString(R.plurals.LIST_SCHEDULE__SCHEDULE_DURATION,
                 scheduleDuration,
                 scheduleDuration
             )
+
+            itemView.schedule_edit_button.setOnClickListener {
+                updateSchedule(schedule)
+            }
 
             itemView.schedule_delete_button.setOnClickListener {
                 deleteSchedule(schedule)

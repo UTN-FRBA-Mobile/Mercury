@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Client
+import ar.edu.utn.frba.mobile.a2019c1.mercury.model.DaySchedule
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Schedule
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Visit
 import kotlinx.android.synthetic.main.fragment_schedule_edition.*
@@ -17,7 +18,8 @@ import java.time.format.DateTimeParseException
 
 class ScheduleEditionFragment : Fragment() {
 
-    private val viewModel: ScheduleViewModel by activityViewModels()
+    private val scheduleListViewModel: ScheduleViewModel by activityViewModels()
+    private val scheduleEditionViewModel: ScheduleEditionViewModel by activityViewModels()
     private val clientsPerDay: MutableList<Pair<Int,Visit>> = mutableListOf()
     private lateinit var onEditionCompleted: () -> Unit
 
@@ -31,6 +33,11 @@ class ScheduleEditionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        scheduleEditionViewModel.scheduleOnEdition?.let {
+            loadScheduleToEditFromViewModel(it)
+            scheduleEditionViewModel.scheduleOnEdition = null
+        }
 
         client_visit_time.text = "00:00"
         client_visit_time.setOnClickListener{
@@ -77,7 +84,7 @@ class ScheduleEditionFragment : Fragment() {
             scheduleToCreate.addClientOnDay(dayNumber, client)
         }
 
-        viewModel.schedules.add(scheduleToCreate)
+        scheduleListViewModel.schedules.add(scheduleToCreate)
 
         onEditionCompleted()
     }
@@ -85,5 +92,16 @@ class ScheduleEditionFragment : Fragment() {
     fun setOnEditionCompletedCallback(onEditionCompleted: () -> Unit) {
         this.onEditionCompleted = onEditionCompleted
     }
+
+    private fun loadScheduleToEditFromViewModel(scheduleToEdit: Schedule) {
+        schedule_name.setText(scheduleToEdit.name)
+
+        val scheduleClientsPerDay = scheduleToEdit.clientsPerDay
+            .flatMap { dayScheduleToClientsPerDay(it) }
+        clientsPerDay.addAll(scheduleClientsPerDay)
+    }
+
+    private fun dayScheduleToClientsPerDay(clientsPerDay: DaySchedule) =
+        clientsPerDay.visits.map { visit -> Pair(clientsPerDay.dayNumber, visit) }
 
 }

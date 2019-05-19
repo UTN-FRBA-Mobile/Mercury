@@ -16,6 +16,7 @@ class ScheduleListFragment : Fragment() {
 
     private val viewModel: ScheduleViewModel by activityViewModels()
     private lateinit var onAddScheduleButtonClicked: () -> Unit
+    private lateinit var onEditScheduleButtonClicked: (Schedule) -> Unit
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,7 +30,7 @@ class ScheduleListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val schedules = viewModel.schedules
-        val scheduleListAdapter = ScheduleListAdapter(context!!, schedules, this::deleteSchedule)
+        val scheduleListAdapter = ScheduleListAdapter(context!!, schedules, this::updateSchedule, this::deleteSchedule)
 
         with(view.schedule_list as RecyclerView) {
             layoutManager = LinearLayoutManager(context)
@@ -39,12 +40,20 @@ class ScheduleListFragment : Fragment() {
         fab.setOnClickListener { onAddScheduleButtonClicked() }
     }
 
+    private fun updateSchedule(scheduleToUpdate: Schedule) {
+        onEditScheduleButtonClicked(scheduleToUpdate)
+    }
+
     private fun deleteSchedule(scheduleToDelete: Schedule) {
         viewModel.schedules.remove(scheduleToDelete)
     }
 
     fun setOnAddScheduleButtonClicked(onAddScheduleButtonClicked: () -> Unit) {
         this.onAddScheduleButtonClicked = onAddScheduleButtonClicked
+    }
+
+    fun setOnEditScheduleButtonClicked(onEditScheduleButtonClicked: (Schedule) -> Unit) {
+        this.onEditScheduleButtonClicked = onEditScheduleButtonClicked
     }
 
 }
