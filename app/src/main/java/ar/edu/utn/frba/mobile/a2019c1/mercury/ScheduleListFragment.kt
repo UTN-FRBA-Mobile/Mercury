@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Schedule
 import kotlinx.android.synthetic.main.fragment_schedule_edition.*
 import kotlinx.android.synthetic.main.fragment_schedule_list.view.*
 
@@ -28,7 +29,7 @@ class ScheduleListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val schedules = viewModel.schedules
-        val scheduleListAdapter = ScheduleListAdapter(schedules, context!!)
+        val scheduleListAdapter = ScheduleListAdapter(context!!, schedules, this::deleteSchedule)
 
         with(view.schedule_list as RecyclerView) {
             layoutManager = LinearLayoutManager(context)
@@ -36,6 +37,10 @@ class ScheduleListFragment : Fragment() {
         }
 
         fab.setOnClickListener { onAddScheduleButtonClicked() }
+    }
+
+    private fun deleteSchedule(scheduleToDelete: Schedule) {
+        viewModel.schedules.remove(scheduleToDelete)
     }
 
     fun setOnAddScheduleButtonClicked(onAddScheduleButtonClicked: () -> Unit) {

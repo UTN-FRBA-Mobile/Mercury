@@ -9,27 +9,36 @@ import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Schedule
 import kotlinx.android.synthetic.main.schedule_for_list_view.view.*
 
 class ScheduleListAdapter(
+    private val context: Context,
     private val schedules: List<Schedule>,
-    private val context: Context
-) : RecyclerView.Adapter<ScheduleListAdapter.ViewHolder>() {
+    private val deleteSchedule: (Schedule) -> Unit
+) : RecyclerView.Adapter<ScheduleListAdapter.ScheduleListItemViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScheduleListItemViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.schedule_for_list_view, parent, false)
-        return ViewHolder(view)
+        return ScheduleListItemViewHolder(view)
     }
 
     override fun getItemCount() = schedules.size
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val itemView = holder.itemView
-        val schedule = schedules[position]
-        itemView.schedule_name.text = schedule.name
-        val scheduleDuration = schedule.duration()
-        itemView.schedule_duration.text = context.resources.getQuantityString(R.plurals.LIST_SCHEDULE__SCHEDULE_DURATION,
-            scheduleDuration,
-            scheduleDuration
-        )
+    override fun onBindViewHolder(holder: ScheduleListItemViewHolder, position: Int) {
+        val scheduleToUpdate = schedules[position]
+        holder.bind(scheduleToUpdate, deleteSchedule)
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    inner class ScheduleListItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun bind(schedule: Schedule, deleteSchedule: (Schedule) -> Unit) {
+            itemView.schedule_name.text = schedule.name
+            val scheduleDuration = schedule.duration()
+            itemView.schedule_duration.text = context.resources.getQuantityString(R.plurals.LIST_SCHEDULE__SCHEDULE_DURATION,
+                scheduleDuration,
+                scheduleDuration
+            )
+
+            itemView.schedule_delete_button.setOnClickListener {
+                deleteSchedule(schedule)
+                notifyDataSetChanged()
+            }
+        }
+    }
 }
