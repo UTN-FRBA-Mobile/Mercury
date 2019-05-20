@@ -7,15 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Client
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Schedule
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Visit
 import kotlinx.android.synthetic.main.fragment_schedule_edition.*
+import kotlinx.android.synthetic.main.fragment_schedule_edition.view.*
+import kotlinx.android.synthetic.main.fragment_schedule_list.view.*
+import java.text.FieldPosition
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeParseException
 
-class ScheduleEditionFragment : Fragment() {
+class ScheduleEditionFragment : Fragment(), ScheduleEditionAdapter.OnItemClickListener {
 
     private val viewModel: ScheduleViewModel by activityViewModels()
     private val clientsPerDay: MutableList<Pair<Int,Visit>> = mutableListOf()
@@ -43,7 +48,23 @@ class ScheduleEditionFragment : Fragment() {
 
         addClientToScheduleButton.setOnClickListener { addClientToSchedule() }
 
+        val visits = clientsPerDay
+
+        val scheduleEditionAdapter = ScheduleEditionAdapter(visits, context!!,this)
+
+        with(view.visit_list as RecyclerView) {
+            layoutManager = LinearLayoutManager(context)
+            adapter = scheduleEditionAdapter
+        }
+
         fab.setOnClickListener { saveSchedule() }
+    }
+    private fun updateAdapter(){
+        view?.visit_list?.adapter?.notifyDataSetChanged()
+    }
+    override fun onDeleteItem(position: Int){
+        clientsPerDay.removeAt(position)
+        updateAdapter()
     }
 
     private fun addClientToSchedule() {
@@ -61,6 +82,7 @@ class ScheduleEditionFragment : Fragment() {
         val dayNumber = 1 // TODO get actual day
         val visit = Visit(clientToAdd,visitTime)
         clientsPerDay.add(Pair(dayNumber,visit))
+        updateAdapter()
     }
 
     private fun saveSchedule() {
@@ -87,3 +109,4 @@ class ScheduleEditionFragment : Fragment() {
     }
 
 }
+
