@@ -23,6 +23,6 @@ class MainActivityTest {
         onView(withId(R.id.schedule_name)).perform(replaceText("ScheduleName"))
 
         onView(withId(R.id.fab)).perform(click())
-        onView(withText("Schedule(name=ScheduleName, clients=[])")).check(matches(isDisplayed()))
+        onView(withText("ScheduleName")).check(matches(isDisplayed()))
     }
 }

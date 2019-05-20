@@ -1,7 +1,7 @@
 package ar.edu.utn.frba.mobile.a2019c1.mercury.model
 
 class Schedule(val name: String) {
-    private val clientsPerDay: MutableList<DaySchedule> = mutableListOf()
+    val clientsPerDay: MutableList<DaySchedule> = mutableListOf()
 
     fun visits(): List<Visit> {
         return clientsPerDay.map { it.visits }

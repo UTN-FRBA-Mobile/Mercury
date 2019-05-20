@@ -3,11 +3,15 @@ package ar.edu.utn.frba.mobile.a2019c1.mercury
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Schedule
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+
+    private val scheduleEditionViewModel: ScheduleEditionViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,16 +44,23 @@ class MainActivity : AppCompatActivity() {
 
     override fun onAttachFragment(fragment: Fragment) {
         if (fragment is ScheduleEditionFragment) {
-            fragment.setOnEditionCompletedCallback { onEditionCompleted() }
+            fragment.setOnEditionCompletedCallback(this::onEditionCompleted)
         } else if (fragment is ScheduleListFragment) {
-            fragment.setOnAddScheduleButtonClicked { onAddScheduleButtonClicked() }
+            fragment.setOnAddScheduleButtonClicked(this::onAddScheduleButtonClicked)
+            fragment.setOnEditScheduleButtonClicked(this::onScheduleEditionRequest)
         }
     }
 
     private fun onAddScheduleButtonClicked() {
         showFragment(ScheduleEditionFragment())
     }
-    
+
+    private fun onScheduleEditionRequest(scheduleToEdit: Schedule) {
+        val scheduleEditionFragment = ScheduleEditionFragment()
+        scheduleEditionViewModel.scheduleOnEdition = scheduleToEdit
+        showFragment(scheduleEditionFragment)
+    }
+
     private fun onEditionCompleted() {
         showFragment(ScheduleListFragment())
     }
