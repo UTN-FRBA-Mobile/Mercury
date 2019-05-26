@@ -35,6 +35,9 @@ class ScheduleListAdapter(
                 scheduleDuration,
                 scheduleDuration
             )
+            itemView.schedule_notification_button.visibility = if (itemView.schedule_active.isChecked) View.VISIBLE else View.GONE
+
+            itemView.schedule_active.setOnClickListener { notifyDataSetChanged() }
 
             itemView.schedule_edit_button.setOnClickListener {
                 updateSchedule(schedule)

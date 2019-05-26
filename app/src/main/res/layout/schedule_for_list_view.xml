@@ -24,6 +24,14 @@
                 android:layout_alignParentTop="true"
                 android:layout_margin="10dp" />
 
+            <Switch
+                android:id="@+id/schedule_active"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="10dp" />
+
             <TextView
                 android:id="@+id/schedule_duration"
                 android:layout_width="wrap_content"
@@ -59,7 +67,8 @@
                 <ImageView
                     android:id="@+id/schedule_notification_button"
                     style="@style/schedule_list_button"
-                    android:src="@android:drawable/stat_sys_phone_call" />
+                    android:src="@android:drawable/stat_sys_phone_call"
+                    android:visibility="gone"/>
 
                 <ImageView
                     android:id="@+id/schedule_delete_button"
