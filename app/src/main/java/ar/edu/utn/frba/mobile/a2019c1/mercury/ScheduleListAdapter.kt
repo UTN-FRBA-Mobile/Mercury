@@ -24,11 +24,16 @@ class ScheduleListAdapter(
 
     override fun onBindViewHolder(holder: ScheduleListItemViewHolder, position: Int) {
         val scheduleToUpdate = schedules[position]
-        holder.bind(scheduleToUpdate, updateSchedule, deleteSchedule)
+        holder.bind(position, scheduleToUpdate, updateSchedule, deleteSchedule)
     }
 
     inner class ScheduleListItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(schedule: Schedule, updateSchedule: (Schedule) -> Unit, deleteSchedule: (Schedule) -> Unit) {
+        fun bind(
+            position: Int,
+            schedule: Schedule,
+            updateSchedule: (Schedule) -> Unit,
+            deleteSchedule: (Schedule) -> Unit
+        ) {
             itemView.schedule_name.text = schedule.name
             val scheduleDuration = schedule.duration()
             itemView.schedule_duration.text = context.resources.getQuantityString(R.plurals.LIST_SCHEDULE__SCHEDULE_DURATION,
@@ -45,7 +50,7 @@ class ScheduleListAdapter(
 
             itemView.schedule_delete_button.setOnClickListener {
                 deleteSchedule(schedule)
-                notifyDataSetChanged()
+                notifyItemRemoved(position)
             }
         }
     }
