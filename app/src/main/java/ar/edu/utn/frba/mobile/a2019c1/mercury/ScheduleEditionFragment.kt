@@ -1,7 +1,10 @@
 package ar.edu.utn.frba.mobile.a2019c1.mercury
 
 import android.app.TimePickerDialog
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,6 +28,7 @@ class ScheduleEditionFragment : Fragment(), ScheduleEditionAdapter.OnItemClickLi
     private val scheduleEditionViewModel: ScheduleEditionViewModel by activityViewModels()
     private val clientsPerDay: MutableList<Pair<Int,Visit>> = mutableListOf()
     private lateinit var onEditionCompleted: () -> Unit
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,9 +65,19 @@ class ScheduleEditionFragment : Fragment(), ScheduleEditionAdapter.OnItemClickLi
             layoutManager = LinearLayoutManager(context)
             adapter = scheduleEditionAdapter
         }
-
+        pickAContact.setOnClickListener{
+            pickContact()
+        }
         fab.setOnClickListener { saveSchedule() }
     }
+    private val PICK_CONTACT_REQUEST = 1  // The request code
+    private fun pickContact(){
+        Intent(Intent.ACTION_PICK, Uri.parse("content://contacts")).also { pickContactIntent ->
+            pickContactIntent.type = ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE // Show user only contacts w/ phone numbers
+            activity?.startActivityForResult(pickContactIntent, PICK_CONTACT_REQUEST)
+        }
+    }
+
     private fun updateAdapter(){
         view?.visit_list?.adapter?.notifyDataSetChanged()
     }
@@ -124,4 +138,9 @@ class ScheduleEditionFragment : Fragment(), ScheduleEditionAdapter.OnItemClickLi
     private fun dayScheduleToClientsPerDay(clientsPerDay: DaySchedule) =
         clientsPerDay.visits.map { visit -> Pair(clientsPerDay.dayNumber, visit) }
 
+    fun processContactPick(contactName: String?, phoneNumber: String?, location: String?){
+        client_name.setText(contactName)
+        client_phone_number.setText(phoneNumber)
+        client_location.setText(location)
+    }
 }
