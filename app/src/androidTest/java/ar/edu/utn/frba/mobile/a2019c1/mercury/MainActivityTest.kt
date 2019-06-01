@@ -20,8 +20,8 @@ class MainActivityTest {
 
     @Test
     fun canCreateScheduleWithNameAndNoClients(){
+        onView(withId(R.id.fab)).perform(click())
         onView(withId(R.id.schedule_name)).perform(replaceText("ScheduleName"))
-
         onView(withId(R.id.fab)).perform(click())
         onView(withText("ScheduleName")).check(matches(isDisplayed()))
     }
