@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     private val scheduleEditionViewModel: ScheduleEditionViewModel by viewModels()
+    private val scheduleDetailsViewModel: ScheduleDetailsViewModel by viewModels()
     private val PICK_CONTACT_REQUEST = 1  // The request code
     private lateinit var onPickedContact: (String?,String?,String?) -> Unit
     private lateinit var launchContactPicker: () -> Unit
@@ -74,6 +75,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun onViewScheduleButtonClicked(scheduleToView: Schedule) {
         val scheduleDetailsFragment = ScheduleDetailsFragment()
+        scheduleDetailsViewModel.scheduleToView = scheduleToView
         showFragment(scheduleDetailsFragment)
     }
 
