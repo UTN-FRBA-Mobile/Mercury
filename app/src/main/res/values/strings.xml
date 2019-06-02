@@ -9,6 +9,8 @@
     <string name="NEW_SCHEDULE__ADD_CLIENT">Agregar</string>
     <string name="NEW_SCHEDULE__DELETE_VISIT">Borrar</string>
     <string name="NEW_SCHEDULE__EDIT_VISIT">Editar</string>
+    <string name="EMPTY_SCHEDULES">No hay itinerarios creados :(</string>
+
 
     <plurals name="LIST_SCHEDULE__SCHEDULE_DURATION">
         <item quantity="one">%d día</item>

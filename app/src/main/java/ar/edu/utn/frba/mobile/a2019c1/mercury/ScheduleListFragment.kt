@@ -9,8 +9,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Schedule
-import kotlinx.android.synthetic.main.fragment_schedule_edition.*
-import kotlinx.android.synthetic.main.fragment_schedule_list.view.*
+import kotlinx.android.synthetic.main.fragment_schedule_edition.fab
+import kotlinx.android.synthetic.main.fragment_schedule_list.*
 
 class ScheduleListFragment : Fragment() {
 
@@ -29,15 +29,24 @@ class ScheduleListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupAdapter()
+
+        fab.setOnClickListener { onAddScheduleButtonClicked() }
+    }
+
+    private fun setupAdapter() {
         val schedules = viewModel.schedules
         val scheduleListAdapter = ScheduleListAdapter(context!!, schedules, this::updateSchedule, this::deleteSchedule)
 
-        with(view.schedule_list as RecyclerView) {
+        if (schedules.isEmpty()) {
+            schedule_list.visibility = View.GONE
+            empty_view.visibility = View.VISIBLE
+        }
+
+        with(schedule_list as RecyclerView) {
             layoutManager = LinearLayoutManager(context)
             adapter = scheduleListAdapter
         }
-
-        fab.setOnClickListener { onAddScheduleButtonClicked() }
     }
 
     private fun updateSchedule(scheduleToUpdate: Schedule) {
@@ -46,6 +55,7 @@ class ScheduleListFragment : Fragment() {
 
     private fun deleteSchedule(scheduleToDelete: Schedule) {
         viewModel.schedules.remove(scheduleToDelete)
+        setupAdapter()
     }
 
     fun setOnAddScheduleButtonClicked(onAddScheduleButtonClicked: () -> Unit) {
