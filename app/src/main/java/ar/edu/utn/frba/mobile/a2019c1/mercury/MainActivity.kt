@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity() {
         val phoneNumber = getDataFromCursorColumn(cursor,ContactsContract.CommonDataKinds.Phone.NUMBER)
 
         val contactID: String? = getDataFromCursorColumn(cursor,ContactsContract.CommonDataKinds.Phone.CONTACT_ID)
-        var address = getAddressFromContact(contactID)
+        val address = getAddressFromContact(contactID)
 
         onPickedContact(displayname,phoneNumber,address)
     }
@@ -134,13 +134,15 @@ class MainActivity : AppCompatActivity() {
             null, ContactsContract.CommonDataKinds.StructuredPostal.CONTACT_ID + "=?", arrayOf(contactID), null
         )
 
-        if (cursorAddress.count > 0) {
-            cursorAddress.moveToNext()
-            return cursorAddress.getString(
-                cursorAddress.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.FORMATTED_ADDRESS)
-            )
+        if (cursorAddress != null) {
+            if (cursorAddress.count > 0) {
+                cursorAddress.moveToNext()
+                return cursorAddress.getString(
+                    cursorAddress.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.FORMATTED_ADDRESS)
+                )
+            }
+            cursorAddress.close()
         }
-        cursorAddress.close()
         return ""
     }
 
