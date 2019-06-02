@@ -16,6 +16,7 @@ class ScheduleListFragment : Fragment() {
 
     private val viewModel: ScheduleViewModel by activityViewModels()
     private lateinit var onAddScheduleButtonClicked: () -> Unit
+    private lateinit var onViewScheduleButtonClicked: (Schedule) -> Unit
     private lateinit var onEditScheduleButtonClicked: (Schedule) -> Unit
 
     override fun onCreateView(
@@ -36,7 +37,12 @@ class ScheduleListFragment : Fragment() {
 
     private fun setupAdapter() {
         val schedules = viewModel.schedules
-        val scheduleListAdapter = ScheduleListAdapter(context!!, schedules, this::updateSchedule, this::deleteSchedule)
+        val scheduleListAdapter = ScheduleListAdapter(
+            context!!,
+            schedules,
+            this.onViewScheduleButtonClicked,
+            this.onEditScheduleButtonClicked,
+            this::deleteSchedule)
 
         if (schedules.isEmpty()) {
             schedule_list.visibility = View.GONE
@@ -49,10 +55,6 @@ class ScheduleListFragment : Fragment() {
         }
     }
 
-    private fun updateSchedule(scheduleToUpdate: Schedule) {
-        onEditScheduleButtonClicked(scheduleToUpdate)
-    }
-
     private fun deleteSchedule(scheduleToDelete: Schedule) {
         viewModel.schedules.remove(scheduleToDelete)
         setupAdapter()
@@ -60,6 +62,10 @@ class ScheduleListFragment : Fragment() {
 
     fun setOnAddScheduleButtonClicked(onAddScheduleButtonClicked: () -> Unit) {
         this.onAddScheduleButtonClicked = onAddScheduleButtonClicked
+    }
+
+    fun setOnViewScheduleButtonClicked(onViewScheduleButtonClicked: (Schedule) -> Unit) {
+        this.onViewScheduleButtonClicked = onViewScheduleButtonClicked
     }
 
     fun setOnEditScheduleButtonClicked(onEditScheduleButtonClicked: (Schedule) -> Unit) {

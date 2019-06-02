@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.schedule_for_list_view.view.*
 class ScheduleListAdapter(
     private val context: Context,
     private val schedules: List<Schedule>,
+    private val viewSchedule: (Schedule) -> Unit,
     private val updateSchedule: (Schedule) -> Unit,
     private val deleteSchedule: (Schedule) -> Unit
 ) : RecyclerView.Adapter<ScheduleListAdapter.ScheduleListItemViewHolder>() {
@@ -43,6 +44,10 @@ class ScheduleListAdapter(
             itemView.schedule_notification_button.visibility = if (itemView.schedule_active.isChecked) View.VISIBLE else View.GONE
 
             itemView.schedule_active.setOnClickListener { notifyDataSetChanged() }
+
+            itemView.schedule_details_button.setOnClickListener {
+                viewSchedule(schedule)
+            }
 
             itemView.schedule_edit_button.setOnClickListener {
                 updateSchedule(schedule)

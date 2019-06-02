@@ -63,12 +63,18 @@ class MainActivity : AppCompatActivity() {
             launchContactPicker = fragment::launchContactPicker
         } else if (fragment is ScheduleListFragment) {
             fragment.setOnAddScheduleButtonClicked(this::onAddScheduleButtonClicked)
+            fragment.setOnViewScheduleButtonClicked(this::onViewScheduleButtonClicked)
             fragment.setOnEditScheduleButtonClicked(this::onScheduleEditionRequest)
         }
     }
 
     private fun onAddScheduleButtonClicked() {
         showFragment(ScheduleEditionFragment())
+    }
+
+    private fun onViewScheduleButtonClicked(scheduleToView: Schedule) {
+        val scheduleDetailsFragment = ScheduleDetailsFragment()
+        showFragment(scheduleDetailsFragment)
     }
 
     private fun onScheduleEditionRequest(scheduleToEdit: Schedule) {
