@@ -12,10 +12,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
             android:labelFor="@+id/schedule_name"
+            android:textStyle="bold"
             android:text="@string/NEW_SCHEDULE__SCHEDULE_NAME_LABEL"
-            android:textStyle="bold" />
+            android:textSize="20dp" />
 
         <EditText
             android:id="@+id/schedule_name"
@@ -33,18 +33,15 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:padding="5dp"
                 android:orientation="vertical">
 
 
-                <Button
-                    android:id="@+id/pickAContact"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/NEW_SCHEDULE__ADD_CLIENT" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:textSize="18dp"
                     android:labelFor="@+id/client_name"
                     android:text="@string/NEW_SCHEDULE__CLIENT_NAME_LABEL" />
 
@@ -58,6 +55,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:textSize="18dp"
                     android:labelFor="@+id/client_phone_number"
                     android:text="@string/NEW_SCHEDULE__CLIENT_PHONE_NUMBER_LABEL" />
 
@@ -68,9 +66,16 @@
                     android:gravity="top"
                     android:inputType="phone" />
 
+                <Button
+                    android:id="@+id/pickAContact"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/NEW_SCHEDULE__ADD_CLIENT_FROM_CONTACTS" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:textSize="18dp"
                     android:labelFor="@+id/client_location"
                     android:text="@string/NEW_SCHEDULE__CLIENT_LOCATION_LABEL" />
 
@@ -81,25 +86,25 @@
                     android:gravity="top"
                     android:inputType="textNoSuggestions" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+
+
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:textSize="18dp"
+                    android:labelFor="@+id/client_visit_time"
+                    android:text="@string/NEW_SCHEDULE__CLIENT_VISIT_TIME" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:labelFor="@+id/client_visit_time"
-                        android:text="@string/NEW_SCHEDULE__CLIENT_VISIT_TIME" />
+                <TextView
+                    android:id="@+id/client_visit_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="45dp"
+                    android:gravity="top"
+                    android:textStyle="bold"
+                    tools:text="00:00" />
 
-                    <TextView
-                        android:id="@+id/client_visit_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="top"
-                        tools:text="00:00" />
 
-                </LinearLayout>
 
                 <Button
                     android:id="@+id/addClientToScheduleButton"
