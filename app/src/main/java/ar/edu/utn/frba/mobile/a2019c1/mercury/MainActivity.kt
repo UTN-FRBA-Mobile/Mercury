@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.database.Cursor
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.view.Menu
@@ -88,38 +89,43 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        val activity = this
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_CONTACT_REQUEST) {
             if (resultCode == Activity.RESULT_OK) {
                 data?.data?.also { contactUri ->
                     contentResolver.query(contactUri, null, null, null, null)?.apply {
-                        moveToFirst()
-
-                        // Retrieve the phone number from the NUMBER column
-                        val displayNameIndex: Int = getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)
-                        val displayname: String? = getString(displayNameIndex)
-                        val phoneNumberIndex: Int = getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)
-                        val number: String? = getString(phoneNumberIndex)
-
-                        val contactIndex: Int = getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID)
-                        val contactID: String? = getString(contactIndex)
-                        var address = ""
-
-                        Permissions.checkPermissionsAndDo(activity,Manifest.permission.READ_CONTACTS) {
-                            address = getContactAddressByContactId(contactID)
-                        }
-
-                        address = getContactAddressByContactId(contactID)
-
-
-                        onPickedContact(displayname,number,address);
-
+                        processContactPickedResult(this)
 
                     }
                 }
             }
         }
+    }
+
+    private fun processContactPickedResult(cursor: Cursor) {
+        cursor.moveToFirst()
+
+        val displayname: String? = getDataFromCursorColumn(cursor,ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)
+        val phoneNumber = getDataFromCursorColumn(cursor,ContactsContract.CommonDataKinds.Phone.NUMBER)
+
+        val contactID: String? = getDataFromCursorColumn(cursor,ContactsContract.CommonDataKinds.Phone.CONTACT_ID)
+        var address = getAddressFromContact(contactID)
+
+        onPickedContact(displayname,phoneNumber,address)
+    }
+
+    private fun getAddressFromContact(contactID: String?): String {
+        var address = ""
+
+        Permissions.checkPermissionsAndDo(this, Manifest.permission.READ_CONTACTS) {
+            address = getContactAddressByContactId(contactID)
+        }
+        return address
+    }
+
+    private fun getDataFromCursorColumn(cursor: Cursor, columnName: String): String? {
+        val columnIndex: Int = cursor.getColumnIndex(columnName)
+        return cursor.getString(columnIndex)
     }
 
     private fun getContactAddressByContactId(contactID: String?): String {
@@ -129,14 +135,13 @@ class MainActivity : AppCompatActivity() {
         )
 
         if (cursorAddress.count > 0) {
-            while (cursorAddress.moveToNext()) {
-                return cursorAddress.getString(
-                    cursorAddress.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.FORMATTED_ADDRESS)
-                )
-            }
+            cursorAddress.moveToNext()
+            return cursorAddress.getString(
+                cursorAddress.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.FORMATTED_ADDRESS)
+            )
         }
         cursorAddress.close()
-        return "";
+        return ""
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
