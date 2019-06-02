@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
             // Solo la primera vez que corre el activity
             // Las demás el propio manager restaura todo como estaba
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, ScheduleEditionFragment())
+                .replace(R.id.fragmentContainer, ScheduleListFragment())
                 .commit()
         }
 
