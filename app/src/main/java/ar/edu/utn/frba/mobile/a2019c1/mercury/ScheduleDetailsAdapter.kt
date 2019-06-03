@@ -35,6 +35,7 @@ class ScheduleDetailsAdapter(
             day: DaySchedule
         ) {
             itemView.day_number.text = "Dia " + day.dayNumber.toString()
+            day.visits.sortBy { it.timeToVisit }
             val adapter = VisitsAdapter(context, day.visits)
             itemView.visits.adapter = adapter
         }
