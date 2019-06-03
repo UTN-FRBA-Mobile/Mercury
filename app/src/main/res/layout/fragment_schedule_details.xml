@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+         xmlns:android="http://schemas.android.com/apk/res/android"
+         xmlns:tools="http://schemas.android.com/tools"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:orientation="vertical"
+         tools:context=".ScheduleDetailsFragment">
 
-</LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/days_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layoutManager="LinearLayoutManager" />
+
+    <TextView
+            android:id="@+id/empty_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:visibility="gone"
+            android:text="@string/EMPTY_SCHEDULES" />
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
