@@ -6,8 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Schedule
-import kotlin.reflect.KProperty
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.fragment_schedule_details.*
 
 class ScheduleDetailsFragment : Fragment() {
 
@@ -23,16 +24,30 @@ class ScheduleDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupAdapter()
 
-        scheduleDetailsViewModel.scheduleToView?.let {
-            loadScheduleToViewFromViewModel(it)
-            scheduleDetailsViewModel.scheduleToView = null
+    }
+
+    private fun setupAdapter() {
+        val schedule = scheduleDetailsViewModel.scheduleToView
+        val scheduleDetailsAdapter = schedule?.let {
+            ScheduleDetailsAdapter(
+                context!!,
+                it
+            )
+        }
+
+        if (schedule?.clientsPerDay!!.isEmpty()) {
+            days_list.visibility = View.GONE
+            empty_view.visibility = View.VISIBLE
+        }
+
+        with(days_list as RecyclerView) {
+            layoutManager = LinearLayoutManager(context)
+            adapter = scheduleDetailsAdapter
         }
     }
 
-    private fun loadScheduleToViewFromViewModel(it: Schedule) {
-
-    }
 
 }
 
