@@ -7,14 +7,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.DaySchedule
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Schedule
-import kotlinx.android.synthetic.main.visit_for_schedule_details.view.*
+import kotlinx.android.synthetic.main.days_for_schedule_details.view.*
+import android.widget.ArrayAdapter
+import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Visit
+
 
 class ScheduleDetailsAdapter(
     private val context: Context,
     private val schedule: Schedule) : RecyclerView.Adapter<ScheduleDetailsAdapter.ScheduleDetailViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScheduleDetailsAdapter.ScheduleDetailViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.visit_for_schedule_details, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.days_for_schedule_details, parent, false)
         return ScheduleDetailViewHolder(view)
     }
 
@@ -31,7 +34,9 @@ class ScheduleDetailsAdapter(
             position: Int,
             day: DaySchedule
         ) {
-            itemView.day_number.text = day.dayNumber.toString()
+            itemView.day_number.text = "Dia " + day.dayNumber.toString()
+            val adapter = VisitsAdapter(context, day.visits)
+            itemView.visits.adapter = adapter
         }
 
     }
