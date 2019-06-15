@@ -95,6 +95,7 @@
                     android:id="@+id/client_visit_day"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:digits="0123456789"
                     android:gravity="top"
                     android:inputType="numberSigned" />
 
