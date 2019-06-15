@@ -147,7 +147,7 @@ class ScheduleEditionFragment : Fragment(), ScheduleEditionAdapter.OnItemClickLi
             scheduleToCreate.addClientOnDay(dayNumber, client)
         }
 
-        scheduleListViewModel.schedules.add(scheduleToCreate)
+        scheduleListViewModel.upsert(scheduleToCreate)
 
         onEditionCompleted()
     }
