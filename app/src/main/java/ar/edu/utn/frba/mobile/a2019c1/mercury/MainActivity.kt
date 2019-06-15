@@ -21,7 +21,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var onPickedContact: (String?,String?,String?) -> Unit
     private lateinit var launchContactPicker: () -> Unit
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -33,6 +32,10 @@ class MainActivity : AppCompatActivity() {
                 .replace(R.id.fragmentContainer, ScheduleListFragment())
                 .commit()
         }
+    }
+
+    fun setActionBarTitle(title: String) {
+        supportActionBar!!.title = title
     }
 
     override fun onAttachFragment(fragment: Fragment) {
