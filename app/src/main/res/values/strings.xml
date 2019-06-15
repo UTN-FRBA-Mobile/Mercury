@@ -5,6 +5,7 @@
     <string name="NEW_SCHEDULE__CLIENT_NAME_LABEL">Nombre del cliente:</string>
     <string name="NEW_SCHEDULE__CLIENT_PHONE_NUMBER_LABEL">Número:</string>
     <string name="NEW_SCHEDULE__CLIENT_LOCATION_LABEL">Ubicación</string>
+    <string name="NEW_SCHEDULE__CLIENT_VISIT_DAY">Día de visita:</string>
     <string name="NEW_SCHEDULE__CLIENT_VISIT_TIME">Horario de visita:</string>
     <string name="NEW_SCHEDULE__ADD_CLIENT">Agregar</string>
     <string name="NEW_SCHEDULE__ADD_CLIENT_FROM_CONTACTS">Agregar desde contactos</string>
@@ -12,6 +13,7 @@
     <string name="NEW_SCHEDULE__EDIT_VISIT">Editar</string>
     <string name="NEW_SCHEDULE__SCHEDULE_NAME_VALIDATION_ERROR">Agregar nombre</string>
     <string name="NEW_SCHEDULE__CLIENT_INPUT_FIELD_VALIDATION_ERROR">No puede ser vacío</string>
+    <string name="NEW_SCHEDULE__CLIENT_VISIT_DAY_VALIDATION_ERROR">Número de día inválido</string>
     <string name="NEW_SCHEDULE__CLIENT_VISIT_TIME_VALIDATION_ERROR">Formato inválido de fecha</string>
     <string name="EMPTY_SCHEDULES">No hay itinerarios creados :(</string>
 
