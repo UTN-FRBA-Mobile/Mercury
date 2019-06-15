@@ -2,14 +2,12 @@ package ar.edu.utn.frba.mobile.a2019c1.mercury
 
 import android.app.TimePickerDialog
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,7 +22,6 @@ import kotlinx.android.synthetic.main.fragment_schedule_edition.view.*
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeParseException
-import java.util.jar.Manifest
 
 class ScheduleEditionFragment : Fragment(), ScheduleEditionAdapter.OnItemClickListener {
 
@@ -52,8 +49,9 @@ class ScheduleEditionFragment : Fragment(), ScheduleEditionAdapter.OnItemClickLi
 
         client_visit_time.text = "00:00"
         client_visit_time.setOnClickListener{
-            val timeSetListener=  TimePickerDialog.OnTimeSetListener{ _, hour, minute ->
-                client_visit_time.text = "$hour:$minute"
+            val timeSetListener =  TimePickerDialog.OnTimeSetListener{ _, hour, minute ->
+                val newTime = LocalTime.of(hour, minute)
+                client_visit_time.text = newTime.toString()
             }
             val time = LocalDateTime.now()
             TimePickerDialog(context,timeSetListener,time.hour,time.minute,true).show()
