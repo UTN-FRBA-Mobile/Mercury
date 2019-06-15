@@ -54,7 +54,7 @@ class ScheduleListFragment : Fragment() {
     }
 
     private fun deleteSchedule(scheduleToDelete: Schedule) {
-        viewModel.schedules.remove(scheduleToDelete)
+        viewModel.remove(scheduleToDelete)
         setupAdapter()
     }
 

@@ -104,7 +104,13 @@ class ScheduleEditionFragment : Fragment(), ScheduleEditionAdapter.OnItemClickLi
                 client_visit_time.error = getString(R.string.NEW_SCHEDULE__CLIENT_VISIT_TIME_VALIDATION_ERROR)
                 return
             }
-        val dayNumber = 1 // TODO get actual day
+        val dayNumber: Int =
+            try {
+                Integer.parseInt(client_visit_day.text.toString())
+            } catch (e: NumberFormatException) {
+                client_visit_day.error = getString(R.string.NEW_SCHEDULE__CLIENT_VISIT_DAY_VALIDATION_ERROR)
+                return
+            }
         val visit = Visit(clientToAdd,visitTime)
         clientsPerDay.add(Pair(dayNumber,visit))
 

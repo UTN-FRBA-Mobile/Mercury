@@ -6,6 +6,10 @@ import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Schedule
 class ScheduleViewModel : ViewModel() {
     val schedules: MutableList<Schedule> = mutableListOf()
 
+    fun remove(scheduleToDelete: Schedule) {
+        schedules.remove(scheduleToDelete)
+    }
+
     fun upsert(scheduleToUpsert: Schedule): List<Schedule> {
         val scheduleExists = schedules.any { it.name == scheduleToUpsert.name }
         if(scheduleExists) {
