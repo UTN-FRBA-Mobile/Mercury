@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Schedule
 import kotlinx.android.synthetic.main.schedule_for_list_view.view.*
@@ -49,8 +50,15 @@ class ScheduleListAdapter(
             }
 
             itemView.schedule_delete_button.setOnClickListener {
-                deleteSchedule(schedule)
-                notifyItemRemoved(position)
+                val alertDialog: AlertDialog = AlertDialog.Builder(context)
+                    .setMessage("¿Estás seguro de que querés eliminar el itinerario? No vas a poder recuperarlo")
+                    .setPositiveButton("Eliminar"){_, _ ->
+                        deleteSchedule(schedule)
+                        notifyItemRemoved(position)
+                    }
+                    .setNegativeButton("Cancelar") {_, _ ->  }
+                    .create()
+                alertDialog.show()
             }
         }
     }
