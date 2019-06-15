@@ -101,7 +101,7 @@ class ScheduleEditionFragment : Fragment(), ScheduleEditionAdapter.OnItemClickLi
             try {
                 LocalTime.parse(client_visit_time.text.toString())
             } catch (e: DateTimeParseException) {
-                client_visit_time.error = "Formato Invalido de fecha"
+                client_visit_time.error = getString(R.string.NEW_SCHEDULE__CLIENT_VISIT_TIME_VALIDATION_ERROR)
                 return
             }
         val dayNumber = 1 // TODO get actual day
@@ -114,7 +114,7 @@ class ScheduleEditionFragment : Fragment(), ScheduleEditionAdapter.OnItemClickLi
 
     private fun validateClientDataIsNotEmpty(): Boolean {
         val blankInputFields: List<EditText> = newClientInputFields().filter { it.text.isBlank() }
-        blankInputFields.forEach { it.error = "No puede ser vacío" }
+        blankInputFields.forEach { it.error = getString(R.string.NEW_SCHEDULE__CLIENT_INPUT_FIELD_VALIDATION_ERROR) }
         return blankInputFields.isEmpty()
     }
 
@@ -126,8 +126,7 @@ class ScheduleEditionFragment : Fragment(), ScheduleEditionAdapter.OnItemClickLi
     }
 
     private fun clearNewClientFields() {
-        val newClientInputFields = newClientInputFields()
-        newClientInputFields.forEach {
+        newClientInputFields().forEach {
             it.text.clear()
         }
         client_visit_time.text = "00:00"
@@ -137,7 +136,7 @@ class ScheduleEditionFragment : Fragment(), ScheduleEditionAdapter.OnItemClickLi
         val scheduleName = schedule_name.text.toString()
 
         if (scheduleName.isBlank()) {
-            schedule_name.error = "Agregar nombre"
+            schedule_name.error = getString(R.string.NEW_SCHEDULE__SCHEDULE_NAME_VALIDATION_ERROR)
             return
         }
 
