@@ -105,7 +105,16 @@ class ScheduleEditionFragment : Fragment(), ScheduleEditionAdapter.OnItemClickLi
         val dayNumber = 1 // TODO get actual day
         val visit = Visit(clientToAdd,visitTime)
         clientsPerDay.add(Pair(dayNumber,visit))
+
+        clearNewClientFields()
         updateAdapter()
+    }
+
+    private fun clearNewClientFields() {
+        listOf(client_name, client_phone_number, client_location).forEach {
+            it.text.clear()
+        }
+        client_visit_time.text = "00:00"
     }
 
     private fun saveSchedule() {
