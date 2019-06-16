@@ -23,4 +23,10 @@
         <item quantity="one">%d día</item>
         <item quantity="other">%d días</item>
     </plurals>
+    <string name="LIST_SCHEDULE__SCHEDULE_DELETION_MODAL__MESSAGE">¿Estás seguro de que querés eliminar el itinerario? No vas a poder recuperarlo</string>
+    <string name="LIST_SCHEDULE__SCHEDULE_DELETION_MODAL__CONFIRMATION_BUTTON">Eliminar</string>
+    <string name="LIST_SCHEDULE__SCHEDULE_DELETION_MODAL__CANCEL_BUTTON">Cancelar</string>
+    <string name="LIST_SCHEDULE__SCHEDULE_START_DATE_PICKER_MODAL__TITLE">¿Cuándo querés iniciar el itinerario?</string>
+    <string name="LIST_SCHEDULE__SCHEDULE_START_DATE_PICKER_MODAL__CONFIRMATION_BUTTON">Confirmar</string>
+    <string name="LIST_SCHEDULE__SCHEDULE_START_DATE_PICKER_MODAL__CANCEL_BUTTON">Cancelar</string>
 </resources>

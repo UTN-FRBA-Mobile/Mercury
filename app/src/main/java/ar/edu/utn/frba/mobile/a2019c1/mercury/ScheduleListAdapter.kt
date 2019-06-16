@@ -61,12 +61,12 @@ class ScheduleListAdapter(
 
             itemView.schedule_delete_button.setOnClickListener {
                 val alertDialog: AlertDialog = AlertDialog.Builder(context)
-                    .setMessage("¿Estás seguro de que querés eliminar el itinerario? No vas a poder recuperarlo")
-                    .setPositiveButton("Eliminar"){_, _ ->
+                    .setMessage(context.getText(R.string.LIST_SCHEDULE__SCHEDULE_DELETION_MODAL__MESSAGE))
+                    .setPositiveButton(context.getText(R.string.LIST_SCHEDULE__SCHEDULE_DELETION_MODAL__CONFIRMATION_BUTTON)){_, _ ->
                         deleteSchedule(schedule)
                         notifyItemRemoved(position)
                     }
-                    .setNegativeButton("Cancelar") {_, _ ->  }
+                    .setNegativeButton(context.getText(R.string.LIST_SCHEDULE__SCHEDULE_DELETION_MODAL__CANCEL_BUTTON)) {_, _ ->  }
                     .create()
                 alertDialog.show()
             }
@@ -74,14 +74,17 @@ class ScheduleListAdapter(
 
         private fun selectScheduleStartDate() {
             val datePicker = DatePicker(context)
+            val title = context.getText(R.string.LIST_SCHEDULE__SCHEDULE_START_DATE_PICKER_MODAL__TITLE)
+            val confirmButtonText = context.getText(R.string.LIST_SCHEDULE__SCHEDULE_START_DATE_PICKER_MODAL__CONFIRMATION_BUTTON)
+            val cancelButtonText = context.getText(R.string.LIST_SCHEDULE__SCHEDULE_START_DATE_PICKER_MODAL__CANCEL_BUTTON)
             val alertDialog: AlertDialog = AlertDialog.Builder(context)
-                .setTitle("¿Cuándo querés iniciar el itinerario?")
+                .setTitle(title)
                 .setView(datePicker)
-                .setPositiveButton("Confirmar") { _, _ ->
+                .setPositiveButton(confirmButtonText) { _, _ ->
                     val scheduleStartDate = LocalDate.of(datePicker.year, datePicker.month, datePicker.dayOfMonth)
                     Toast.makeText(context, scheduleStartDate.toString(), Toast.LENGTH_SHORT).show()
                 }
-                .setNegativeButton("Cancelar") { _, _ -> itemView.schedule_active.isChecked = false }
+                .setNegativeButton(cancelButtonText) { _, _ -> itemView.schedule_active.isChecked = false }
                 .create()
             alertDialog.show()
         }
