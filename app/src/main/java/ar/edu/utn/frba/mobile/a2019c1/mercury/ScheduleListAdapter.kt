@@ -4,10 +4,13 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.DatePicker
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Schedule
 import kotlinx.android.synthetic.main.schedule_for_list_view.view.*
+import java.time.LocalDate
 
 class ScheduleListAdapter(
     private val context: Context,
@@ -43,7 +46,14 @@ class ScheduleListAdapter(
             )
             itemView.schedule_notification_button.visibility = if (itemView.schedule_active.isChecked) View.VISIBLE else View.GONE
 
-            itemView.schedule_active.setOnClickListener { notifyDataSetChanged() }
+            itemView.schedule_active.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    selectScheduleStartDate()
+                } else {
+                    //TODO desactivar itinerario
+                }
+                notifyDataSetChanged()
+            }
 
             itemView.schedule_edit_button.setOnClickListener {
                 updateSchedule(schedule)
@@ -60,6 +70,20 @@ class ScheduleListAdapter(
                     .create()
                 alertDialog.show()
             }
+        }
+
+        private fun selectScheduleStartDate() {
+            val datePicker = DatePicker(context)
+            val alertDialog: AlertDialog = AlertDialog.Builder(context)
+                .setTitle("¿Cuándo querés iniciar el itinerario?")
+                .setView(datePicker)
+                .setPositiveButton("Confirmar") { _, _ ->
+                    val scheduleStartDate = LocalDate.of(datePicker.year, datePicker.month, datePicker.dayOfMonth)
+                    Toast.makeText(context, scheduleStartDate.toString(), Toast.LENGTH_SHORT).show()
+                }
+                .setNegativeButton("Cancelar") { _, _ -> itemView.schedule_active.isChecked = false }
+                .create()
+            alertDialog.show()
         }
     }
 }
