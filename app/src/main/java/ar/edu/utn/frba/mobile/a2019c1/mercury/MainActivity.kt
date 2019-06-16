@@ -7,8 +7,6 @@ import android.content.pm.PackageManager
 import android.database.Cursor
 import android.os.Bundle
 import android.provider.ContactsContract
-import android.view.Menu
-import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -23,7 +21,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var onPickedContact: (String?,String?,String?) -> Unit
     private lateinit var launchContactPicker: () -> Unit
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -35,26 +32,11 @@ class MainActivity : AppCompatActivity() {
                 .replace(R.id.fragmentContainer, ScheduleListFragment())
                 .commit()
         }
-
-
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
+    fun setActionBarTitle(title: String) {
+        supportActionBar!!.title = title
     }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
 
     override fun onAttachFragment(fragment: Fragment) {
         if (fragment is ScheduleEditionFragment) {
