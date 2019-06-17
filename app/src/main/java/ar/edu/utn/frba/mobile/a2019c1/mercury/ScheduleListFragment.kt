@@ -11,13 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Schedule
 import kotlinx.android.synthetic.main.fragment_schedule_edition.fab
 import kotlinx.android.synthetic.main.fragment_schedule_list.*
-import java.util.*
-
-
 
 class ScheduleListFragment : Fragment() {
 
-    private var firstOpen : Boolean = true
     private val viewModel: ScheduleViewModel by activityViewModels()
     private lateinit var onAddScheduleButtonClicked: () -> Unit
     private lateinit var onEditScheduleButtonClicked: (Schedule) -> Unit
@@ -63,7 +59,6 @@ class ScheduleListFragment : Fragment() {
     }
 
     fun setOnAddScheduleButtonClicked(onAddScheduleButtonClicked: () -> Unit) {
-
         this.onAddScheduleButtonClicked = onAddScheduleButtonClicked
     }
 
