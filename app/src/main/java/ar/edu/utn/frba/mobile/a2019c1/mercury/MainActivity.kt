@@ -14,14 +14,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Schedule
 import ar.edu.utn.frba.mobile.a2019c1.mercury.util.Permissions
+import com.google.android.libraries.places.api.Places
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
     private val scheduleEditionViewModel: ScheduleEditionViewModel by viewModels()
     private val PICK_CONTACT_REQUEST = 1  // The request code
+    private val PLACE_PICKER_REQUEST = 2
+
     private lateinit var onPickedContact: (String?,String?,String?) -> Unit
     private lateinit var launchContactPicker: () -> Unit
+
+    private lateinit var onPlacePicked: (Intent?) -> Unit
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +41,10 @@ class MainActivity : AppCompatActivity() {
                 .replace(R.id.fragmentContainer, ScheduleListFragment())
                 .commit()
         }
+        val ai = packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA)
+        val bundle = ai.metaData
+        val myApiKey = bundle.getString("com.google.android.geo.API_KEY")
+        Places.initialize(applicationContext, myApiKey);
 
 
     }
@@ -61,6 +71,7 @@ class MainActivity : AppCompatActivity() {
             fragment.setOnEditionCompletedCallback(this::onEditionCompleted)
             onPickedContact = fragment::processContactPick
             launchContactPicker = fragment::launchContactPicker
+            onPlacePicked = fragment::processPlacePicked
         } else if (fragment is ScheduleListFragment) {
             fragment.setOnAddScheduleButtonClicked(this::onAddScheduleButtonClicked)
             fragment.setOnEditScheduleButtonClicked(this::onScheduleEditionRequest)
@@ -88,6 +99,7 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_CONTACT_REQUEST) {
@@ -99,6 +111,9 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
+        }
+        if (requestCode == PLACE_PICKER_REQUEST && resultCode == Activity.RESULT_OK) {
+            onPlacePicked(data)
         }
     }
 
