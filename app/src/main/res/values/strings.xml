@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Mercury</string>
     <string name="action_settings">Settings</string>
+    <string name="NEW_SCHEDULE__ACTION_BAR_TITLE">Itinerario</string>
     <string name="NEW_SCHEDULE__SCHEDULE_NAME_LABEL">Nombre del itinerario:</string>
     <string name="NEW_SCHEDULE__CLIENT_NAME_LABEL">Nombre del cliente:</string>
     <string name="NEW_SCHEDULE__CLIENT_PHONE_NUMBER_LABEL">Número:</string>
@@ -18,9 +19,15 @@
     <string name="EMPTY_SCHEDULES">No hay itinerarios creados :(</string>
     <string name="NOTIFICATION_CHANNEL_DESCRIPTION">Para el envio de itinerarios</string>
 
-
+    <string name="LIST_SCHEDULE__ACTION_BAR_TITLE">Mercury</string>
     <plurals name="LIST_SCHEDULE__SCHEDULE_DURATION">
         <item quantity="one">%d día</item>
         <item quantity="other">%d días</item>
     </plurals>
+    <string name="LIST_SCHEDULE__SCHEDULE_DELETION_MODAL__MESSAGE">¿Estás seguro de que querés eliminar el itinerario? No vas a poder recuperarlo</string>
+    <string name="LIST_SCHEDULE__SCHEDULE_DELETION_MODAL__CONFIRMATION_BUTTON">Eliminar</string>
+    <string name="LIST_SCHEDULE__SCHEDULE_DELETION_MODAL__CANCEL_BUTTON">Cancelar</string>
+    <string name="LIST_SCHEDULE__SCHEDULE_START_DATE_PICKER_MODAL__TITLE">¿Cuándo querés iniciar el itinerario?</string>
+    <string name="LIST_SCHEDULE__SCHEDULE_START_DATE_PICKER_MODAL__CONFIRMATION_BUTTON">Confirmar</string>
+    <string name="LIST_SCHEDULE__SCHEDULE_START_DATE_PICKER_MODAL__CANCEL_BUTTON">Cancelar</string>
 </resources>

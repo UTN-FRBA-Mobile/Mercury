@@ -4,9 +4,13 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.DatePicker
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Schedule
 import kotlinx.android.synthetic.main.schedule_for_list_view.view.*
+import java.time.LocalDate
 
 class ScheduleListAdapter(
     private val context: Context,
@@ -42,16 +46,47 @@ class ScheduleListAdapter(
             )
             itemView.schedule_notification_button.visibility = if (itemView.schedule_active.isChecked) View.VISIBLE else View.GONE
 
-            itemView.schedule_active.setOnClickListener { notifyDataSetChanged() }
+            itemView.schedule_active.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    selectScheduleStartDate()
+                } else {
+                    //TODO desactivar itinerario
+                }
+                notifyDataSetChanged()
+            }
 
             itemView.schedule_edit_button.setOnClickListener {
                 updateSchedule(schedule)
             }
 
             itemView.schedule_delete_button.setOnClickListener {
-                deleteSchedule(schedule)
-                notifyItemRemoved(position)
+                val alertDialog: AlertDialog = AlertDialog.Builder(context)
+                    .setMessage(context.getText(R.string.LIST_SCHEDULE__SCHEDULE_DELETION_MODAL__MESSAGE))
+                    .setPositiveButton(context.getText(R.string.LIST_SCHEDULE__SCHEDULE_DELETION_MODAL__CONFIRMATION_BUTTON)){_, _ ->
+                        deleteSchedule(schedule)
+                        notifyItemRemoved(position)
+                    }
+                    .setNegativeButton(context.getText(R.string.LIST_SCHEDULE__SCHEDULE_DELETION_MODAL__CANCEL_BUTTON)) {_, _ ->  }
+                    .create()
+                alertDialog.show()
             }
+        }
+
+        private fun selectScheduleStartDate() {
+            val datePicker = DatePicker(context)
+            val title = context.getText(R.string.LIST_SCHEDULE__SCHEDULE_START_DATE_PICKER_MODAL__TITLE)
+            val confirmButtonText = context.getText(R.string.LIST_SCHEDULE__SCHEDULE_START_DATE_PICKER_MODAL__CONFIRMATION_BUTTON)
+            val cancelButtonText = context.getText(R.string.LIST_SCHEDULE__SCHEDULE_START_DATE_PICKER_MODAL__CANCEL_BUTTON)
+            val alertDialog: AlertDialog = AlertDialog.Builder(context)
+                .setTitle(title)
+                .setView(datePicker)
+                .setPositiveButton(confirmButtonText) { _, _ ->
+                    val scheduleStartDate = LocalDate.of(datePicker.year, datePicker.month, datePicker.dayOfMonth)
+                    Toast.makeText(context, scheduleStartDate.toString(), Toast.LENGTH_SHORT).show()
+                }
+                .setNegativeButton(cancelButtonText) { _, _ -> itemView.schedule_active.isChecked = false }
+                .create()
+            alertDialog.show()
         }
     }
 }
