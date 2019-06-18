@@ -34,7 +34,7 @@ class NotificationService : IntentService("NotificationService") {
             notificationChannel.setShowBadge(true)
             notificationChannel.enableLights(true)
             notificationChannel.lightColor = Color.parseColor("#e8334a")
-            notificationChannel.description = "Para el envio de itinerarios"//Agregar a strings.xml
+            notificationChannel.description = getString(R.string.NOTIFICATION_CHANNEL_DESCRIPTION)
             notificationChannel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
             notificationManager.createNotificationChannel(notificationChannel)
         }
@@ -55,8 +55,8 @@ class NotificationService : IntentService("NotificationService") {
 
 
         var timestamp: Long = 0
-        var title = "Sample Notification"
-        var message = "You have received a sample notification. This notification will take you to the details page."
+        var title = ""
+        var message = ""
 
         if (intent != null && intent.extras != null) {
             timestamp = intent.extras!!.getLong("timestamp")
@@ -67,64 +67,41 @@ class NotificationService : IntentService("NotificationService") {
 
         if (timestamp > 0) {
 
+            var notificationManager: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-            val context = this.applicationContext
-            var notificationManager: NotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            val notifyIntent = Intent(this, MainActivity::class.java) //Se elige la activity que se va a abrir
-
-
-
-            notifyIntent.putExtra("title", title)
-            notifyIntent.putExtra("message", message)
-            notifyIntent.putExtra("notification", true)
-
-            notifyIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-
-            val calendar = Calendar.getInstance()
-            calendar.timeInMillis = timestamp
-
-
-            val pendingIntent = PendingIntent.getActivity(context, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+            val pendingIntent = createPendingIntent(title, message, timestamp)
             val res = this.resources
             val uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
+            mNotification = Notification.Builder(applicationContext, CHANNEL_ID)
+                // Set the intent that will fire when the user taps the notification
+                .setContentIntent(pendingIntent)
+                .setSmallIcon(R.drawable.ic_app_icon)
+                .setLargeIcon(BitmapFactory.decodeResource(res, R.mipmap.ic_launcher))
+                .setAutoCancel(true)
+                .setContentTitle(title)
+                .setStyle(Notification.BigTextStyle()
+                    .bigText(message))
+                .setContentText(message).build()
 
-                mNotification = Notification.Builder(applicationContext, CHANNEL_ID)
-                    // Set the intent that will fire when the user taps the notification
-                    .setContentIntent(pendingIntent)
-                    .setSmallIcon(R.drawable.ic_app_icon)
-                    .setLargeIcon(BitmapFactory.decodeResource(res, R.mipmap.ic_launcher))
-                    .setAutoCancel(true)
-                    .setContentTitle(title)
-                    .setStyle(Notification.BigTextStyle()
-                        .bigText(message))
-                    .setContentText(message).build()
-            } else {
-
-                mNotification = Notification.Builder(this)
-                    // Set the intent that will fire when the user taps the notification
-                    .setContentIntent(pendingIntent)
-                    .setSmallIcon(R.drawable.notification_bg)
-                    .setLargeIcon(BitmapFactory.decodeResource(res, R.mipmap.ic_launcher))
-                    .setAutoCancel(true)
-                    .setPriority(Notification.PRIORITY_MAX)
-                    .setContentTitle(title)
-                    .setStyle(Notification.BigTextStyle()
-                        .bigText(message))
-                    .setSound(uri)
-                    .setContentText(message).build()
-
-            }
-
-
-
-            notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             // mNotificationId is a unique int for each notification that you must define
             notificationManager.notify(mNotificationId, mNotification)
         }
 
+    }
 
+    private fun createPendingIntent(title: String, message: String,timestamp: Long): PendingIntent {
+        val notifyIntent = Intent(this, MainActivity::class.java) //Se elige la activity que se va a abrir
+
+        notifyIntent.putExtra("title", title)
+        notifyIntent.putExtra("message", message)
+        notifyIntent.putExtra("notification", true)
+
+        notifyIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = timestamp
+        return PendingIntent.getActivity(applicationContext, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 }
