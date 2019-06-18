@@ -91,7 +91,7 @@ class NotificationService : IntentService("NotificationService") {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
 
-                mNotification = Notification.Builder(this, CHANNEL_ID)
+                mNotification = Notification.Builder(applicationContext, CHANNEL_ID)
                     // Set the intent that will fire when the user taps the notification
                     .setContentIntent(pendingIntent)
                     .setSmallIcon(R.drawable.ic_app_icon)

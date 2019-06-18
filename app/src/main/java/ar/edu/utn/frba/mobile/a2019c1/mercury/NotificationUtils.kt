@@ -35,12 +35,8 @@ class NotificationUtils {
             alarmIntent.putExtra("message", message)
 
 
-            val calendar = Calendar.getInstance()
-            calendar.timeInMillis = timeInMilliSeconds
-
-
             val pendingIntent = PendingIntent.getBroadcast(activity, 0, alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT)
-            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
+            alarmManager.set(AlarmManager.RTC_WAKEUP, timeInMilliSeconds, pendingIntent)
 
         }
 
