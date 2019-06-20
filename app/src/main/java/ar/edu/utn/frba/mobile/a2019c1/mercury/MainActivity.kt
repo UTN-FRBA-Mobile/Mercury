@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     private val scheduleEditionViewModel: ScheduleEditionViewModel by viewModels()
+    private val scheduleDetailsViewModel: ScheduleDetailsViewModel by viewModels()
     private val PICK_CONTACT_REQUEST = 1  // The request code
     private lateinit var onPickedContact: (String?,String?,String?) -> Unit
     private lateinit var launchContactPicker: () -> Unit
@@ -45,12 +46,19 @@ class MainActivity : AppCompatActivity() {
             launchContactPicker = fragment::launchContactPicker
         } else if (fragment is ScheduleListFragment) {
             fragment.setOnAddScheduleButtonClicked(this::onAddScheduleButtonClicked)
+            fragment.setOnViewScheduleButtonClicked(this::onViewScheduleButtonClicked)
             fragment.setOnEditScheduleButtonClicked(this::onScheduleEditionRequest)
         }
     }
 
     private fun onAddScheduleButtonClicked() {
         showFragment(ScheduleEditionFragment())
+    }
+
+    private fun onViewScheduleButtonClicked(scheduleToView: Schedule) {
+        val scheduleDetailsFragment = ScheduleDetailsFragment()
+        scheduleDetailsViewModel.scheduleToView = scheduleToView
+        showFragment(scheduleDetailsFragment)
     }
 
     private fun onScheduleEditionRequest(scheduleToEdit: Schedule) {
@@ -91,7 +99,7 @@ class MainActivity : AppCompatActivity() {
         val phoneNumber = getDataFromCursorColumn(cursor,ContactsContract.CommonDataKinds.Phone.NUMBER)
 
         val contactID: String? = getDataFromCursorColumn(cursor,ContactsContract.CommonDataKinds.Phone.CONTACT_ID)
-        var address = getAddressFromContact(contactID)
+        val address = getAddressFromContact(contactID)
 
         onPickedContact(displayname,phoneNumber,address)
     }
@@ -116,13 +124,15 @@ class MainActivity : AppCompatActivity() {
             null, ContactsContract.CommonDataKinds.StructuredPostal.CONTACT_ID + "=?", arrayOf(contactID), null
         )
 
-        if (cursorAddress.count > 0) {
-            cursorAddress.moveToNext()
-            return cursorAddress.getString(
-                cursorAddress.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.FORMATTED_ADDRESS)
-            )
+        if (cursorAddress != null) {
+            if (cursorAddress.count > 0) {
+                cursorAddress.moveToNext()
+                return cursorAddress.getString(
+                    cursorAddress.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.FORMATTED_ADDRESS)
+                )
+            }
+            cursorAddress.close()
         }
-        cursorAddress.close()
         return ""
     }
 

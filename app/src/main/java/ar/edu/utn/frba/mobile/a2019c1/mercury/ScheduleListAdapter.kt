@@ -15,6 +15,7 @@ import java.time.LocalDate
 class ScheduleListAdapter(
     private val context: Context,
     private val schedules: List<Schedule>,
+    private val viewSchedule: (Schedule) -> Unit,
     private val updateSchedule: (Schedule) -> Unit,
     private val deleteSchedule: (Schedule) -> Unit
 ) : RecyclerView.Adapter<ScheduleListAdapter.ScheduleListItemViewHolder>() {
@@ -53,6 +54,10 @@ class ScheduleListAdapter(
                     //TODO desactivar itinerario
                 }
                 notifyDataSetChanged()
+            }
+
+            itemView.schedule_details_button.setOnClickListener {
+                viewSchedule(schedule)
             }
 
             itemView.schedule_edit_button.setOnClickListener {
