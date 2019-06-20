@@ -27,7 +27,7 @@ class NotificationUtils {
 
 
             val alarmManager = activity.getSystemService(Activity.ALARM_SERVICE) as AlarmManager
-            val alarmIntent = Intent(activity.applicationContext, AlarmReceiver::class.java) // AlarmReceiver1 = broadcast receiver
+            val alarmIntent = Intent(activity, AlarmReceiver::class.java) // AlarmReceiver1 = broadcast receiver
 
             alarmIntent.putExtra("reason", "notification")
             alarmIntent.putExtra("timestamp", timeInMilliSeconds)

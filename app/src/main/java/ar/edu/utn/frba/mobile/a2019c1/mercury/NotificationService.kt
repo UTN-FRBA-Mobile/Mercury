@@ -10,34 +10,37 @@ import android.media.RingtoneManager
 import android.os.Build
 import java.util.*
 import android.app.NotificationChannel
+import androidx.core.app.JobIntentService
+import androidx.annotation.NonNull
 
 
-class NotificationService : IntentService("NotificationService") {
+
+
+class NotificationService : JobIntentService() {
     private lateinit var mNotification: Notification
     private val mNotificationId: Int = 1000
+
+    fun enqueueWork(context: Context, work: Intent) {
+        enqueueWork(context, NotificationService::class.java, mNotificationId, work)
+    }
+
 
     @SuppressLint("NewApi")
     private fun createChannel() {
 
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        val context = this.applicationContext
+        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-            // Create the NotificationChannel, but only on API 26+ because
-            // the NotificationChannel class is new and not in the support library
-
-            val context = this.applicationContext
-            val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-            val importance = NotificationManager.IMPORTANCE_HIGH
-            val notificationChannel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, importance)
-            notificationChannel.enableVibration(true)
-            notificationChannel.setShowBadge(true)
-            notificationChannel.enableLights(true)
-            notificationChannel.lightColor = Color.parseColor("#e8334a")
-            notificationChannel.description = getString(R.string.NOTIFICATION_CHANNEL_DESCRIPTION)
-            notificationChannel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
-            notificationManager.createNotificationChannel(notificationChannel)
-        }
+        val importance = NotificationManager.IMPORTANCE_HIGH
+        val notificationChannel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, importance)
+        notificationChannel.enableVibration(true)
+        notificationChannel.setShowBadge(true)
+        notificationChannel.enableLights(true)
+        notificationChannel.lightColor = Color.parseColor("#e8334a")
+        notificationChannel.description = getString(R.string.NOTIFICATION_CHANNEL_DESCRIPTION)
+        notificationChannel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+        notificationManager.createNotificationChannel(notificationChannel)
 
     }
 
@@ -48,7 +51,7 @@ class NotificationService : IntentService("NotificationService") {
     }
 
 
-    override fun onHandleIntent(intent: Intent?) {
+    override fun onHandleWork(intent: Intent) {
 
         //Create Channel
         createChannel()

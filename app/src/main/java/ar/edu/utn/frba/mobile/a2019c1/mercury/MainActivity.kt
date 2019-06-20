@@ -33,8 +33,6 @@ class MainActivity : AppCompatActivity() {
                 .replace(R.id.fragmentContainer, ScheduleListFragment())
                 .commit()
         }
-        val mNotificationTime = Calendar.getInstance().timeInMillis + 5000
-        NotificationUtils().setNotification(mNotificationTime, "Prueba noti", "aca va el mensaje", this)
     }
 
     fun setActionBarTitle(title: String) {
