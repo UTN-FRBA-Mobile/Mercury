@@ -7,11 +7,10 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.media.RingtoneManager
-import android.os.Build
 import java.util.*
 import android.app.NotificationChannel
 import androidx.core.app.JobIntentService
-import androidx.annotation.NonNull
+
 
 
 
@@ -53,7 +52,6 @@ class NotificationService : JobIntentService() {
 
     override fun onHandleWork(intent: Intent) {
 
-        //Create Channel
         createChannel()
 
 
@@ -64,7 +62,7 @@ class NotificationService : JobIntentService() {
         if (intent != null && intent.extras != null) {
             timestamp = intent.extras!!.getLong("timestamp")
             title = intent.extras!!.getString("title",title)
-            message = intent!!.extras!!.getString("message",message)
+            message = intent.extras!!.getString("message",message)
         }
 
 
