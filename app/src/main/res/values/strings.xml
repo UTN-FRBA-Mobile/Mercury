@@ -16,8 +16,8 @@
     <string name="NEW_SCHEDULE__CLIENT_INPUT_FIELD_VALIDATION_ERROR">No puede ser vacío</string>
     <string name="NEW_SCHEDULE__CLIENT_VISIT_DAY_VALIDATION_ERROR">Número de día inválido</string>
     <string name="NEW_SCHEDULE__CLIENT_VISIT_TIME_VALIDATION_ERROR">Formato inválido de fecha</string>
-    <string name="EMPTY_SCHEDULES">No hay itinerarios creados :(</string>
 
+    <string name="LIST_SCHEDULE__EMPTY_SCHEDULES">No hay itinerarios creados :(</string>
     <string name="LIST_SCHEDULE__ACTION_BAR_TITLE">Mercury</string>
     <plurals name="LIST_SCHEDULE__SCHEDULE_DURATION">
         <item quantity="one">%d día</item>
@@ -29,4 +29,6 @@
     <string name="LIST_SCHEDULE__SCHEDULE_START_DATE_PICKER_MODAL__TITLE">¿Cuándo querés iniciar el itinerario?</string>
     <string name="LIST_SCHEDULE__SCHEDULE_START_DATE_PICKER_MODAL__CONFIRMATION_BUTTON">Confirmar</string>
     <string name="LIST_SCHEDULE__SCHEDULE_START_DATE_PICKER_MODAL__CANCEL_BUTTON">Cancelar</string>
+
+    <string name="SCHEDULE_DETAILS__EMPTY_SCHEDULES">Este itinerario no tiene clientes para visitar :(</string>
 </resources>

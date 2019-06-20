@@ -19,7 +19,6 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:visibility="gone"
-            android:text="@string/EMPTY_SCHEDULES" />
-
+            android:text="@string/SCHEDULE_DETAILS__EMPTY_SCHEDULES" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
