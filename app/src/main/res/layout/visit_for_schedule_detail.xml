@@ -1,19 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="horizontal"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content">
-
-    <TextView
-            android:id="@+id/client_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp" />
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
 
     <TextView
         android:id="@+id/client_visit_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp" />
+        android:layout_alignParentStart="true"
+        android:layout_margin="10dp"
+        tools:text="00:00hs" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/client_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/client_visit_time"
+        android:layout_margin="10dp"
+        tools:text="Juan Pérez" />
+
+    <ImageView
+        android:id="@+id/send_wpp_message"
+        style="@style/schedule_list_button"
+        android:layout_toStartOf="@id/send_sms_message"
+        android:src="@drawable/ic_whatsapp" />
+
+    <ImageView
+        android:id="@+id/send_sms_message"
+        style="@style/schedule_list_button"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_sms" />
+
+</RelativeLayout>
