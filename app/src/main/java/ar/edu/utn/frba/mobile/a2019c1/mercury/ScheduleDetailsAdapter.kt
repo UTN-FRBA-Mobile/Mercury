@@ -29,7 +29,7 @@ class ScheduleDetailsAdapter(
 
     inner class ScheduleDetailViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(day: DaySchedule) {
-            itemView.day_number.text = "Día " + day.dayNumber.toString()
+            itemView.day_number.text = context.getString(R.string.SCHEDULE_DETAILS__SCHEDULE_DAY_NUMBER, day.dayNumber.toString())
             day.visits.sortedBy { it.timeToVisit }
                 .forEach { visit ->
                     val visitView = createViewForVisit(visit)

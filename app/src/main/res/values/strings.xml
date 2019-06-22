@@ -31,4 +31,5 @@
     <string name="LIST_SCHEDULE__SCHEDULE_START_DATE_PICKER_MODAL__CANCEL_BUTTON">Cancelar</string>
 
     <string name="SCHEDULE_DETAILS__EMPTY_SCHEDULES">Este itinerario no tiene clientes para visitar :(</string>
+    <string name="SCHEDULE_DETAILS__SCHEDULE_DAY_NUMBER">Día %1$s</string>
 </resources>
