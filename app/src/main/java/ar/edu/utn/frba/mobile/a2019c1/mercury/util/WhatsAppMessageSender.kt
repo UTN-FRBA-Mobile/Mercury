@@ -6,28 +6,17 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AlertDialog
 
+object WhatsAppMessageSender : MessageSender {
 
-object WhatsappIntegration {
-
-    fun sendMessageToAContactInWhatsapp(
-        textMessage: String?,
-        phoneNumber: String?,
-        activity: Activity
-    ) {
-        if(isAppAvailable(activity,"com.whatsapp")){
-            launchWhatsappIntent(phoneNumber, textMessage, activity)
-        }
-        else{
+    override fun sendMessage(message: String, phoneNumber: String, activity: Activity) {
+        if (isAppAvailable(activity, "com.whatsapp")) {
+            launchWhatsappIntent(phoneNumber, message, activity)
+        } else {
             showAlertDialog(activity)
         }
-
     }
 
-    private fun launchWhatsappIntent(
-        phoneNumber: String?,
-        textMessage: String?,
-        activity: Activity
-    ) {
+    private fun launchWhatsappIntent(phoneNumber: String, textMessage: String, activity: Activity) {
         val number = formatPhoneNumber(phoneNumber)
         val sendIntent = Intent();
         sendIntent.action = Intent.ACTION_SEND
@@ -39,17 +28,15 @@ object WhatsappIntegration {
     }
 
     private fun showAlertDialog(activity: Context) {
-        val builder = AlertDialog.Builder(activity)
-        builder.setTitle("No se puede enviar mensajes a whatsapp.")
-        builder.setCancelable(true)
-        builder.setMessage("No tiene instalado Whatsapp")
-        builder.setPositiveButton("Aceptar") { _, _ ->  }
-        builder.show()
-
+        AlertDialog.Builder(activity)
+            .setTitle("No se puede enviar mensajes con WhatsApp")
+            .setCancelable(true)
+            .setMessage("No tiene instalado WhatsApp")
+            .setPositiveButton("Aceptar") { _, _ -> }
+            .show()
     }
 
-
-    fun isAppAvailable(context: Context, appName: String): Boolean {
+    private fun isAppAvailable(context: Context, appName: String): Boolean {
         val pm = context.packageManager
         return try {
             pm.getPackageInfo(appName, PackageManager.GET_ACTIVITIES)
@@ -57,10 +44,8 @@ object WhatsappIntegration {
         } catch (e: PackageManager.NameNotFoundException) {
             false
         }
-
     }
 
-    private fun formatPhoneNumber(phoneNumber: String?) = phoneNumber?.replace("+", "")?.replace(" ", "")
-
+    private fun formatPhoneNumber(phoneNumber: String) = phoneNumber.replace("+", "").replace(" ", "")
 
 }
