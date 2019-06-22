@@ -47,13 +47,16 @@ class ScheduleDetailsAdapter(
         private fun createViewForVisit(visit: Visit): View? {
             val visitView = LayoutInflater.from(context)
                 .inflate(R.layout.visit_for_schedule_detail, itemView.schedule_details_visits, false)
-            val clientName = visitView.findViewById(R.id.client_name) as TextView
-            val visitTime = visitView.findViewById(R.id.client_visit_time) as TextView
-            clientName.text = visit.client.name
-            visitTime.text = visit.timeToVisit.toString()
+            val clientNameView = visitView.findViewById(R.id.client_name) as TextView
+            val visitTimeView = visitView.findViewById(R.id.client_visit_time) as TextView
+            val client = visit.client
+            val clientName = client.name
+            clientNameView.text = clientName
+            val visitTime = visit.timeToVisit.toString()
+            visitTimeView.text = visitTime
 
-            val message = "Placeholder"
-            val clientPhoneNumber = visit.client.phoneNumber
+            val message = "Hola $clientName! Te quería avisar que el día XX/XX a las ${visitTime}hs voy a estar en tu comercio. Saludos!"
+            val clientPhoneNumber = client.phoneNumber
             val sendMessageWith = { messageSender: MessageSender -> messageSender.sendMessage(message, clientPhoneNumber, parentActivity) }
             visitView.send_wpp_message.setOnClickListener { sendMessageWith(WhatsAppMessageSender) }
             visitView.send_sms_message.setOnClickListener { sendMessageWith(SmsMessageSender) }
