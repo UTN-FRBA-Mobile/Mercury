@@ -16,6 +16,9 @@ import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Schedule
 import ar.edu.utn.frba.mobile.a2019c1.mercury.util.Permissions
 import com.google.android.libraries.places.api.Places
 import kotlinx.android.synthetic.main.activity_main.*
+import android.content.pm.ApplicationInfo
+
+
 
 class MainActivity : AppCompatActivity() {
 

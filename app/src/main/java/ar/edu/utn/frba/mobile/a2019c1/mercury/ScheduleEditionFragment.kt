@@ -194,5 +194,12 @@ class ScheduleEditionFragment : Fragment(), ScheduleEditionAdapter.OnItemClickLi
         client_location.setText(location)
     }
     fun processPlacePicked(data: Intent?) {
+        val place = Autocomplete.getPlaceFromIntent(data!!)
+        val x = place.address
+        val x1 = place.attributions
+        val x2 = place.name
+        val x3 = place.latLng
+        val x8 = place.address
+
     }
 }
