@@ -89,7 +89,7 @@ class ScheduleListAdapter(
                 .setTitle(title)
                 .setView(datePicker)
                 .setPositiveButton(confirmButtonText) { _, _ ->
-                    val scheduleStartDate: LocalDate = LocalDate.of(datePicker.year, datePicker.month, datePicker.dayOfMonth)
+                    val scheduleStartDate: LocalDate = LocalDate.of(datePicker.year, datePicker.month + 1, datePicker.dayOfMonth)
                     startScheduleOn(schedule, scheduleStartDate)
                 }
                 .setNegativeButton(cancelButtonText) { _, _ -> itemView.schedule_active.isChecked = false }
