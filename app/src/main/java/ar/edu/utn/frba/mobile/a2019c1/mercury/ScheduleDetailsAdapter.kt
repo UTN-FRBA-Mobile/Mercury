@@ -4,42 +4,48 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.DaySchedule
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Schedule
-import kotlinx.android.synthetic.main.days_for_schedule_details.view.*
-import android.widget.ArrayAdapter
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Visit
-
+import kotlinx.android.synthetic.main.days_for_schedule_details.view.*
 
 class ScheduleDetailsAdapter(
     private val context: Context,
     private val schedule: Schedule) : RecyclerView.Adapter<ScheduleDetailsAdapter.ScheduleDetailViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScheduleDetailsAdapter.ScheduleDetailViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScheduleDetailViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.days_for_schedule_details, parent, false)
         return ScheduleDetailViewHolder(view)
     }
 
     override fun getItemCount() = schedule.clientsPerDay.size
 
-
-    override fun onBindViewHolder(holder: ScheduleDetailsAdapter.ScheduleDetailViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ScheduleDetailViewHolder, position: Int) {
         val day = schedule.clientsPerDay[position]
-        holder.bind(position, day)
+        holder.bind(day)
     }
 
     inner class ScheduleDetailViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(
-            position: Int,
-            day: DaySchedule
-        ) {
-            itemView.day_number.text = "Dia " + day.dayNumber.toString()
-            day.visits.sortBy { it.timeToVisit }
-            val adapter = VisitsAdapter(context, day.visits)
-            itemView.visits.adapter = adapter
+        fun bind(day: DaySchedule) {
+            itemView.day_number.text = "Día " + day.dayNumber.toString()
+            day.visits.sortedBy { it.timeToVisit }
+                .forEach { visit ->
+                    val visitView = createViewForVisit(visit)
+                    itemView.schedule_details_visits.addView(visitView)
+                }
         }
 
+        private fun createViewForVisit(visit: Visit): View? {
+            val visitView = LayoutInflater.from(context)
+                .inflate(R.layout.visit_for_schedule_detail, itemView.schedule_details_visits, false)
+            val clientName = visitView.findViewById(R.id.client_name) as TextView
+            val visitTime = visitView.findViewById(R.id.client_visit_time) as TextView
+            clientName.text = visit.client.name
+            visitTime.text = visit.timeToVisit.toString()
+            return visitView
+        }
     }
 
 }

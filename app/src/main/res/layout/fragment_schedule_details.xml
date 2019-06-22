@@ -7,11 +7,17 @@
          android:orientation="vertical"
          tools:context=".ScheduleDetailsFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/days_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:layoutManager="LinearLayoutManager" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/days_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:layoutManager="LinearLayoutManager" />
+
+    </ScrollView>
 
     <TextView
             android:id="@+id/empty_view"
@@ -19,7 +25,6 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:visibility="gone"
-            android:text="@string/EMPTY_SCHEDULES" />
-
+            android:text="@string/SCHEDULE_DETAILS__EMPTY_SCHEDULES" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
