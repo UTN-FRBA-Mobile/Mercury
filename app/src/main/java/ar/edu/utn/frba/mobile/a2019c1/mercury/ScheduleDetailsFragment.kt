@@ -33,7 +33,8 @@ class ScheduleDetailsFragment : Fragment() {
         val scheduleDetailsAdapter = schedule?.let {
             ScheduleDetailsAdapter(
                 context!!,
-                it
+                it,
+                activity!!
             )
         }
 

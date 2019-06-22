@@ -29,9 +29,9 @@ object WhatsAppMessageSender : MessageSender {
 
     private fun showAlertDialog(activity: Context) {
         AlertDialog.Builder(activity)
-            .setTitle("No se puede enviar mensajes con WhatsApp")
+            .setTitle("WhatsApp no se encuentra instalada")
             .setCancelable(true)
-            .setMessage("No tiene instalado WhatsApp")
+            .setMessage("Para enviar mensajes a través de WhatsApp, debe tener la aplicación instalada")
             .setPositiveButton("Aceptar") { _, _ -> }
             .show()
     }
