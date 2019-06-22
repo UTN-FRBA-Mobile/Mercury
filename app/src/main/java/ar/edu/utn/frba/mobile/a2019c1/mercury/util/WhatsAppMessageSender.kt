@@ -18,12 +18,12 @@ object WhatsAppMessageSender : MessageSender {
 
     private fun launchWhatsappIntent(phoneNumber: String, textMessage: String, activity: Activity) {
         val number = formatPhoneNumber(phoneNumber)
-        val sendIntent = Intent();
+        val sendIntent = Intent()
         sendIntent.action = Intent.ACTION_SEND
         sendIntent.putExtra(Intent.EXTRA_TEXT, textMessage)
         sendIntent.type = "text/plain"
         sendIntent.setPackage("com.whatsapp")
-        sendIntent.putExtra("jid", "$number@s.whatsapp.net");
+        sendIntent.putExtra("jid", "$number@s.whatsapp.net")
         activity.startActivity(sendIntent)
     }
 
@@ -46,6 +46,10 @@ object WhatsAppMessageSender : MessageSender {
         }
     }
 
-    private fun formatPhoneNumber(phoneNumber: String) = phoneNumber.replace("+", "").replace(" ", "")
+    private fun formatPhoneNumber(phoneNumber: String): String {
+        val digits = ('0'..'9')
+        val isDigit: (Char) -> Boolean = { digits.contains(it) }
+        return phoneNumber.filter { isDigit(it) }
+    }
 
 }
