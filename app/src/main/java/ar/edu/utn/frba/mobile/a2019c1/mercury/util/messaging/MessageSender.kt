@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.mobile.a2019c1.mercury.util
+package ar.edu.utn.frba.mobile.a2019c1.mercury.util.messaging
 
 import android.app.Activity
 

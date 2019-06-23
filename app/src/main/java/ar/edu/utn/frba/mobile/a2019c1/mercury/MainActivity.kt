@@ -11,9 +11,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Schedule
-import ar.edu.utn.frba.mobile.a2019c1.mercury.util.Permissions
+import ar.edu.utn.frba.mobile.a2019c1.mercury.util.permissions.Permissions
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
 

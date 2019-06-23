@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.DaySchedule
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Schedule
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Visit
-import ar.edu.utn.frba.mobile.a2019c1.mercury.util.MessageSender
-import ar.edu.utn.frba.mobile.a2019c1.mercury.util.SmsMessageSender
-import ar.edu.utn.frba.mobile.a2019c1.mercury.util.WhatsAppMessageSender
+import ar.edu.utn.frba.mobile.a2019c1.mercury.util.messaging.MessageSender
+import ar.edu.utn.frba.mobile.a2019c1.mercury.util.messaging.SmsMessageSender
+import ar.edu.utn.frba.mobile.a2019c1.mercury.util.messaging.WhatsAppMessageSender
 import kotlinx.android.synthetic.main.days_for_schedule_details.view.*
 import kotlinx.android.synthetic.main.visit_for_schedule_detail.view.*
 import java.time.LocalDate

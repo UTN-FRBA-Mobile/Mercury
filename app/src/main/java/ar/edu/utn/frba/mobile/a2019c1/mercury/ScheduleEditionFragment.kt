@@ -17,7 +17,7 @@ import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Client
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.DaySchedule
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Schedule
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Visit
-import ar.edu.utn.frba.mobile.a2019c1.mercury.util.Permissions
+import ar.edu.utn.frba.mobile.a2019c1.mercury.util.permissions.Permissions
 import kotlinx.android.synthetic.main.fragment_schedule_edition.*
 import kotlinx.android.synthetic.main.fragment_schedule_edition.view.*
 import java.time.LocalDateTime
