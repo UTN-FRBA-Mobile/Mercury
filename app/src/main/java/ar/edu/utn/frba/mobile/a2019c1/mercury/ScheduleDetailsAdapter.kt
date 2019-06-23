@@ -15,6 +15,7 @@ import ar.edu.utn.frba.mobile.a2019c1.mercury.util.SmsMessageSender
 import ar.edu.utn.frba.mobile.a2019c1.mercury.util.WhatsAppMessageSender
 import kotlinx.android.synthetic.main.days_for_schedule_details.view.*
 import kotlinx.android.synthetic.main.visit_for_schedule_detail.view.*
+import java.time.LocalDate
 
 class ScheduleDetailsAdapter(
     private val context: Context,
@@ -55,11 +56,17 @@ class ScheduleDetailsAdapter(
             val visitTime = visit.timeToVisit.toString()
             visitTimeView.text = visitTime
 
-            val message = "Hola $clientName! Te quería avisar que el día XX/XX a las ${visitTime}hs voy a estar en tu comercio. Saludos!"
-            val clientPhoneNumber = client.phoneNumber
-            val sendMessageWith = { messageSender: MessageSender -> messageSender.sendMessage(message, clientPhoneNumber, parentActivity) }
-            visitView.send_wpp_message.setOnClickListener { sendMessageWith(WhatsAppMessageSender) }
-            visitView.send_sms_message.setOnClickListener { sendMessageWith(SmsMessageSender) }
+            val today = LocalDate.now()
+            val nextVisitDate: LocalDate? = visit.nextVisitDate(today)
+            if (nextVisitDate != null) {
+                val message = "Hola $clientName! Te quería avisar que el día ${nextVisitDate.dayOfMonth}/${nextVisitDate.monthValue} a las ${visitTime}hs voy a estar en tu comercio. Saludos!"
+                val clientPhoneNumber = client.phoneNumber
+                val sendMessageWith = { messageSender: MessageSender -> messageSender.sendMessage(message, clientPhoneNumber, parentActivity) }
+                visitView.send_wpp_message.setOnClickListener { sendMessageWith(WhatsAppMessageSender) }
+                visitView.send_sms_message.setOnClickListener { sendMessageWith(SmsMessageSender) }
+            } else {
+                listOf(visitView.send_wpp_message, visitView.send_sms_message).forEach { it.visibility = View.GONE }
+            }
 
             return visitView
         }

@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Schedule
@@ -32,6 +31,10 @@ class ScheduleListAdapter(
         holder.bind(position, scheduleToUpdate, updateSchedule, deleteSchedule)
     }
 
+    private fun startScheduleOn(schedule: Schedule, scheduleStartDate: LocalDate) {
+        schedule.startOn(scheduleStartDate)
+    }
+
     inner class ScheduleListItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(
             position: Int,
@@ -49,7 +52,7 @@ class ScheduleListAdapter(
 
             itemView.schedule_active.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
-                    selectScheduleStartDate()
+                    selectScheduleStartDate(schedule)
                 } else {
                     //TODO desactivar itinerario
                 }
@@ -77,7 +80,7 @@ class ScheduleListAdapter(
             }
         }
 
-        private fun selectScheduleStartDate() {
+        private fun selectScheduleStartDate(schedule: Schedule) {
             val datePicker = DatePicker(context)
             val title = context.getText(R.string.LIST_SCHEDULE__SCHEDULE_START_DATE_PICKER_MODAL__TITLE)
             val confirmButtonText = context.getText(R.string.LIST_SCHEDULE__SCHEDULE_START_DATE_PICKER_MODAL__CONFIRMATION_BUTTON)
@@ -86,8 +89,8 @@ class ScheduleListAdapter(
                 .setTitle(title)
                 .setView(datePicker)
                 .setPositiveButton(confirmButtonText) { _, _ ->
-                    val scheduleStartDate = LocalDate.of(datePicker.year, datePicker.month, datePicker.dayOfMonth)
-                    Toast.makeText(context, scheduleStartDate.toString(), Toast.LENGTH_SHORT).show()
+                    val scheduleStartDate: LocalDate = LocalDate.of(datePicker.year, datePicker.month + 1, datePicker.dayOfMonth)
+                    startScheduleOn(schedule, scheduleStartDate)
                 }
                 .setNegativeButton(cancelButtonText) { _, _ -> itemView.schedule_active.isChecked = false }
                 .create()
