@@ -46,10 +46,6 @@ object WhatsAppMessageSender : MessageSender {
         }
     }
 
-    private fun formatPhoneNumber(phoneNumber: String): String {
-        val digits = ('0'..'9')
-        val isDigit: (Char) -> Boolean = { digits.contains(it) }
-        return phoneNumber.filter { isDigit(it) }
-    }
+    private fun formatPhoneNumber(phoneNumber: String) = phoneNumber.filter { it.isDigit() }
 
 }
