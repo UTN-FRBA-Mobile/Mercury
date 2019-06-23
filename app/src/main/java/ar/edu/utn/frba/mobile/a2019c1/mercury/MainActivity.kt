@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Schedule
 import ar.edu.utn.frba.mobile.a2019c1.mercury.util.Permissions
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 

@@ -17,6 +17,8 @@
     <string name="NEW_SCHEDULE__CLIENT_VISIT_DAY_VALIDATION_ERROR">Número de día inválido</string>
     <string name="NEW_SCHEDULE__CLIENT_VISIT_TIME_VALIDATION_ERROR">Formato inválido de fecha</string>
 
+    <string name="NOTIFICATION_CHANNEL_DESCRIPTION">Para el envio de itinerarios</string>
+
     <string name="LIST_SCHEDULE__EMPTY_SCHEDULES">No hay itinerarios creados :(</string>
     <string name="LIST_SCHEDULE__ACTION_BAR_TITLE">Mercury</string>
     <plurals name="LIST_SCHEDULE__SCHEDULE_DURATION">
