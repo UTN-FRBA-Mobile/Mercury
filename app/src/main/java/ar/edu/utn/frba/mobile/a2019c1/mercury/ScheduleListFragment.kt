@@ -39,10 +39,12 @@ class ScheduleListFragment : Fragment() {
         val schedules = viewModel.schedules
         val scheduleListAdapter = ScheduleListAdapter(
             context!!,
+            activity!!,
             schedules,
             this.onViewScheduleButtonClicked,
             this.onEditScheduleButtonClicked,
-            this::deleteSchedule)
+            this::deleteSchedule
+        )
 
         if (schedules.isEmpty()) {
             schedule_list.visibility = View.GONE

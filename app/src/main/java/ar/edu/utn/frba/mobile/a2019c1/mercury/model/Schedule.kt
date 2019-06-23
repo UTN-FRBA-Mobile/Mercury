@@ -16,6 +16,13 @@ class Schedule(val name: String) {
         }
     }
 
+    fun nextVisitDates(dateToLookForwardFrom: LocalDate): List<VisitOnDate> {
+        return visits().mapNotNull { visit ->
+            val nextVisitDate = visit.nextVisitDate(dateToLookForwardFrom)
+            nextVisitDate?.let { VisitOnDate(visit, it) }
+        }
+    }
+
     fun duration(): Int {
         return clientsPerDay.map { it.dayNumber }
             .max()
