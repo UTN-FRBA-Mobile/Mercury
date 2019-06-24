@@ -11,8 +11,11 @@ class ScheduleViewModel : ViewModel() {
         Database.delete(scheduleToDelete)
     }
 
-    fun upsert(scheduleToUpsert: Schedule) {
-        Database.save(scheduleToUpsert)
+    fun upsert(schedule : Schedule) {
+        if(schedule.objectId != null)
+            Database.update(schedule)
+        else
+            Database.save(schedule)
     }
 
 }
