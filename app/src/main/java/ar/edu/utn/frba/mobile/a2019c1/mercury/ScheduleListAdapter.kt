@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.mobile.a2019c1.mercury
 
+import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -8,11 +9,15 @@ import android.widget.DatePicker
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Schedule
+import ar.edu.utn.frba.mobile.a2019c1.mercury.model.VisitOnDate
+import ar.edu.utn.frba.mobile.a2019c1.mercury.util.notifications.NotificationScheduler
 import kotlinx.android.synthetic.main.schedule_for_list_view.view.*
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 class ScheduleListAdapter(
     private val context: Context,
+    private val activity: Activity,
     private val schedules: List<Schedule>,
     private val viewSchedule: (Schedule) -> Unit,
     private val updateSchedule: (Schedule) -> Unit,
@@ -33,6 +38,26 @@ class ScheduleListAdapter(
 
     private fun startScheduleOn(schedule: Schedule, scheduleStartDate: LocalDate) {
         schedule.startOn(scheduleStartDate)
+        scheduleNotificationsForNewVisits(schedule)
+    }
+
+    private fun scheduleNotificationsForNewVisits(schedule: Schedule) {
+        val notificationAnticipationInMinutes = 15L
+
+        val today: LocalDateTime = LocalDateTime.now()
+        schedule.nextVisitDates(today.toLocalDate()).forEach { visitOnDate ->
+            scheduleNotificationForVisit(visitOnDate, today, notificationAnticipationInMinutes)
+        }
+    }
+
+    private fun scheduleNotificationForVisit(visitOnDate: VisitOnDate, today: LocalDateTime, notificationAnticipation: Long) {
+        val visit = visitOnDate.visit
+        val visitTime = visit.timeToVisit
+        val visitDateTime: LocalDateTime = visitOnDate.date.atTime(visitTime)
+        val title = "Reunión con ${visit.client.name}"
+        val message = "Tenés una reunión a las ${visitTime}hs"
+
+        NotificationScheduler().scheduleNotificationWithAnticipation(visitDateTime, today, notificationAnticipation, title, message, activity)
     }
 
     inner class ScheduleListItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

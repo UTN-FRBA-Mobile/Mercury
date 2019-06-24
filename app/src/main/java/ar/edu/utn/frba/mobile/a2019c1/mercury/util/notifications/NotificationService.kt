@@ -1,17 +1,18 @@
 package ar.edu.utn.frba.mobile.a2019c1.mercury.util.notifications
 
 import android.annotation.SuppressLint
-import android.app.*
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.media.RingtoneManager
-import java.util.*
-import android.app.NotificationChannel
 import androidx.core.app.JobIntentService
 import ar.edu.utn.frba.mobile.a2019c1.mercury.MainActivity
 import ar.edu.utn.frba.mobile.a2019c1.mercury.R
+import java.util.*
 
 class NotificationService : JobIntentService() {
     private lateinit var mNotification: Notification
@@ -60,12 +61,11 @@ class NotificationService : JobIntentService() {
 
             val pendingIntent = createPendingIntent(title, message, timestamp)
             val res = this.resources
-            val uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 
             mNotification = Notification.Builder(applicationContext, CHANNEL_ID)
                 // Set the intent that will fire when the user taps the notification
                 .setContentIntent(pendingIntent)
-                .setSmallIcon(R.drawable.ic_app_icon)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setLargeIcon(BitmapFactory.decodeResource(res, R.mipmap.ic_launcher))
                 .setAutoCancel(true)
                 .setContentTitle(title)
