@@ -13,6 +13,10 @@ class Database {
             scheduleToSave.objectId = newObject.key
             newObject.setValue(scheduleToSave)
         }
-        
+
+        fun delete(schedule: Schedule) {
+            val scheduleToDelete = db.child(Statics.SCHEDULE).child(schedule.objectId!!)
+            scheduleToDelete.removeValue()
+        }
     }
 }
