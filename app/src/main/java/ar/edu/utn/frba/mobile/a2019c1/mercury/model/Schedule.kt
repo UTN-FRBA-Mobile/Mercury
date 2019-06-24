@@ -52,7 +52,7 @@ class Schedule(var name: String) {
         fun buildFromDatabase(map: HashMap<String, Any>): Schedule {
             val name = map.get("name") as String
             val objectId = map.get("objectId") as String
-            val hashMapClientsPerDay = map.get("clientsPerDay") as MutableList<HashMap<String, Any>>
+            val hashMapClientsPerDay = map.get("clientsPerDay") as MutableList<HashMap<String, Any>>? ?: mutableListOf()
             val clientsPerDay = hashMapClientsPerDay.map { DaySchedule.buildFromDatabase(it) } .toMutableList()
             val schedule = Schedule(name)
             schedule.objectId = objectId
