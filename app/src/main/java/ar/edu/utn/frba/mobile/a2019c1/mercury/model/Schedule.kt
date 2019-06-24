@@ -2,8 +2,11 @@ package ar.edu.utn.frba.mobile.a2019c1.mercury.model
 
 import java.time.LocalDate
 
-class Schedule(val name: String) {
-    val clientsPerDay: MutableList<DaySchedule> = mutableListOf()
+class Schedule(var name: String) {
+
+    var objectId: String? = null
+
+    var clientsPerDay: MutableList<DaySchedule> = mutableListOf()
 
     fun visits(): List<Visit> {
         return clientsPerDay.map { it.visits }
@@ -45,6 +48,19 @@ class Schedule(val name: String) {
         return "Schedule(name=$name, clients=${visits().map{it.client.name}})"
     }
 
+    companion object {
+        fun buildFromDatabase(map: HashMap<String, Any>): Schedule {
+            val name = map.get("name") as String
+            val objectId = map.get("objectId") as String
+            val hashMapClientsPerDay = map.get("clientsPerDay") as MutableList<HashMap<String, Any>>
+            val clientsPerDay = hashMapClientsPerDay.map { DaySchedule.buildFromDatabase(it) } .toMutableList()
+            val schedule = Schedule(name)
+            schedule.objectId = objectId
+            schedule.clientsPerDay = clientsPerDay
+            return schedule
+        }
+    }
+
 }
 
 data class DaySchedule(val dayNumber: Int, val visits: MutableList<Visit>) {
@@ -59,4 +75,14 @@ data class DaySchedule(val dayNumber: Int, val visits: MutableList<Visit>) {
             visit.addVisitOnDate(visitDate)
         }
     }
+
+    companion object {
+        fun buildFromDatabase(map: HashMap<String, Any>): DaySchedule {
+            val dayNumber = map.get("dayNumber") as Long
+            val hashMapVisits = map.get("visits") as MutableList<HashMap<String, Any>>
+            val visits = hashMapVisits.map { Visit.buildFromDatabase(it) } .toMutableList()
+            return DaySchedule(dayNumber.toInt(), visits)
+        }
+    }
+
 }

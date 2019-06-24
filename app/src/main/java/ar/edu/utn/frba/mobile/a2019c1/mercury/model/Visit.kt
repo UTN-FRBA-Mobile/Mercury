@@ -13,4 +13,22 @@ data class Visit(val client : Client, val timeToVisit: LocalTime, val visitDates
         return visitDates.sortedBy { it }
             .firstOrNull { it.isEqual(date) || it.isAfter(date) }
     }
+
+    companion object {
+        fun buildFromDatabase(map: HashMap<String, Any>): Visit {
+            val hashMapClient = map.get("client") as HashMap<String, Any>
+            val client = Client.buildFromDatabase(hashMapClient)
+            val hashMapTimeToVisit = map.get("timeToVisit") as HashMap<String, Any>
+            val timeToVisit = buildTimeToVisit(hashMapTimeToVisit)
+            return Visit(client, timeToVisit)
+        }
+
+        private fun buildTimeToVisit(map: HashMap<String, Any>): LocalTime {
+            val hour = map.get("hour") as Long
+            val minute = map.get("minute") as Long
+            val nano = map.get("nano") as Long
+            val second = map.get("second") as Long
+            return LocalTime.of(hour.toInt(), minute.toInt(), second.toInt(), nano.toInt())
+        }
+    }
 }
