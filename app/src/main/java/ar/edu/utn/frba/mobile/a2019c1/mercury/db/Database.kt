@@ -14,6 +14,10 @@ class Database {
             newObject.setValue(scheduleToSave)
         }
 
+        fun update(schedule : Schedule) {
+            db.child(Statics.SCHEDULE).child(schedule.objectId!!).setValue(schedule)
+        }
+
         fun delete(schedule: Schedule) {
             val scheduleToDelete = db.child(Statics.SCHEDULE).child(schedule.objectId!!)
             scheduleToDelete.removeValue()
