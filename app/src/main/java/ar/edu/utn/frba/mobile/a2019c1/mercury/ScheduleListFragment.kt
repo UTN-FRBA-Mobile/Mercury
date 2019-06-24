@@ -22,7 +22,7 @@ class ScheduleListFragment : Fragment() {
     private lateinit var onAddScheduleButtonClicked: () -> Unit
     private lateinit var onViewScheduleButtonClicked: (Schedule) -> Unit
     private lateinit var onEditScheduleButtonClicked: (Schedule) -> Unit
-    lateinit var scheduleListAdapter : ScheduleListAdapter
+    private lateinit var scheduleListAdapter : ScheduleListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Database.db.addValueEventListener(scheduleListener)
@@ -79,7 +79,7 @@ class ScheduleListFragment : Fragment() {
         this.onEditScheduleButtonClicked = onEditScheduleButtonClicked
     }
 
-    private fun loadTaskList(dataSnapshot: DataSnapshot) {
+    private fun loadScheduleList(dataSnapshot: DataSnapshot) {
 
         val schedules = dataSnapshot.children.iterator()
         if (schedules.hasNext()) {
@@ -107,9 +107,9 @@ class ScheduleListFragment : Fragment() {
         }
     }
 
-    var scheduleListener: ValueEventListener = object : ValueEventListener {
+    private var scheduleListener: ValueEventListener = object : ValueEventListener {
         override fun onDataChange(dataSnapshot: DataSnapshot) {
-            loadTaskList(dataSnapshot)
+            loadScheduleList(dataSnapshot)
         }
         override fun onCancelled(databaseError: DatabaseError) {}
     }
