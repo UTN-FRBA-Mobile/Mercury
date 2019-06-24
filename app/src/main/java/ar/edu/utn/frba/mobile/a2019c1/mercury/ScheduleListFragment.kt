@@ -25,7 +25,7 @@ class ScheduleListFragment : Fragment() {
     lateinit var scheduleListAdapter : ScheduleListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Database.db.orderByKey().addValueEventListener(scheduleListener)
+        Database.db.addValueEventListener(scheduleListener)
         super.onCreate(savedInstanceState)
     }
 
@@ -54,10 +54,7 @@ class ScheduleListFragment : Fragment() {
             this.onEditScheduleButtonClicked,
             this::deleteSchedule)
 
-        if (schedules.isEmpty()) {
-            schedule_list.visibility = View.GONE
-            empty_view.visibility = View.VISIBLE
-        }
+        updateViewIfNeeded() //TODO sacar y que arranque con un loading?
 
         with(schedule_list as RecyclerView) {
             layoutManager = LinearLayoutManager(context)
@@ -97,9 +94,16 @@ class ScheduleListFragment : Fragment() {
             }
         }
         scheduleListAdapter.notifyDataSetChanged()
-        if (viewModel.schedules.isNotEmpty()) {
-            schedule_list.visibility = View.VISIBLE
-            empty_view.visibility = View.GONE
+        updateViewIfNeeded()
+    }
+
+    private fun updateViewIfNeeded() {
+        if (viewModel.schedules.isEmpty()) {
+            empty_view?.visibility = View.VISIBLE
+            schedule_list?.visibility = View.GONE
+        } else {
+            empty_view?.visibility = View.GONE
+            schedule_list?.visibility = View.VISIBLE
         }
     }
 
