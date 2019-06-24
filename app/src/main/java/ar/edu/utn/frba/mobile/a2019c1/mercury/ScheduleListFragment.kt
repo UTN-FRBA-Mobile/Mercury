@@ -82,8 +82,8 @@ class ScheduleListFragment : Fragment() {
     private fun loadScheduleList(dataSnapshot: DataSnapshot) {
 
         val schedules = dataSnapshot.children.iterator()
+        viewModel.schedules.clear()
         if (schedules.hasNext()) {
-            viewModel.schedules.clear()
             val listIndex = schedules.next()
             val itemsIterator = listIndex.children.iterator()
             while (itemsIterator.hasNext()) {

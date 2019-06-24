@@ -8,7 +8,6 @@ class ScheduleViewModel : ViewModel() {
     val schedules: MutableList<Schedule> = mutableListOf()
 
     fun remove(scheduleToDelete: Schedule) {
-        schedules.remove(scheduleToDelete)
         Database.delete(scheduleToDelete)
     }
 
