@@ -18,4 +18,9 @@ class ScheduleViewModel : ViewModel() {
             Database.save(schedule)
     }
 
+    fun updateDatasource(newSchedules: MutableList<Schedule>) {
+        schedules.clear()
+        schedules.addAll(newSchedules)
+    }
+
 }

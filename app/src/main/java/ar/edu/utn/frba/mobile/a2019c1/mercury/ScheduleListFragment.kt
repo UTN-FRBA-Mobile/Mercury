@@ -83,8 +83,7 @@ class ScheduleListFragment : Fragment() {
     private fun loadScheduleList(dataSnapshot: DataSnapshot) {
         val data = DataSnapshotAdapter().toHashMapList(dataSnapshot)
         val schedules = data.map { Schedule.buildFromDatabase(it) } .toMutableList()
-        viewModel.schedules.clear()
-        viewModel.schedules.addAll(schedules)
+        viewModel.updateDatasource(schedules)
         scheduleListAdapter.notifyDataSetChanged()
         updateViewIfNeeded()
     }
