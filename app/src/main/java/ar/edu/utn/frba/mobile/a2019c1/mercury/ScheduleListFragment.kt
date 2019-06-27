@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import ar.edu.utn.frba.mobile.a2019c1.mercury.db.DataSnapshotAdapter
 import ar.edu.utn.frba.mobile.a2019c1.mercury.db.Database
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Schedule
 import com.google.firebase.database.DataSnapshot
@@ -80,19 +81,10 @@ class ScheduleListFragment : Fragment() {
     }
 
     private fun loadScheduleList(dataSnapshot: DataSnapshot) {
-
-        val schedules = dataSnapshot.children.iterator()
+        val data = DataSnapshotAdapter().toHashMapList(dataSnapshot)
+        val schedules = data.map { Schedule.buildFromDatabase(it) } .toMutableList()
         viewModel.schedules.clear()
-        if (schedules.hasNext()) {
-            val listIndex = schedules.next()
-            val itemsIterator = listIndex.children.iterator()
-            while (itemsIterator.hasNext()) {
-                val currentItem = itemsIterator.next()
-                val map = currentItem.getValue() as HashMap<String, Any>
-                val schedule = Schedule.buildFromDatabase(map)
-                viewModel.schedules!!.add(schedule)
-            }
-        }
+        viewModel.schedules.addAll(schedules)
         scheduleListAdapter.notifyDataSetChanged()
         updateViewIfNeeded()
     }
