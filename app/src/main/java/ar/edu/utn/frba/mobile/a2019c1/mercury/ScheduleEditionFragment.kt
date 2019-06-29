@@ -30,6 +30,7 @@ class ScheduleEditionFragment : Fragment(), ScheduleEditionAdapter.OnItemClickLi
     private val scheduleEditionViewModel: ScheduleEditionViewModel by activityViewModels()
     private val clientsPerDay: MutableList<Pair<Int,Visit>> = mutableListOf()
     private lateinit var onEditionCompleted: () -> Unit
+    private var scheduleOnEdition: Schedule? = null
 
     private fun newClientInputFields() = listOf(client_name, client_phone_number, client_location)
 
@@ -43,7 +44,7 @@ class ScheduleEditionFragment : Fragment(), ScheduleEditionAdapter.OnItemClickLi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        scheduleOnEdition = scheduleEditionViewModel.scheduleOnEdition
         scheduleEditionViewModel.scheduleOnEdition?.let {
             loadScheduleToEditFromViewModel(it)
             scheduleEditionViewModel.scheduleOnEdition = null
@@ -151,6 +152,8 @@ class ScheduleEditionFragment : Fragment(), ScheduleEditionAdapter.OnItemClickLi
         clientsPerDay.forEach { (dayNumber, client) ->
             scheduleToCreate.addClientOnDay(dayNumber, client)
         }
+
+        scheduleToCreate.objectId = scheduleOnEdition?.objectId
 
         scheduleListViewModel.upsert(scheduleToCreate)
 
