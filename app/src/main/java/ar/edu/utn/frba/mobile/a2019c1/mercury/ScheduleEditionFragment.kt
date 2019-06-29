@@ -91,7 +91,7 @@ class ScheduleEditionFragment : Fragment(), ScheduleEditionAdapter.OnItemClickLi
                 AutocompleteActivityMode.FULLSCREEN, fields
             )
                 .build(this.requireActivity())
-            startActivityForResult(intent, PLACE_PICKER_REQUEST)
+            activity?.startActivityForResult(intent, PLACE_PICKER_REQUEST)
 
         })
 
@@ -195,11 +195,6 @@ class ScheduleEditionFragment : Fragment(), ScheduleEditionAdapter.OnItemClickLi
     }
     fun processPlacePicked(data: Intent?) {
         val place = Autocomplete.getPlaceFromIntent(data!!)
-        val x = place.address
-        val x1 = place.attributions
-        val x2 = place.name
-        val x3 = place.latLng
-        val x8 = place.address
-
+        client_location.text = place.name
     }
 }
