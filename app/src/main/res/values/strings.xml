@@ -27,10 +27,12 @@
     </plurals>
     <string name="LIST_SCHEDULE__SCHEDULE_DELETION_MODAL__MESSAGE">¿Estás seguro de que querés eliminar el itinerario? No vas a poder recuperarlo</string>
     <string name="LIST_SCHEDULE__SCHEDULE_DELETION_MODAL__CONFIRMATION_BUTTON">Eliminar</string>
-    <string name="LIST_SCHEDULE__SCHEDULE_DELETION_MODAL__CANCEL_BUTTON">Cancelar</string>
+    <string name="LIST_SCHEDULE__SCHEDULE_MODAL__CANCEL_BUTTON">Cancelar</string>
     <string name="LIST_SCHEDULE__SCHEDULE_START_DATE_PICKER_MODAL__TITLE">¿Cuándo querés iniciar el itinerario?</string>
     <string name="LIST_SCHEDULE__SCHEDULE_START_DATE_PICKER_MODAL__CONFIRMATION_BUTTON">Confirmar</string>
     <string name="LIST_SCHEDULE__SCHEDULE_START_DATE_PICKER_MODAL__CANCEL_BUTTON">Cancelar</string>
+    <string name="LIST_SCHEDULE__SCHEDULE_DISABLE_MODAL__MESSAGE">¿Estás seguro de que querés deshabilitar el itinerario? Se borrarán todos los eventos futuros</string>
+    <string name="LIST_SCHEDULE__SCHEDULE_DISABLE_MODAL__CONFIRMATION_BUTTON">Deshabilitar</string>
 
     <string name="SCHEDULE_DETAILS__EMPTY_SCHEDULES">Este itinerario no tiene clientes para visitar :(</string>
     <string name="SCHEDULE_DETAILS__SCHEDULE_DAY_NUMBER">Día %1$s</string>

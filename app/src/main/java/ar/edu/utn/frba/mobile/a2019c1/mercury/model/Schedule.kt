@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.mobile.a2019c1.mercury.model
 
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 class Schedule(var name: String) {
 
@@ -51,6 +52,10 @@ class Schedule(var name: String) {
         clientsPerDay.forEach { it.registerDayEventsStartingOn(startDate) }
     }
 
+    fun disable(disableTime: LocalDateTime) {
+        clientsPerDay.forEach { it.disableDayEventsAfter(disableTime) }
+    }
+
     override fun toString(): String {
         return "Schedule(name=$name, clients=${visits().map{it.client.name}})"
     }
@@ -81,6 +86,10 @@ data class DaySchedule(val dayNumber: Int, val visits: MutableList<Visit>) {
             val visitDate: LocalDate = startDate.plusDays(daysAfterScheduleStart)
             visit.addVisitOnDate(visitDate)
         }
+    }
+
+    fun disableDayEventsAfter(disableTime: LocalDateTime) {
+        visits.forEach { it.disableVisitDatesAfter(disableTime) }
     }
 
     companion object {

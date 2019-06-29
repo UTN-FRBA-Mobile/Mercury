@@ -65,12 +65,6 @@
                     android:src="@android:drawable/ic_menu_edit" />
 
                 <ImageView
-                    android:id="@+id/schedule_notification_button"
-                    style="@style/schedule_list_button"
-                    android:src="@android:drawable/stat_sys_phone_call"
-                    android:visibility="gone"/>
-
-                <ImageView
                     android:id="@+id/schedule_delete_button"
                     style="@style/schedule_list_button"
                     android:src="@android:drawable/ic_menu_delete" />
