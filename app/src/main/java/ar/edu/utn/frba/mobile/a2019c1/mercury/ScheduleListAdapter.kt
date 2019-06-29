@@ -73,7 +73,6 @@ class ScheduleListAdapter(
                 scheduleDuration,
                 scheduleDuration
             )
-            itemView.schedule_notification_button.visibility = if (itemView.schedule_active.isChecked) View.VISIBLE else View.GONE
 
             itemView.schedule_active.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
