@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.mobile.a2019c1.mercury.model
 
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 class Schedule(var name: String) {
 
@@ -49,6 +50,10 @@ class Schedule(var name: String) {
 
     fun startOn(startDate: LocalDate) {
         clientsPerDay.forEach { it.registerDayEventsStartingOn(startDate) }
+    }
+
+    fun disable(rightNow: LocalDateTime) {
+
     }
 
     override fun toString(): String {

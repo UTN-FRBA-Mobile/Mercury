@@ -79,7 +79,7 @@ class ScheduleListAdapter(
                 if (isChecked) {
                     selectScheduleStartDate(schedule)
                 } else {
-                    //TODO desactivar itinerario
+                    disableSchedule(schedule)
                 }
                 notifyDataSetChanged()
             }
@@ -99,7 +99,7 @@ class ScheduleListAdapter(
                         deleteSchedule(schedule)
                         notifyItemRemoved(position)
                     }
-                    .setNegativeButton(context.getText(R.string.LIST_SCHEDULE__SCHEDULE_DELETION_MODAL__CANCEL_BUTTON)) {_, _ ->  }
+                    .setNegativeButton(context.getText(R.string.LIST_SCHEDULE__SCHEDULE_MODAL__CANCEL_BUTTON)) { _, _ ->  }
                     .create()
                 alertDialog.show()
             }
@@ -121,5 +121,19 @@ class ScheduleListAdapter(
                 .create()
             alertDialog.show()
         }
+
+        private fun disableSchedule(schedule: Schedule) {
+            val alertDialog: AlertDialog = AlertDialog.Builder(context)
+                .setMessage(context.getText(R.string.LIST_SCHEDULE__SCHEDULE_DISABLE_MODAL__MESSAGE))
+                .setPositiveButton(context.getText(R.string.LIST_SCHEDULE__SCHEDULE_DISABLE_MODAL__CONFIRMATION_BUTTON)){_, _ ->
+                    val rightNow = LocalDateTime.now()
+                    schedule.disable(rightNow)
+                    notifyDataSetChanged()
+                }
+                .setNegativeButton(context.getText(R.string.LIST_SCHEDULE__SCHEDULE_MODAL__CANCEL_BUTTON)) { _, _ ->  }
+                .create()
+            alertDialog.show()
+        }
+
     }
 }
