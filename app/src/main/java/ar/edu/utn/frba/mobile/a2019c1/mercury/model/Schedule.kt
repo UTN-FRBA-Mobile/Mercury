@@ -52,8 +52,8 @@ class Schedule(var name: String) {
         clientsPerDay.forEach { it.registerDayEventsStartingOn(startDate) }
     }
 
-    fun disable(rightNow: LocalDateTime) {
-
+    fun disable(disableTime: LocalDateTime) {
+        clientsPerDay.forEach { it.disableDayEventsAfter(disableTime) }
     }
 
     override fun toString(): String {
@@ -86,6 +86,10 @@ data class DaySchedule(val dayNumber: Int, val visits: MutableList<Visit>) {
             val visitDate: LocalDate = startDate.plusDays(daysAfterScheduleStart)
             visit.addVisitOnDate(visitDate)
         }
+    }
+
+    fun disableDayEventsAfter(disableTime: LocalDateTime) {
+        visits.forEach { it.disableVisitDatesAfter(disableTime) }
     }
 
     companion object {

@@ -74,11 +74,11 @@ class ScheduleListAdapter(
                 scheduleDuration
             )
 
-            itemView.schedule_active.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
+            itemView.schedule_active.setOnClickListener {
+                if (itemView.schedule_active.isChecked) {
                     selectScheduleStartDate(schedule)
                 } else {
-                    disableSchedule(schedule)
+                    showDisableScheduleAlert(schedule)
                 }
                 notifyDataSetChanged()
             }
@@ -115,23 +115,35 @@ class ScheduleListAdapter(
                 .setPositiveButton(confirmButtonText) { _, _ ->
                     val scheduleStartDate: LocalDate = LocalDate.of(datePicker.year, datePicker.month + 1, datePicker.dayOfMonth)
                     startScheduleOn(schedule, scheduleStartDate)
+                    setScheduleActiveIsChecked(true)
                 }
-                .setNegativeButton(cancelButtonText) { _, _ -> itemView.schedule_active.isChecked = false }
+                .setNegativeButton(cancelButtonText) { _, _ -> setScheduleActiveIsChecked(false) }
+                .create()
+            alertDialog.show()
+        }
+
+        private fun showDisableScheduleAlert(schedule: Schedule) {
+            val confirmButtonText = context.getText(R.string.LIST_SCHEDULE__SCHEDULE_DISABLE_MODAL__CONFIRMATION_BUTTON)
+            val cancelButtonText = context.getText(R.string.LIST_SCHEDULE__SCHEDULE_MODAL__CANCEL_BUTTON)
+            val alertDialog: AlertDialog = AlertDialog.Builder(context)
+                .setMessage(context.getText(R.string.LIST_SCHEDULE__SCHEDULE_DISABLE_MODAL__MESSAGE))
+                .setPositiveButton(confirmButtonText) { _, _ ->
+                    disableSchedule(schedule)
+                    setScheduleActiveIsChecked(false)
+                }
+                .setNegativeButton(cancelButtonText) { _, _ ->  setScheduleActiveIsChecked(true) }
                 .create()
             alertDialog.show()
         }
 
         private fun disableSchedule(schedule: Schedule) {
-            val alertDialog: AlertDialog = AlertDialog.Builder(context)
-                .setMessage(context.getText(R.string.LIST_SCHEDULE__SCHEDULE_DISABLE_MODAL__MESSAGE))
-                .setPositiveButton(context.getText(R.string.LIST_SCHEDULE__SCHEDULE_DISABLE_MODAL__CONFIRMATION_BUTTON)){_, _ ->
-                    val rightNow = LocalDateTime.now()
-                    schedule.disable(rightNow)
-                    notifyDataSetChanged()
-                }
-                .setNegativeButton(context.getText(R.string.LIST_SCHEDULE__SCHEDULE_MODAL__CANCEL_BUTTON)) { _, _ ->  }
-                .create()
-            alertDialog.show()
+            val rightNow = LocalDateTime.now()
+            schedule.disable(rightNow)
+            //TODO disable notifications
+        }
+
+        private fun setScheduleActiveIsChecked(isChecked: Boolean) {
+            itemView.schedule_active.isChecked = isChecked
         }
 
     }
