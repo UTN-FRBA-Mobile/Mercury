@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "122742348009",
+    "firebase_url": "https://mercury-82887.firebaseio.com",
+    "project_id": "mercury-82887",
+    "storage_bucket": "mercury-82887.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:122742348009:android:ae0c0a502e89c858",
+        "android_client_info": {
+          "package_name": "ar.edu.utn.frba.mobile.a2019c1.mercury"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "122742348009-r95h09g8p6pevnk11710445es1n359cg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ar.edu.utn.frba.mobile.a2019c1.mercury",
+            "certificate_hash": "67c93177f25671a00e125bc4aed3ee90ffe0fa40"
+          }
+        },
+        {
+          "client_id": "122742348009-l0mhupetpu7jk9b1nns2vkj80csokcs8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPzqDGZhqg6nk6l3ccP4m9XqyJFcvPLwI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "122742348009-l0mhupetpu7jk9b1nns2vkj80csokcs8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

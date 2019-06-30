@@ -12,6 +12,7 @@ import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -21,7 +22,7 @@ import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Client
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.DaySchedule
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Schedule
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Visit
-import ar.edu.utn.frba.mobile.a2019c1.mercury.util.Permissions
+import ar.edu.utn.frba.mobile.a2019c1.mercury.util.permissions.Permissions
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
@@ -31,7 +32,6 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeParseException
 
-
 class ScheduleEditionFragment : Fragment(), ScheduleEditionAdapter.OnItemClickListener {
 
     private val scheduleListViewModel: ScheduleViewModel by activityViewModels()
@@ -40,19 +40,21 @@ class ScheduleEditionFragment : Fragment(), ScheduleEditionAdapter.OnItemClickLi
     private val PLACE_PICKER_REQUEST = 2
 
     private lateinit var onEditionCompleted: () -> Unit
+    private var scheduleOnEdition: Schedule? = null
 
+    private fun newClientInputFields() = listOf(client_name, client_phone_number, client_location)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+        (activity as MainActivity).setActionBarTitle(getString(R.string.NEW_SCHEDULE__ACTION_BAR_TITLE))
         return inflater.inflate(R.layout.fragment_schedule_edition, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        scheduleOnEdition = scheduleEditionViewModel.scheduleOnEdition
         scheduleEditionViewModel.scheduleOnEdition?.let {
             loadScheduleToEditFromViewModel(it)
             scheduleEditionViewModel.scheduleOnEdition = null
@@ -60,8 +62,9 @@ class ScheduleEditionFragment : Fragment(), ScheduleEditionAdapter.OnItemClickLi
 
         client_visit_time.text = "00:00"
         client_visit_time.setOnClickListener{
-            val timeSetListener=  TimePickerDialog.OnTimeSetListener{ _, hour, minute ->
-                client_visit_time.text = "$hour:$minute"
+            val timeSetListener =  TimePickerDialog.OnTimeSetListener{ _, hour, minute ->
+                val newTime = LocalTime.of(hour, minute)
+                client_visit_time.text = newTime.toString()
             }
             val time = LocalDateTime.now()
             TimePickerDialog(context,timeSetListener,time.hour,time.minute,true).show()
@@ -137,28 +140,56 @@ class ScheduleEditionFragment : Fragment(), ScheduleEditionAdapter.OnItemClickLi
     }
 
     private fun addClientToSchedule() {
+        val isClientDataValid = validateClientDataIsNotEmpty()
+        if(!isClientDataValid) return
+
+        val clientToAdd = parseNewClient()
+        val visitTime: LocalTime =
+            try {
+                LocalTime.parse(client_visit_time.text.toString())
+            } catch (e: DateTimeParseException) {
+                client_visit_time.error = getString(R.string.NEW_SCHEDULE__CLIENT_VISIT_TIME_VALIDATION_ERROR)
+                return
+            }
+        val dayNumber: Int =
+            try {
+                Integer.parseInt(client_visit_day.text.toString())
+            } catch (e: NumberFormatException) {
+                client_visit_day.error = getString(R.string.NEW_SCHEDULE__CLIENT_VISIT_DAY_VALIDATION_ERROR)
+                return
+            }
+        val visit = Visit(clientToAdd,visitTime)
+        clientsPerDay.add(Pair(dayNumber,visit))
+
+        clearNewClientFields()
+        updateAdapter()
+    }
+
+    private fun validateClientDataIsNotEmpty(): Boolean {
+        val blankInputFields: List<EditText> = newClientInputFields().filter { it.text.isBlank() }
+        blankInputFields.forEach { it.error = getString(R.string.NEW_SCHEDULE__CLIENT_INPUT_FIELD_VALIDATION_ERROR) }
+        return blankInputFields.isEmpty()
+    }
+
+    private fun parseNewClient(): Client {
         val name = client_name.text.toString()
         val phoneNumber = client_phone_number.text.toString()
         val location = client_location.text.toString()
-        val visitTime: LocalTime =
-        try {
-            LocalTime.parse(client_visit_time.text.toString())
-        } catch (e: DateTimeParseException) {
-            client_visit_time.error = "Formato Invalido de fecha"
-            return
+        return Client(name, phoneNumber, location)
+    }
+
+    private fun clearNewClientFields() {
+        newClientInputFields().forEach {
+            it.text.clear()
         }
-        val clientToAdd = Client(name, phoneNumber, location)
-        val dayNumber = 1 // TODO get actual day
-        val visit = Visit(clientToAdd,visitTime)
-        clientsPerDay.add(Pair(dayNumber,visit))
-        updateAdapter()
+        client_visit_time.text = "00:00"
     }
 
     private fun saveSchedule() {
         val scheduleName = schedule_name.text.toString()
 
         if (scheduleName.isBlank()) {
-            schedule_name.error = "Agregar nombre"
+            schedule_name.error = getString(R.string.NEW_SCHEDULE__SCHEDULE_NAME_VALIDATION_ERROR)
             return
         }
 
@@ -168,7 +199,9 @@ class ScheduleEditionFragment : Fragment(), ScheduleEditionAdapter.OnItemClickLi
             scheduleToCreate.addClientOnDay(dayNumber, client)
         }
 
-        scheduleListViewModel.schedules.add(scheduleToCreate)
+        scheduleToCreate.objectId = scheduleOnEdition?.objectId
+
+        scheduleListViewModel.upsert(scheduleToCreate)
 
         onEditionCompleted()
     }
@@ -195,6 +228,6 @@ class ScheduleEditionFragment : Fragment(), ScheduleEditionAdapter.OnItemClickLi
     }
     fun processPlacePicked(data: Intent?) {
         val place = Autocomplete.getPlaceFromIntent(data!!)
-        client_location.text = place.name
+        client_location.setText(place.name)
     }
 }

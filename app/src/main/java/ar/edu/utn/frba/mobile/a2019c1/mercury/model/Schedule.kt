@@ -1,11 +1,29 @@
 package ar.edu.utn.frba.mobile.a2019c1.mercury.model
 
-class Schedule(val name: String) {
-    val clientsPerDay: MutableList<DaySchedule> = mutableListOf()
+import java.time.LocalDate
+
+class Schedule(var name: String) {
+
+    var objectId: String? = null
+
+    var clientsPerDay: MutableList<DaySchedule> = mutableListOf()
 
     fun visits(): List<Visit> {
         return clientsPerDay.map { it.visits }
             .flatten()
+    }
+
+    fun visitsOnDates(): List<VisitOnDate> {
+        return visits().flatMap { visit ->
+            visit.visitDates.map { date -> VisitOnDate(visit, date) }
+        }
+    }
+
+    fun nextVisitDates(dateToLookForwardFrom: LocalDate): List<VisitOnDate> {
+        return visits().mapNotNull { visit ->
+            val nextVisitDate = visit.nextVisitDate(dateToLookForwardFrom)
+            nextVisitDate?.let { VisitOnDate(visit, it) }
+        }
     }
 
     fun duration(): Int {
@@ -29,8 +47,25 @@ class Schedule(val name: String) {
         return emptyDaySchedule
     }
 
+    fun startOn(startDate: LocalDate) {
+        clientsPerDay.forEach { it.registerDayEventsStartingOn(startDate) }
+    }
+
     override fun toString(): String {
         return "Schedule(name=$name, clients=${visits().map{it.client.name}})"
+    }
+
+    companion object {
+        fun buildFromDatabase(map: HashMap<String, Any>): Schedule {
+            val name = map.get("name") as String
+            val objectId = map.get("objectId") as String
+            val hashMapClientsPerDay = map.get("clientsPerDay") as MutableList<HashMap<String, Any>>? ?: mutableListOf()
+            val clientsPerDay = hashMapClientsPerDay.map { DaySchedule.buildFromDatabase(it) } .toMutableList()
+            val schedule = Schedule(name)
+            schedule.objectId = objectId
+            schedule.clientsPerDay = clientsPerDay
+            return schedule
+        }
     }
 
 }
@@ -39,4 +74,22 @@ data class DaySchedule(val dayNumber: Int, val visits: MutableList<Visit>) {
     fun add(visit: Visit) {
         visits.add(visit)
     }
+
+    fun registerDayEventsStartingOn(startDate: LocalDate) {
+        visits.forEach { visit ->
+            val daysAfterScheduleStart = dayNumber.toLong() - 1
+            val visitDate: LocalDate = startDate.plusDays(daysAfterScheduleStart)
+            visit.addVisitOnDate(visitDate)
+        }
+    }
+
+    companion object {
+        fun buildFromDatabase(map: HashMap<String, Any>): DaySchedule {
+            val dayNumber = map.get("dayNumber") as Long
+            val hashMapVisits = map.get("visits") as MutableList<HashMap<String, Any>>
+            val visits = hashMapVisits.map { Visit.buildFromDatabase(it) } .toMutableList()
+            return DaySchedule(dayNumber.toInt(), visits)
+        }
+    }
+
 }

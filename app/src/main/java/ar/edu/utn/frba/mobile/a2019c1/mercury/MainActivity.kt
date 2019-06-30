@@ -8,21 +8,20 @@ import android.database.Cursor
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.view.Menu
-import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Schedule
-import ar.edu.utn.frba.mobile.a2019c1.mercury.util.Permissions
 import com.google.android.libraries.places.api.Places
+import ar.edu.utn.frba.mobile.a2019c1.mercury.util.permissions.Permissions
 import kotlinx.android.synthetic.main.activity_main.*
-import android.content.pm.ApplicationInfo
 
 
 
 class MainActivity : AppCompatActivity() {
 
     private val scheduleEditionViewModel: ScheduleEditionViewModel by viewModels()
+    private val scheduleDetailsViewModel: ScheduleDetailsViewModel by viewModels()
     private val PICK_CONTACT_REQUEST = 1  // The request code
     private val PLACE_PICKER_REQUEST = 2
 
@@ -30,8 +29,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var launchContactPicker: () -> Unit
 
     private lateinit var onPlacePicked: (Intent?) -> Unit
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +41,7 @@ class MainActivity : AppCompatActivity() {
                 .replace(R.id.fragmentContainer, ScheduleListFragment())
                 .commit()
         }
-        val ai = packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA)
+       val ai = packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA)
         val bundle = ai.metaData
         val myApiKey = bundle.getString("com.google.android.geo.API_KEY")
         Places.initialize(applicationContext, myApiKey);
@@ -58,16 +55,9 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
-        }
+    fun setActionBarTitle(title: String) {
+        supportActionBar!!.title = title
     }
-
 
     override fun onAttachFragment(fragment: Fragment) {
         if (fragment is ScheduleEditionFragment) {
@@ -77,12 +67,19 @@ class MainActivity : AppCompatActivity() {
             onPlacePicked = fragment::processPlacePicked
         } else if (fragment is ScheduleListFragment) {
             fragment.setOnAddScheduleButtonClicked(this::onAddScheduleButtonClicked)
+            fragment.setOnViewScheduleButtonClicked(this::onViewScheduleButtonClicked)
             fragment.setOnEditScheduleButtonClicked(this::onScheduleEditionRequest)
         }
     }
 
     private fun onAddScheduleButtonClicked() {
         showFragment(ScheduleEditionFragment())
+    }
+
+    private fun onViewScheduleButtonClicked(scheduleToView: Schedule) {
+        val scheduleDetailsFragment = ScheduleDetailsFragment()
+        scheduleDetailsViewModel.scheduleToView = scheduleToView
+        showFragment(scheduleDetailsFragment)
     }
 
     private fun onScheduleEditionRequest(scheduleToEdit: Schedule) {
@@ -127,7 +124,7 @@ class MainActivity : AppCompatActivity() {
         val phoneNumber = getDataFromCursorColumn(cursor,ContactsContract.CommonDataKinds.Phone.NUMBER)
 
         val contactID: String? = getDataFromCursorColumn(cursor,ContactsContract.CommonDataKinds.Phone.CONTACT_ID)
-        var address = getAddressFromContact(contactID)
+        val address = getAddressFromContact(contactID)
 
         onPickedContact(displayname,phoneNumber,address)
     }
@@ -152,13 +149,15 @@ class MainActivity : AppCompatActivity() {
             null, ContactsContract.CommonDataKinds.StructuredPostal.CONTACT_ID + "=?", arrayOf(contactID), null
         )
 
-        if (cursorAddress.count > 0) {
-            cursorAddress.moveToNext()
-            return cursorAddress.getString(
-                cursorAddress.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.FORMATTED_ADDRESS)
-            )
+        if (cursorAddress != null) {
+            if (cursorAddress.count > 0) {
+                cursorAddress.moveToNext()
+                return cursorAddress.getString(
+                    cursorAddress.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.FORMATTED_ADDRESS)
+                )
+            }
+            cursorAddress.close()
         }
-        cursorAddress.close()
         return ""
     }
 

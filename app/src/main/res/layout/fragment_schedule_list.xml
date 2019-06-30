@@ -18,7 +18,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:visibility="gone"
-        android:text="@string/EMPTY_SCHEDULES" />
+        android:text="@string/LIST_SCHEDULE__EMPTY_SCHEDULES" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
