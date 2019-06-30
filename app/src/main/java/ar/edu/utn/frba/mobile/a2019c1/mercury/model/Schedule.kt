@@ -15,9 +15,7 @@ class Schedule(var name: String) {
     }
 
     fun visitsOnDates(): List<VisitOnDate> {
-        return visits().flatMap { visit ->
-            visit.visitDates.map { date -> VisitOnDate(visit, date) }
-        }
+        return visits().flatMap { visit -> visit.getVisitsOnDates() }
     }
 
     fun nextVisitDates(dateToLookForwardFrom: LocalDate): List<VisitOnDate> {
@@ -58,6 +56,10 @@ class Schedule(var name: String) {
 
     override fun toString(): String {
         return "Schedule(name=$name, clients=${visits().map{it.client.name}})"
+    }
+
+    fun isActive(date : LocalDateTime): Boolean {
+        return visitsOnDates().any { it.isAfter(date) }
     }
 
     companion object {

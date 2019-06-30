@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.DatePicker
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
+import ar.edu.utn.frba.mobile.a2019c1.mercury.db.Database
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Schedule
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.VisitOnDate
 import ar.edu.utn.frba.mobile.a2019c1.mercury.util.notifications.NotificationScheduler
@@ -39,6 +40,7 @@ class ScheduleListAdapter(
     private fun startScheduleOn(schedule: Schedule, scheduleStartDate: LocalDate) {
         schedule.startOn(scheduleStartDate)
         scheduleNotificationsForNewVisits(schedule)
+        Database.update(schedule)
     }
 
     private fun scheduleNotificationsForNewVisits(schedule: Schedule) {
@@ -73,6 +75,8 @@ class ScheduleListAdapter(
                 scheduleDuration,
                 scheduleDuration
             )
+
+            itemView.schedule_active.isChecked = schedule.isActive(LocalDateTime.now())
 
             itemView.schedule_active.setOnClickListener {
                 if (itemView.schedule_active.isChecked) {
@@ -139,6 +143,7 @@ class ScheduleListAdapter(
         private fun disableSchedule(schedule: Schedule) {
             val rightNow = LocalDateTime.now()
             schedule.disable(rightNow)
+            Database.update(schedule)
             //TODO disable notifications
         }
 

@@ -1,22 +1,45 @@
 package ar.edu.utn.frba.mobile.a2019c1.mercury.model
 
+import com.google.firebase.database.Exclude
+import com.google.firebase.database.IgnoreExtraProperties
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 
-data class Visit(val client : Client, val timeToVisit: LocalTime, val visitDates: MutableList<LocalDate> = mutableListOf()) {
+data class MyLocalDate(val year: Int, val month: Int, val dayOfMonth: Int) {
+
+    constructor(it: LocalDate) : this(it.year, it.monthValue, it.dayOfMonth)
+
+    fun toLocalDate() : LocalDate {
+        return LocalDate.of(year, month, dayOfMonth)
+    }
+}
+
+@IgnoreExtraProperties
+data class Visit(val client : Client, val timeToVisit: LocalTime, val visitDatesToPersist : MutableList<MyLocalDate> = mutableListOf()) {
+
+    @Exclude
+    fun getVisitsDates() : MutableList<LocalDate> {
+        return visitDatesToPersist.map { it.toLocalDate() } .toMutableList()
+    }
+
     fun addVisitOnDate(date: LocalDate) {
-        visitDates.add(date)
+        visitDatesToPersist.add(MyLocalDate(date))
     }
 
     fun disableVisitDatesAfter(disableTime: LocalDateTime) {
-        visitDates.removeIf { it.atTime(timeToVisit).isAfter(disableTime) }
+        visitDatesToPersist.removeIf { it.toLocalDate().atTime(timeToVisit).isAfter(disableTime) }
     }
 
     fun nextVisitDate(date: LocalDate): LocalDate? {
         // There should be no more than one possible next visit date. If there are, the first one is picked
-        return visitDates.sortedBy { it }
+        return getVisitsDates().sortedBy { it }
             .firstOrNull { it.isEqual(date) || it.isAfter(date) }
+    }
+
+    @Exclude
+    fun getVisitsOnDates(): Iterable<VisitOnDate> {
+        return getVisitsDates().map { date -> VisitOnDate(this, date) }
     }
 
     companion object {
@@ -25,16 +48,16 @@ data class Visit(val client : Client, val timeToVisit: LocalTime, val visitDates
             val client = Client.buildFromDatabase(hashMapClient)
             val hashMapTimeToVisit = map.get("timeToVisit") as HashMap<String, Any>
             val timeToVisit = buildTimeToVisit(hashMapTimeToVisit)
-            val hashMapVisitDates = map.get("hashMapVisitDates") as MutableList<HashMap<String, Any>>? ?: mutableListOf()
+            val hashMapVisitDates = map.get("visitDatesToPersist") as MutableList<HashMap<String, Any>>? ?: mutableListOf()
             val visitDates = hashMapVisitDates.map { buildVisitDate(it) } .toMutableList()
             return Visit(client, timeToVisit, visitDates)
         }
 
-        private fun buildVisitDate(map: HashMap<String, Any>): LocalDate {
+        private fun buildVisitDate(map: HashMap<String, Any>): MyLocalDate {
             val year = map.get("year") as Long
             val month = map.get("month") as Long
             val dayOfMonth = map.get("dayOfMonth") as Long
-            return LocalDate.of(year.toInt(), month.toInt(), dayOfMonth.toInt())
+            return MyLocalDate(year.toInt(), month.toInt(), dayOfMonth.toInt())
         }
 
         private fun buildTimeToVisit(map: HashMap<String, Any>): LocalTime {
