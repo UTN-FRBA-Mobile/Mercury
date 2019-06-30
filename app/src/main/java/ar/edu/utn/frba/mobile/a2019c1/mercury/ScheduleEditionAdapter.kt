@@ -30,7 +30,7 @@ class ScheduleEditionAdapter(
         val dayNumber = visits[position].first
         val visit = visits[position].second
         itemView.day_number.text = dayNumber.toString()
-        itemView.client_name.text = visit.client.name
+        itemView.client_name_list.text = visit.client.name
         itemView.client_visit_time.text = visit.timeToVisit.toString()
             itemView.deleteVisitButton.setOnClickListener{
             onItemClickListener.onDeleteItem(position)
