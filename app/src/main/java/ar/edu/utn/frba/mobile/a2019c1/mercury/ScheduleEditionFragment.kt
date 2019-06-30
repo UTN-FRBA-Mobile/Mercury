@@ -99,30 +99,7 @@ class ScheduleEditionFragment : Fragment(), ScheduleEditionAdapter.OnItemClickLi
         })
 
     }
-
-    private fun isLocationEnabled(): Boolean {
-        var locationManager = activity!!.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        return locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager!!.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-    }
-
-    private fun checkGPSEnabled(): Boolean {
-        if (!isLocationEnabled())
-            showAlert()
-        return isLocationEnabled()
-    }
-
-    private fun showAlert() {
-        val dialog = AlertDialog.Builder(this.requireActivity())
-        dialog.setTitle("Enable Location")
-            .setMessage("Locations Settings is set to 'Off'.\nEnable Location to use this app")
-            .setPositiveButton("Location Settings") { paramDialogInterface, paramInt ->
-                val myIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-                startActivity(myIntent)
-            }
-            .setNegativeButton("Cancel") { paramDialogInterface, paramInt -> }
-        dialog.show()
-    }
-
+    
     private val PICK_CONTACT_REQUEST = 1  // The request code
     fun launchContactPicker(){
         Intent(Intent.ACTION_PICK, Uri.parse("content://contacts")).also { pickContactIntent ->
