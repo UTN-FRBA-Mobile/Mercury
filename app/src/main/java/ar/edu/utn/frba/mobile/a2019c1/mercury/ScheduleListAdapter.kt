@@ -77,6 +77,11 @@ class ScheduleListAdapter(
             )
 
             itemView.schedule_active.isChecked = schedule.isActive(LocalDateTime.now())
+            itemView.schedule_current_day.text = if (schedule.isActive(LocalDateTime.now())) {
+                context.getText(R.string.LIST_SCHEDULE__SCHEDULE_ACTIVE)
+            } else {
+                context.getText(R.string.LIST_SCHEDULE__SCHEDULE_INACTIVE)
+            }
 
             itemView.schedule_active.setOnClickListener {
                 if (itemView.schedule_active.isChecked) {
