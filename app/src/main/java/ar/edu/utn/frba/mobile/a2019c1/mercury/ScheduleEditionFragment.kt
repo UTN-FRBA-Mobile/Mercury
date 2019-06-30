@@ -1,14 +1,19 @@
 package ar.edu.utn.frba.mobile.a2019c1.mercury
 
+import android.Manifest
 import android.app.TimePickerDialog
+import android.content.Context
 import android.content.Intent
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +23,9 @@ import ar.edu.utn.frba.mobile.a2019c1.mercury.model.DaySchedule
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Schedule
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Visit
 import ar.edu.utn.frba.mobile.a2019c1.mercury.util.permissions.Permissions
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.widget.Autocomplete
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import kotlinx.android.synthetic.main.fragment_schedule_edition.*
 import kotlinx.android.synthetic.main.fragment_schedule_edition.view.*
 import java.time.LocalDateTime
@@ -29,6 +37,8 @@ class ScheduleEditionFragment : Fragment(), ScheduleEditionAdapter.OnItemClickLi
     private val scheduleListViewModel: ScheduleViewModel by activityViewModels()
     private val scheduleEditionViewModel: ScheduleEditionViewModel by activityViewModels()
     private val clientsPerDay: MutableList<Pair<Int,Visit>> = mutableListOf()
+    private val PLACE_PICKER_REQUEST = 2
+
     private lateinit var onEditionCompleted: () -> Unit
     private var scheduleOnEdition: Schedule? = null
 
@@ -71,12 +81,25 @@ class ScheduleEditionFragment : Fragment(), ScheduleEditionAdapter.OnItemClickLi
             adapter = scheduleEditionAdapter
         }
         pickAContact.setOnClickListener{
-            Permissions.checkPermissionsAndDo(this.activity!!, android.Manifest.permission.READ_CONTACTS) {
+            Permissions.checkPermissionsAndDo(this.activity!!, Manifest.permission.READ_CONTACTS) {
                 launchContactPicker()
             }
         }
         fab.setOnClickListener { saveSchedule() }
+
+        btPlacePicker.setOnClickListener(View.OnClickListener {
+            val fields = listOf(Place.Field.ID, Place.Field.NAME)
+            // Start the autocomplete intent.
+            val intent = Autocomplete.IntentBuilder(
+                AutocompleteActivityMode.FULLSCREEN, fields
+            )
+                .build(this.requireActivity())
+            activity?.startActivityForResult(intent, PLACE_PICKER_REQUEST)
+
+        })
+
     }
+    
     private val PICK_CONTACT_REQUEST = 1  // The request code
     fun launchContactPicker(){
         Intent(Intent.ACTION_PICK, Uri.parse("content://contacts")).also { pickContactIntent ->
@@ -179,5 +202,9 @@ class ScheduleEditionFragment : Fragment(), ScheduleEditionAdapter.OnItemClickLi
         client_name.setText(contactName)
         client_phone_number.setText(phoneNumber)
         client_location.setText(location)
+    }
+    fun processPlacePicked(data: Intent?) {
+        val place = Autocomplete.getPlaceFromIntent(data!!)
+        client_location.setText(place.name)
     }
 }

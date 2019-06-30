@@ -74,7 +74,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textSize="18dp"
-                    android:labelFor="@+id/client_location"
+                    android:labelFor="@+id/cliet_location"
                     android:text="@string/NEW_SCHEDULE__CLIENT_LOCATION_LABEL" />
 
                 <EditText
@@ -84,13 +84,17 @@
                     android:gravity="top"
                     android:inputType="textNoSuggestions" />
 
+                <Button
+                    android:id="@+id/btPlacePicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/NEW_SCHEDULE__SELECT_LOCATION" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18dp"
                     android:labelFor="@+id/client_visit_day"
                     android:text="@string/NEW_SCHEDULE__CLIENT_VISIT_DAY" />
-
                 <EditText
                     android:id="@+id/client_visit_day"
                     android:layout_width="match_parent"
