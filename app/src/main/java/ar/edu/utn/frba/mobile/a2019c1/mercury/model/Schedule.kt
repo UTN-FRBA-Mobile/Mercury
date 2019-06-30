@@ -15,9 +15,7 @@ class Schedule(var name: String) {
     }
 
     fun visitsOnDates(): List<VisitOnDate> {
-        return visits().flatMap { visit ->
-            visit.visitDates.map { date -> VisitOnDate(visit, date) }
-        }
+        return visits().flatMap { visit -> visit.getVisitsOnDates() }
     }
 
     fun nextVisitDates(dateToLookForwardFrom: LocalDate): List<VisitOnDate> {
