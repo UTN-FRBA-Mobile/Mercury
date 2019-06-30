@@ -6,22 +6,29 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 
-data class MyLocalDate(val dayOfMonth: Int, val month: Int, val year: Int)
+data class MyLocalDate(val year: Int, val month: Int, val dayOfMonth: Int) {
+
+    constructor(it: LocalDate) : this(it.year, it.monthValue, it.dayOfMonth)
+
+    fun toLocalDate() : LocalDate {
+        return LocalDate.of(year, month, dayOfMonth)
+    }
+}
 
 @IgnoreExtraProperties
 data class Visit(val client : Client, val timeToVisit: LocalTime, val visitDatesToPersist : MutableList<MyLocalDate> = mutableListOf()) {
 
     @Exclude
     fun getVisitsDates() : MutableList<LocalDate> {
-        return visitDatesToPersist.map { LocalDate.of(it.year, it.month, it.dayOfMonth) } .toMutableList()
+        return visitDatesToPersist.map { it.toLocalDate() } .toMutableList()
     }
 
     fun addVisitOnDate(date: LocalDate) {
-        visitDatesToPersist.add(MyLocalDate(date.dayOfMonth, date.monthValue, date.year))
+        visitDatesToPersist.add(MyLocalDate(date))
     }
 
     fun disableVisitDatesAfter(disableTime: LocalDateTime) {
-        visitDates.removeIf { it.atTime(timeToVisit).isAfter(disableTime) }
+        visitDatesToPersist.removeIf { it.toLocalDate().atTime(timeToVisit).isAfter(disableTime) }
     }
 
     fun nextVisitDate(date: LocalDate): LocalDate? {
@@ -50,7 +57,7 @@ data class Visit(val client : Client, val timeToVisit: LocalTime, val visitDates
             val year = map.get("year") as Long
             val month = map.get("month") as Long
             val dayOfMonth = map.get("dayOfMonth") as Long
-            return MyLocalDate(dayOfMonth.toInt(), month.toInt(), year.toInt())
+            return MyLocalDate(year.toInt(), month.toInt(), dayOfMonth.toInt())
         }
 
         private fun buildTimeToVisit(map: HashMap<String, Any>): LocalTime {
