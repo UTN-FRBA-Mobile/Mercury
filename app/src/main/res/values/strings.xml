@@ -3,8 +3,8 @@
     <string name="action_settings">Settings</string>
     <string name="NEW_SCHEDULE__ACTION_BAR_TITLE">Itinerario</string>
     <string name="NEW_SCHEDULE__SCHEDULE_NAME_LABEL">Nombre del itinerario</string>
-    <string name="NEW_SCHEDULE__CLIENT_NAME_LABEL">Nombre del cliente</string>
-    <string name="NEW_SCHEDULE__CLIENT_PHONE_NUMBER_LABEL">Número</string>
+    <string name="NEW_SCHEDULE__CLIENT_NAME_LABEL">Nombre</string>
+    <string name="NEW_SCHEDULE__CLIENT_PHONE_NUMBER_LABEL">Número de telefono</string>
     <string name="NEW_SCHEDULE__CLIENT_LOCATION_LABEL">Ubicación</string>
     <string name="NEW_SCHEDULE__CLIENT_VISIT_DAY">Día</string>
     <string name="NEW_SCHEDULE__CLIENT_VISIT_TIME">Horario de visita</string>
