@@ -11,11 +11,16 @@ class NotificationScheduler {
         notificationAnticipation: Long,
         title: String,
         message: String,
-        activity: Activity
+        activity: Activity,
+        scheduleId: String
     ) {
         val timeUntilVisit = Duration.between(today, eventDateTime)
         val timeUntilNotification = timeUntilVisit.minusMinutes(notificationAnticipation)
 
-        NotificationUtils().setNotification(timeUntilNotification.toMillis(), title, message, activity)
+        NotificationUtils().setNotification(timeUntilNotification.toMillis(), title, message, activity, scheduleId)
+    }
+
+    fun unscheduleNotification(scheduleId: String, activity: Activity) {
+        NotificationUtils().cancelAllNotifications(scheduleId, activity)
     }
 }

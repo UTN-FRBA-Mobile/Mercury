@@ -48,18 +48,18 @@ class ScheduleListAdapter(
 
         val today: LocalDateTime = LocalDateTime.now()
         schedule.nextVisitDates(today.toLocalDate()).forEach { visitOnDate ->
-            scheduleNotificationForVisit(visitOnDate, today, notificationAnticipationInMinutes)
+            scheduleNotificationForVisit(visitOnDate, today, notificationAnticipationInMinutes, schedule.objectId!!)
         }
     }
 
-    private fun scheduleNotificationForVisit(visitOnDate: VisitOnDate, today: LocalDateTime, notificationAnticipation: Long) {
+    private fun scheduleNotificationForVisit(visitOnDate: VisitOnDate, today: LocalDateTime, notificationAnticipation: Long, scheduleId: String) {
         val visit = visitOnDate.visit
         val visitTime = visit.timeToVisit
         val visitDateTime: LocalDateTime = visitOnDate.date.atTime(visitTime)
         val title = "Reunión con ${visit.client.name}"
         val message = "Tenés una reunión a las ${visitTime}hs"
 
-        NotificationScheduler().scheduleNotificationWithAnticipation(visitDateTime, today, notificationAnticipation, title, message, activity)
+        NotificationScheduler().scheduleNotificationWithAnticipation(visitDateTime, today, notificationAnticipation, title, message, activity, scheduleId)
     }
 
     inner class ScheduleListItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -144,7 +144,7 @@ class ScheduleListAdapter(
             val rightNow = LocalDateTime.now()
             schedule.disable(rightNow)
             Database.update(schedule)
-            //TODO disable notifications
+            NotificationScheduler().unscheduleNotification(schedule.objectId!!, activity)
         }
 
         private fun setScheduleActiveIsChecked(isChecked: Boolean) {
