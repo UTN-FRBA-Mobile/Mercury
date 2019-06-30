@@ -2,18 +2,14 @@ package ar.edu.utn.frba.mobile.a2019c1.mercury
 
 import android.Manifest
 import android.app.TimePickerDialog
-import android.content.Context
 import android.content.Intent
-import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
-import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -37,6 +33,7 @@ class ScheduleEditionFragment : Fragment(), ScheduleEditionAdapter.OnItemClickLi
     private val scheduleListViewModel: ScheduleViewModel by activityViewModels()
     private val scheduleEditionViewModel: ScheduleEditionViewModel by activityViewModels()
     private val clientsPerDay: MutableList<Pair<Int,Visit>> = mutableListOf()
+    private val PICK_CONTACT_REQUEST = 1
     private val PLACE_PICKER_REQUEST = 2
 
     private lateinit var onEditionCompleted: () -> Unit
@@ -75,7 +72,7 @@ class ScheduleEditionFragment : Fragment(), ScheduleEditionAdapter.OnItemClickLi
 
         val visits = clientsPerDay
 
-        val scheduleEditionAdapter = ScheduleEditionAdapter(visits, context!!,this)
+        val scheduleEditionAdapter = ScheduleEditionAdapter(visits, this)
 
         with(view.visit_list as RecyclerView) {
             layoutManager = LinearLayoutManager(context)
@@ -89,25 +86,21 @@ class ScheduleEditionFragment : Fragment(), ScheduleEditionAdapter.OnItemClickLi
         fab.setOnClickListener { saveSchedule() }
         addClient.setOnClickListener { showClientForm() }
 
-        btPlacePicker.setOnClickListener(View.OnClickListener {
+        btPlacePicker.setOnClickListener {
             val fields = listOf(Place.Field.ID, Place.Field.NAME)
             // Start the autocomplete intent.
             val intent = Autocomplete.IntentBuilder(
                 AutocompleteActivityMode.FULLSCREEN, fields
-            )
-                .build(this.requireActivity())
+            ).build(this.requireActivity())
             activity?.startActivityForResult(intent, PLACE_PICKER_REQUEST)
-
-        })
-
+        }
     }
 
     private fun showClientForm() {
         new_client_form.visibility = View.VISIBLE
         clients.visibility = View.GONE
     }
-
-    private val PICK_CONTACT_REQUEST = 1  // The request code
+    
     fun launchContactPicker(){
         Intent(Intent.ACTION_PICK, Uri.parse("content://contacts")).also { pickContactIntent ->
             pickContactIntent.type = ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE // Show user only contacts w/ phone numbers
@@ -212,6 +205,7 @@ class ScheduleEditionFragment : Fragment(), ScheduleEditionAdapter.OnItemClickLi
         client_phone_number.setText(phoneNumber)
         client_location.setText(location)
     }
+
     fun processPlacePicked(data: Intent?) {
         val place = Autocomplete.getPlaceFromIntent(data!!)
         client_location.setText(place.name)

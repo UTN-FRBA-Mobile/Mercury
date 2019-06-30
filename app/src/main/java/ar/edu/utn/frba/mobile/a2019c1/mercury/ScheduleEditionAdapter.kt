@@ -1,6 +1,5 @@
 package ar.edu.utn.frba.mobile.a2019c1.mercury
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,9 +8,8 @@ import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Visit
 import kotlinx.android.synthetic.main.visit_item_view.view.*
 
 class ScheduleEditionAdapter(
-    private val visits: MutableList<Pair<Int,Visit>>,
-    private val context: Context,
-    private val onItemClickListener : OnItemClickListener
+    private val visits: MutableList<Pair<Int, Visit>>,
+    private val onItemClickListener: OnItemClickListener
 ) : RecyclerView.Adapter<ScheduleEditionAdapter.ViewHolder>() {
 
     interface OnItemClickListener{
