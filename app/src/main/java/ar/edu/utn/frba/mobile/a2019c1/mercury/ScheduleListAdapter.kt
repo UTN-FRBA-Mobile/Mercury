@@ -76,6 +76,8 @@ class ScheduleListAdapter(
                 scheduleDuration
             )
 
+            itemView.schedule_active.isChecked = schedule.isActive(LocalDateTime.now())
+
             itemView.schedule_active.setOnClickListener {
                 if (itemView.schedule_active.isChecked) {
                     selectScheduleStartDate(schedule)
@@ -141,6 +143,7 @@ class ScheduleListAdapter(
         private fun disableSchedule(schedule: Schedule) {
             val rightNow = LocalDateTime.now()
             schedule.disable(rightNow)
+            Database.update(schedule)
             //TODO disable notifications
         }
 

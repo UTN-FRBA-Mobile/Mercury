@@ -58,6 +58,10 @@ class Schedule(var name: String) {
         return "Schedule(name=$name, clients=${visits().map{it.client.name}})"
     }
 
+    fun isActive(date : LocalDateTime): Boolean {
+        return visitsOnDates().any { it.isAfter(date) }
+    }
+
     companion object {
         fun buildFromDatabase(map: HashMap<String, Any>): Schedule {
             val name = map.get("name") as String
