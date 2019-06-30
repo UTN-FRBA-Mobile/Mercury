@@ -103,7 +103,7 @@ class ScheduleEditionFragment : Fragment(), ScheduleEditionAdapter.OnItemClickLi
     }
 
     private fun showClientForm() {
-        card_view.visibility = View.VISIBLE
+        new_client_form.visibility = View.VISIBLE
         clients.visibility = View.GONE
     }
 
