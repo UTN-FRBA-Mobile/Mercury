@@ -10,12 +10,12 @@
         tools:context=".ScheduleEditionFragment">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:labelFor="@+id/schedule_name"
-            android:textStyle="bold"
             android:text="@string/NEW_SCHEDULE__SCHEDULE_NAME_LABEL"
-            android:textSize="20dp" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/schedule_name"
@@ -39,7 +39,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     android:labelFor="@+id/client_name"
                     android:text="@string/NEW_SCHEDULE__CLIENT_NAME_LABEL" />
 
@@ -53,7 +53,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     android:labelFor="@+id/client_phone_number"
                     android:text="@string/NEW_SCHEDULE__CLIENT_PHONE_NUMBER_LABEL" />
 
@@ -73,7 +73,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     android:labelFor="@+id/cliet_location"
                     android:text="@string/NEW_SCHEDULE__CLIENT_LOCATION_LABEL" />
 
@@ -92,7 +92,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     android:labelFor="@+id/client_visit_day"
                     android:text="@string/NEW_SCHEDULE__CLIENT_VISIT_DAY" />
                 <EditText
@@ -106,7 +106,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     android:labelFor="@+id/client_visit_time"
                     android:text="@string/NEW_SCHEDULE__CLIENT_VISIT_TIME" />
 
@@ -114,7 +114,7 @@
                     android:id="@+id/client_visit_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="45dp"
+                    android:textSize="45sp"
                     android:gravity="top"
                     android:textStyle="bold"
                     tools:text="00:00" />
