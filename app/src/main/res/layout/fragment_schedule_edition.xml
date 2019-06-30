@@ -1,147 +1,171 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+
         tools:context=".ScheduleEditionFragment">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:labelFor="@+id/schedule_name"
-            android:textStyle="bold"
-            android:text="@string/NEW_SCHEDULE__SCHEDULE_NAME_LABEL"
-            android:textSize="20dp" />
 
-        <EditText
-            android:id="@+id/schedule_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="top"
-            android:inputType="textNoSuggestions" />
 
-        <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/card_view"
+        <LinearLayout
+            android:id="@+id/clients"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            card_view:cardCornerRadius="4dp">
+            android:layout_height="match_parent">
+
+            <EditText
+                android:id="@+id/schedule_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:hint="@string/NEW_SCHEDULE__SCHEDULE_NAME_LABEL"
+                android:inputType="textNoSuggestions" />
+            <TextView
+                android:id="@+id/client_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Clientes"
+                android:textStyle="bold"
+                android:textSize="20dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/visit_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:layoutManager="LinearLayoutManager" />
+
+            <Button
+                android:id="@+id/addClient"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="AGREGAR" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="@dimen/fab_margin"
+                app:backgroundTint="@color/colorPrimaryDark"
+                android:tintMode="multiply"
+                app:borderWidth="0dp"
+                android:tint="@color/colorPrimary"
+                android:src="@android:drawable/ic_menu_save" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/new_client_form"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/new_client_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nuevo Cliente"
+                android:textStyle="bold"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/client_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:hint="@string/NEW_SCHEDULE__CLIENT_NAME_LABEL"
+                android:inputType="textNoSuggestions" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="5dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textSize="18dp"
-                    android:labelFor="@+id/client_name"
-                    android:text="@string/NEW_SCHEDULE__CLIENT_NAME_LABEL" />
-
-                <EditText
-                    android:id="@+id/client_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="top"
-                    android:inputType="textNoSuggestions" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textSize="18dp"
-                    android:labelFor="@+id/client_phone_number"
-                    android:text="@string/NEW_SCHEDULE__CLIENT_PHONE_NUMBER_LABEL" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <EditText
                     android:id="@+id/client_phone_number"
-                    android:layout_width="match_parent"
+                    android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:gravity="top"
+                    android:hint="@string/NEW_SCHEDULE__CLIENT_PHONE_NUMBER_LABEL"
                     android:inputType="phone" />
 
-                <Button
+                <ImageView
                     android:id="@+id/pickAContact"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/NEW_SCHEDULE__ADD_CLIENT_FROM_CONTACTS" />
+                    style="@style/schedule_list_button"
+                    android:tint="@color/colorPrimaryDark"
+                    android:src="@android:drawable/ic_search_category_default" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textSize="18dp"
-                    android:labelFor="@+id/cliet_location"
-                    android:text="@string/NEW_SCHEDULE__CLIENT_LOCATION_LABEL" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <EditText
                     android:id="@+id/client_location"
-                    android:layout_width="match_parent"
+                    android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:gravity="top"
+                    android:hint="@string/NEW_SCHEDULE__CLIENT_LOCATION_LABEL"
                     android:inputType="textNoSuggestions" />
 
-                <Button
+                <ImageView
                     android:id="@+id/btPlacePicker"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/NEW_SCHEDULE__SELECT_LOCATION" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="18dp"
-                    android:labelFor="@+id/client_visit_day"
-                    android:text="@string/NEW_SCHEDULE__CLIENT_VISIT_DAY" />
+                    style="@style/schedule_list_button"
+                    android:tint="@color/colorPrimaryDark"
+                    android:src="@android:drawable/ic_dialog_map" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
                 <EditText
                     android:id="@+id/client_visit_day"
-                    android:layout_width="match_parent"
+                    android:layout_width="35dp"
                     android:layout_height="wrap_content"
                     android:digits="0123456789"
                     android:gravity="top"
+                    android:maxLength="2"
+                    android:hint="@string/NEW_SCHEDULE__CLIENT_VISIT_DAY"
                     android:inputType="numberSigned" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="18dp"
-                    android:labelFor="@+id/client_visit_time"
-                    android:text="@string/NEW_SCHEDULE__CLIENT_VISIT_TIME" />
 
                 <TextView
                     android:id="@+id/client_visit_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="45dp"
+                    android:textSize="25sp"
                     android:gravity="top"
-                    android:textStyle="bold"
                     tools:text="00:00" />
-
-                <Button
-                    android:id="@+id/addClientToScheduleButton"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/NEW_SCHEDULE__ADD_CLIENT" />
-
+                    android:textSize="25sp"
+                    android:text="Hs" />
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
+            <Button
+                android:id="@+id/addClientToScheduleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/NEW_SCHEDULE__ADD_CLIENT" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/visit_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:layoutManager="LinearLayoutManager" />
+        </LinearLayout>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
-            android:src="@android:drawable/checkbox_on_background" />
+
 
     </LinearLayout>
 </ScrollView>

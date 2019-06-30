@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_margin="10dp"
+        style="@style/card_text"
         tools:text="00:00hs" />
 
     <TextView
@@ -19,6 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/client_visit_time"
         android:layout_margin="10dp"
+        style="@style/card_text"
         tools:text="Juan Pérez" />
 
     <ImageView
@@ -29,6 +31,7 @@
 
     <ImageView
         android:id="@+id/send_sms_message"
+        android:layout_marginRight="5dp"
         style="@style/schedule_list_button"
         android:layout_alignParentEnd="true"
         android:src="@drawable/ic_sms" />

@@ -70,6 +70,7 @@ class ScheduleEditionFragment : Fragment(), ScheduleEditionAdapter.OnItemClickLi
             TimePickerDialog(context,timeSetListener,time.hour,time.minute,true).show()
         }
 
+
         addClientToScheduleButton.setOnClickListener { addClientToSchedule() }
 
         val visits = clientsPerDay
@@ -86,6 +87,7 @@ class ScheduleEditionFragment : Fragment(), ScheduleEditionAdapter.OnItemClickLi
             }
         }
         fab.setOnClickListener { saveSchedule() }
+        addClient.setOnClickListener { showClientForm() }
 
         btPlacePicker.setOnClickListener(View.OnClickListener {
             val fields = listOf(Place.Field.ID, Place.Field.NAME)
@@ -99,7 +101,12 @@ class ScheduleEditionFragment : Fragment(), ScheduleEditionAdapter.OnItemClickLi
         })
 
     }
-    
+
+    private fun showClientForm() {
+        new_client_form.visibility = View.VISIBLE
+        clients.visibility = View.GONE
+    }
+
     private val PICK_CONTACT_REQUEST = 1  // The request code
     fun launchContactPicker(){
         Intent(Intent.ACTION_PICK, Uri.parse("content://contacts")).also { pickContactIntent ->
@@ -140,6 +147,8 @@ class ScheduleEditionFragment : Fragment(), ScheduleEditionAdapter.OnItemClickLi
 
         clearNewClientFields()
         updateAdapter()
+        new_client_form.visibility = View.GONE
+        clients.visibility = View.VISIBLE
     }
 
     private fun validateClientDataIsNotEmpty(): Boolean {
