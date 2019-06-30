@@ -147,6 +147,8 @@ class ScheduleEditionFragment : Fragment(), ScheduleEditionAdapter.OnItemClickLi
 
         clearNewClientFields()
         updateAdapter()
+        new_client_form.visibility = View.GONE
+        clients.visibility = View.VISIBLE
     }
 
     private fun validateClientDataIsNotEmpty(): Boolean {

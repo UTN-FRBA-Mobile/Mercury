@@ -14,13 +14,6 @@
 
         tools:context=".ScheduleEditionFragment">
 
-        <EditText
-            android:id="@+id/schedule_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="top"
-            android:hint="@string/NEW_SCHEDULE__SCHEDULE_NAME_LABEL"
-            android:inputType="textNoSuggestions" />
 
 
         <LinearLayout
@@ -28,6 +21,14 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/schedule_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:hint="@string/NEW_SCHEDULE__SCHEDULE_NAME_LABEL"
+                android:inputType="textNoSuggestions" />
             <TextView
                 android:id="@+id/client_title"
                 android:layout_width="match_parent"
@@ -47,6 +48,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="AGREGAR" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="@dimen/fab_margin"
+                android:src="@android:drawable/checkbox_on_background" />
         </LinearLayout>
 
 
@@ -54,7 +63,6 @@
             android:id="@+id/new_client_form"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="30dp"
             android:visibility="gone"
             android:orientation="vertical">
 
@@ -153,13 +161,6 @@
         </LinearLayout>
 
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
-            android:src="@android:drawable/checkbox_on_background" />
 
     </LinearLayout>
 </ScrollView>
