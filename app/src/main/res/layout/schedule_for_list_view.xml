@@ -12,8 +12,9 @@
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
         android:padding="4dp"
-        card_view:cardBackgroundColor="@color/cardGray"
+        card_view:cardBackgroundColor="@color/cardBackground"
         card_view:cardCornerRadius="10dp"
+
 
         >
 
@@ -23,6 +24,7 @@
 
             <TextView
                 android:id="@+id/schedule_name"
+                style="@style/card_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -39,23 +41,27 @@
 
             <TextView
                 android:id="@+id/schedule_duration"
+                style="@style/card_text"
+                android:textStyle="italic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/schedule_name"
-                android:layout_alignStart="@id/schedule_name" />
+                android:layout_toEndOf="@id/schedule_name"
+                android:layout_alignBaseline="@id/schedule_name"
+                android:layout_alignBottom="@id/schedule_name"
+               />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/schedule_duration"
-                android:layout_alignStart="@id/schedule_duration"
+                android:layout_below="@id/schedule_name"
+                android:layout_alignStart="@id/schedule_name"
                 android:gravity="center">
 
                 <TextView
                     android:id="@+id/schedule_current_day"
+                    style="@style/card_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
                     android:layout_weight="1"
                     android:text="Inactivo" />
 
