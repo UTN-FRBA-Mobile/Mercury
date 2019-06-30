@@ -6,10 +6,10 @@
     <string name="NEW_SCHEDULE__CLIENT_NAME_LABEL">Nombre del cliente</string>
     <string name="NEW_SCHEDULE__CLIENT_PHONE_NUMBER_LABEL">Número</string>
     <string name="NEW_SCHEDULE__CLIENT_LOCATION_LABEL">Ubicación</string>
-    <string name="NEW_SCHEDULE__CLIENT_VISIT_DAY">Día de visita</string>
+    <string name="NEW_SCHEDULE__CLIENT_VISIT_DAY">Día</string>
     <string name="NEW_SCHEDULE__CLIENT_VISIT_TIME">Horario de visita</string>
     <string name="NEW_SCHEDULE__ADD_CLIENT">Agregar</string>
-    <string name="NEW_SCHEDULE__ADD_CLIENT_FROM_CONTACTS">Agregar desde contactos</string>
+    <string name="NEW_SCHEDULE__ADD_CLIENT_FROM_CONTACTS">Desde contactos</string>
     <string name="NEW_SCHEDULE__SELECT_LOCATION">Seleccionar Ubicación</string>
 
     <string name="NEW_SCHEDULE__DELETE_VISIT">Borrar</string>
