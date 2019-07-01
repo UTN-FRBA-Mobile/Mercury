@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import ar.edu.utn.frba.mobile.a2019c1.mercury.db.Database
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Schedule
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.VisitOnDate
-import ar.edu.utn.frba.mobile.a2019c1.mercury.services.ScheduleService
 import ar.edu.utn.frba.mobile.a2019c1.mercury.util.notifications.NotificationScheduler
 import kotlinx.android.synthetic.main.schedule_for_list_view.view.*
 import java.time.LocalDate
@@ -28,7 +27,6 @@ class ScheduleListAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScheduleListItemViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.schedule_for_list_view, parent, false)
-        ScheduleService(context).getSchedules()
         return ScheduleListItemViewHolder(view)
     }
 
