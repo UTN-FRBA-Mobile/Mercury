@@ -9,11 +9,11 @@ import com.android.volley.toolbox.Volley
 open class HTTPService(val context: Context, private val baseURl: String) {
     val queue = Volley.newRequestQueue(context)
 
-    private fun request(method: Int, resource: String, callback: Response.Listener<String>) {
-        val request = StringRequest(method, "$baseURl/$resource", callback, Response.ErrorListener {  } )
+    private fun request(method: Int, resource: String, callback: (String?) -> Unit) {
+        val request = StringRequest(method, "$baseURl/$resource", Response.Listener(callback), Response.ErrorListener {  } )
         queue.add(request)
     }
-    fun get(resource: String, callback: Response.Listener<String>) {
+    fun get(resource: String, callback: (String?) -> Unit) {
         request(Request.Method.GET, resource, callback)
     }
 }
