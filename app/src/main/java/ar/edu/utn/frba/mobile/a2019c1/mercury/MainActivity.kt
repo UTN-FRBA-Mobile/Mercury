@@ -8,10 +8,12 @@ import android.database.Cursor
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.view.Menu
+import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Schedule
+import ar.edu.utn.frba.mobile.a2019c1.mercury.services.ScheduleService
 import ar.edu.utn.frba.mobile.a2019c1.mercury.util.permissions.Permissions
 import com.google.android.libraries.places.api.Places
 import kotlinx.android.synthetic.main.activity_main.*
@@ -49,6 +51,11 @@ class MainActivity : AppCompatActivity() {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        ScheduleService(this).getSchedules()
+        return super.onOptionsItemSelected(item)
     }
 
     fun setActionBarTitle(title: String) {
