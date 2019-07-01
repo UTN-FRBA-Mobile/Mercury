@@ -2,4 +2,9 @@
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="ar.edu.utn.frba.mobile.a2019c1.mercury.MainActivity">
+    <item android:id="@+id/import_schedules"
+          android:title="@string/import_schedules"
+          android:orderInCategory="100"
+          app:showAsAction="never"
+    />
 </menu>
