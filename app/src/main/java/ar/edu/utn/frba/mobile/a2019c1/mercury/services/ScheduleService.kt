@@ -8,9 +8,7 @@ class ScheduleService(context: Context) : HTTPService(context, "https://mercury-
 
     fun getSchedules() {
         get("schedules", {
-            var scheduleMap = Gson().fromJson(it, HashMap::class.java)
-            scheduleMap.map {  }
-            scheduleMap.size
+            val schedule = Gson().fromJson(it, Schedule::class.java)
         })
     }
 }
