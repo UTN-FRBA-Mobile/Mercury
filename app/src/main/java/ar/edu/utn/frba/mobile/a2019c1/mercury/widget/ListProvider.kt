@@ -14,14 +14,16 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Client
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Visit
+import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
 
 class ListProvider(val context: Context, intent: Intent): RemoteViewsService.RemoteViewsFactory {
     private val appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
-    private var visits: List<Visit> = listOf(Visit(Client("Test", "123", "lugar"), LocalTime.now()))
+    private var visits: MutableList<Visit> = mutableListOf(Visit(Client("Test", "123", "lugar"), LocalTime.now()))
 
     private fun initializeData() {
-        schedules.clear()
+        visits.clear()
         Database.db.addValueEventListener(scheduleListener)
     }
     private var scheduleListener: ValueEventListener = object : ValueEventListener {
