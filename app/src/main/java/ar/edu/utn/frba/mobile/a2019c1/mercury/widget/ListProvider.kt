@@ -27,8 +27,9 @@ class ListProvider(val context: Context, intent: Intent): RemoteViewsService.Rem
     private var scheduleListener: ValueEventListener = object : ValueEventListener {
         override fun onDataChange(dataSnapshot: DataSnapshot) {
             val data = DataSnapshotAdapter().toHashMapList(dataSnapshot)
-            val thing = data.map { Schedule.buildFromDatabase(it) } .toMutableList()
-            thing.forEach { schedules.add(it) }
+            val schedules = data.map { Schedule.buildFromDatabase(it) } .toMutableList()
+            val firebaseVisits = schedules.find { it.isActive(LocalDateTime.now()) }!!.nextVisitDates(LocalDate.now()).map { it.visit }
+            firebaseVisits.forEach { visits.add(it) }
         }
         override fun onCancelled(databaseError: DatabaseError) {}
     }
