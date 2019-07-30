@@ -12,10 +12,13 @@ import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Schedule
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Client
+import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Visit
+import java.time.LocalTime
 
 class ListProvider(val context: Context, intent: Intent): RemoteViewsService.RemoteViewsFactory {
     private val appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
-    private var schedules: MutableList<Schedule> = mutableListOf()
+    private var visits: List<Visit> = listOf(Visit(Client("Test", "123", "lugar"), LocalTime.now()))
 
     private fun initializeData() {
         schedules.clear()
@@ -40,13 +43,14 @@ class ListProvider(val context: Context, intent: Intent): RemoteViewsService.Rem
     }
 
     override fun getCount(): Int {
-        return schedules.size
+        return visits.size
     }
 
     override fun getViewAt(position: Int): RemoteViews {
-        val remoteView = RemoteViews(context.packageName, R.layout.widget_schedule)
-        val schedule = schedules.get(position)
-        remoteView.setTextViewText(R.id.schedule_name, schedule.name)
+        val remoteView = RemoteViews(context.packageName, R.layout.widget_visit)
+        val visit = visits.get(position)
+        remoteView.setTextViewText(R.id.client_name, visit.client.name)
+        remoteView.setTextViewText(R.id.client_visit_time, visit.timeToVisit.toString())
         return remoteView
     }
 
