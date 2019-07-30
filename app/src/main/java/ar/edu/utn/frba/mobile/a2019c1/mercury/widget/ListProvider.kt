@@ -6,11 +6,14 @@ import android.content.Intent
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import ar.edu.utn.frba.mobile.a2019c1.mercury.R
+import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Client
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Schedule
+import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Visit
+import java.time.LocalTime
 
 class ListProvider(val context: Context, intent: Intent): RemoteViewsService.RemoteViewsFactory {
     private val appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
-    private var schedules: List<Schedule> = listOf(Schedule("Test"))
+    private var visits: List<Visit> = listOf(Visit(Client("Test", "123", "lugar"), LocalTime.now()))
 
     override fun onCreate() {
 
@@ -22,13 +25,14 @@ class ListProvider(val context: Context, intent: Intent): RemoteViewsService.Rem
     }
 
     override fun getCount(): Int {
-        return schedules.size
+        return visits.size
     }
 
     override fun getViewAt(position: Int): RemoteViews {
-        val remoteView = RemoteViews(context.packageName, R.layout.widget_schedule)
-        val schedule = schedules.get(position)
-        remoteView.setTextViewText(R.id.schedule_name, schedule.name)
+        val remoteView = RemoteViews(context.packageName, R.layout.widget_visit)
+        val visit = visits.get(position)
+        remoteView.setTextViewText(R.id.client_name, visit.client.name)
+        remoteView.setTextViewText(R.id.client_visit_time, visit.timeToVisit.toString())
         return remoteView
     }
 
