@@ -14,30 +14,17 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Client
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Visit
+import ar.edu.utn.frba.mobile.a2019c1.mercury.services.VisitsService
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 
 class ListProvider(val context: Context, intent: Intent): RemoteViewsService.RemoteViewsFactory {
     private val appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
-    private var visits: MutableList<Visit> = mutableListOf(Visit(Client("Test", "123", "lugar"), LocalTime.now()))
-
-    private fun initializeData() {
-        visits.clear()
-        Database.db.addValueEventListener(scheduleListener)
-    }
-    private var scheduleListener: ValueEventListener = object : ValueEventListener {
-        override fun onDataChange(dataSnapshot: DataSnapshot) {
-            val data = DataSnapshotAdapter().toHashMapList(dataSnapshot)
-            val schedules = data.map { Schedule.buildFromDatabase(it) } .toMutableList()
-            val firebaseVisits = schedules.find { it.isActive(LocalDateTime.now()) }!!.nextVisitDates(LocalDate.now()).map { it.visit }
-            firebaseVisits.forEach { visits.add(it) }
-        }
-        override fun onCancelled(databaseError: DatabaseError) {}
-    }
+    private var visits: MutableList<Visit> = VisitsService.visits
 
     override fun onCreate() {
-       //initializeData()
+        visits = VisitsService.visits
     }
 
     override fun onDestroy() {
@@ -76,7 +63,7 @@ class ListProvider(val context: Context, intent: Intent): RemoteViewsService.Rem
     }
 
     override fun onDataSetChanged() {
-        initializeData()
+        visits = VisitsService.visits
         // This is triggered when you call AppWidgetManager notifyAppWidgetViewDataChanged
         // on the collection view corresponding to this factory. You can do heaving lifting in
         // here, synchronously. For example, if you need to process an image, fetch something
