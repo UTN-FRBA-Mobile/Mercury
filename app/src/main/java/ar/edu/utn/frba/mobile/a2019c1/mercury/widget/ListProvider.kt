@@ -6,14 +6,32 @@ import android.content.Intent
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import ar.edu.utn.frba.mobile.a2019c1.mercury.R
+import ar.edu.utn.frba.mobile.a2019c1.mercury.db.DataSnapshotAdapter
+import ar.edu.utn.frba.mobile.a2019c1.mercury.db.Database
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Schedule
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 
 class ListProvider(val context: Context, intent: Intent): RemoteViewsService.RemoteViewsFactory {
     private val appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
-    private var schedules: List<Schedule> = listOf(Schedule("Test"))
+    private var schedules: MutableList<Schedule> = mutableListOf()
+
+    private fun initializeData() {
+        schedules.clear()
+        Database.db.addValueEventListener(scheduleListener)
+    }
+    private var scheduleListener: ValueEventListener = object : ValueEventListener {
+        override fun onDataChange(dataSnapshot: DataSnapshot) {
+            val data = DataSnapshotAdapter().toHashMapList(dataSnapshot)
+            val thing = data.map { Schedule.buildFromDatabase(it) } .toMutableList()
+            thing.forEach { schedules.add(it) }
+        }
+        override fun onCancelled(databaseError: DatabaseError) {}
+    }
 
     override fun onCreate() {
-
+       //initializeData()
     }
 
     override fun onDestroy() {
@@ -51,6 +69,7 @@ class ListProvider(val context: Context, intent: Intent): RemoteViewsService.Rem
     }
 
     override fun onDataSetChanged() {
+        initializeData()
         // This is triggered when you call AppWidgetManager notifyAppWidgetViewDataChanged
         // on the collection view corresponding to this factory. You can do heaving lifting in
         // here, synchronously. For example, if you need to process an image, fetch something

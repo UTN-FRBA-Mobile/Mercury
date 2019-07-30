@@ -9,6 +9,7 @@ import android.widget.RemoteViews
 import ar.edu.utn.frba.mobile.a2019c1.mercury.R
 
 class WidgetProvider : AppWidgetProvider() {
+
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         appWidgetIds.forEach {
             val remoteViews = updateWidgetListView(context, it)
@@ -21,9 +22,7 @@ class WidgetProvider : AppWidgetProvider() {
     private fun updateWidgetListView(context: Context, appWidgetId: Int): RemoteViews {
 
         //which layout to show on widget
-        val remoteViews = RemoteViews(
-            context.packageName, R.layout.widget
-        )
+        val remoteViews = RemoteViews(context.packageName, R.layout.widget)
 
         //RemoteViews Service needed to provide adapter for ListView
         val svcIntent = Intent(context, WidgetService::class.java)
