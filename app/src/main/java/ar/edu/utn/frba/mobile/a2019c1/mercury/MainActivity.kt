@@ -12,11 +12,19 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import ar.edu.utn.frba.mobile.a2019c1.mercury.db.DataSnapshotAdapter
+import ar.edu.utn.frba.mobile.a2019c1.mercury.db.Database
 import ar.edu.utn.frba.mobile.a2019c1.mercury.model.Schedule
 import ar.edu.utn.frba.mobile.a2019c1.mercury.services.ScheduleService
+import ar.edu.utn.frba.mobile.a2019c1.mercury.services.VisitsService
 import ar.edu.utn.frba.mobile.a2019c1.mercury.util.permissions.Permissions
 import com.google.android.libraries.places.api.Places
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_main.*
+import java.time.LocalDate
+import java.time.LocalDateTime
 
 class MainActivity : AppCompatActivity() {
 
@@ -45,6 +53,7 @@ class MainActivity : AppCompatActivity() {
         val bundle = ai.metaData
         val myApiKey: String = bundle.getString("com.google.android.geo.API_KEY")!!
         Places.initialize(applicationContext, myApiKey)
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
