@@ -40,12 +40,10 @@ class ListProvider(val context: Context, intent: Intent): RemoteViewsService.Rem
 
     override fun onCreate() {
         Database.db.addValueEventListener(scheduleListener)
-      //  visits = VisitsService.visits
     }
 
     override fun onDestroy() {
-        // In onDestroy() you should tear down anything that was setup for your data source,
-        // eg. cursors, connections, etc.
+
     }
 
     override fun getCount(): Int {
@@ -63,8 +61,7 @@ class ListProvider(val context: Context, intent: Intent): RemoteViewsService.Rem
     }
 
     override fun getLoadingView(): RemoteViews? {
-        // You can create a custom loading view (for instance when getViewAt() is slow.) If you
-        // return null here, you will get the default loading view.
+
         return null
     }
 
@@ -82,12 +79,6 @@ class ListProvider(val context: Context, intent: Intent): RemoteViewsService.Rem
 
     override fun onDataSetChanged() {
         Database.db.addValueEventListener(scheduleListener)
-        //visits = VisitsService.visits
-        // This is triggered when you call AppWidgetManager notifyAppWidgetViewDataChanged
-        // on the collection view corresponding to this factory. You can do heaving lifting in
-        // here, synchronously. For example, if you need to process an image, fetch something
-        // from the network, etc., it is ok to do it here, synchronously. The widget will remain
-        // in its current state while work is being done here, so you don't need to worry about
-        // locking up the widget.
+
     }
 }
