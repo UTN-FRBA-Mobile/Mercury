@@ -38,20 +38,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var onPlacePicked: (Intent?) -> Unit
 
-    private var scheduleListener: ValueEventListener = object : ValueEventListener {
-        override fun onDataChange(dataSnapshot: DataSnapshot) {
-            val data = DataSnapshotAdapter().toHashMapList(dataSnapshot)
-            val schedules = data.map { Schedule.buildFromDatabase(it) } .toMutableList()
-            val visits = schedules.filter { it.isActive(LocalDateTime.now()) }.flatMap { it.nextVisitDates(LocalDate.now()) }
-            val visitsToShow = visits.filter { it.isFromDay(LocalDate.now()) }
-                .ifEmpty { visits.filter { it.isFromDay(LocalDate.now().plusDays(1)) } }
-                .filter { it.isAfter(LocalDateTime.now()) }
-            VisitsService.visits.clear()
-            VisitsService.visits.addAll(visitsToShow)
-        }
-        override fun onCancelled(databaseError: DatabaseError) {}
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -67,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         val bundle = ai.metaData
         val myApiKey: String = bundle.getString("com.google.android.geo.API_KEY")!!
         Places.initialize(applicationContext, myApiKey)
-        Database.db.addValueEventListener(scheduleListener)
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
