@@ -7,10 +7,18 @@
     android:id="@+id/widget">
 
     <!-- ListView to be shown on widget -->
+    <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/widget_title"
+            android:text="@string/NEXT_VISITS"
+            android:layout_margin="10dp" />
     <ListView
         android:id="@+id/listViewWidget"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+    />
 
     <!-- Empty view is show if list items are empty -->
     <TextView
@@ -19,6 +27,6 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:visibility="gone"
-        android:text="@string/SCHEDULE_DETAILS__EMPTY_SCHEDULES" />
+        android:text="@string/WIDGET__EMPTY_VISITS" />
 
 </LinearLayout>
