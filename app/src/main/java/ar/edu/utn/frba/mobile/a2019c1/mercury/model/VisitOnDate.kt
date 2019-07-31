@@ -9,6 +9,6 @@ data class VisitOnDate(val visit: Visit, val date: LocalDate) {
     }
 
     fun isFromDay(date : LocalDate) : Boolean {
-        return date.dayOfMonth.equals(this.date.dayOfMonth) and date.monthValue.equals(this.date.monthValue) and date.year.equals(this.date.year)
+        return (date.dayOfMonth == this.date.dayOfMonth) and (date.monthValue == this.date.monthValue) and (date.year == this.date.year)
     }
 }

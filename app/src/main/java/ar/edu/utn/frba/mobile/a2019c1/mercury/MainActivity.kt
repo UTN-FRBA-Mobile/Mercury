@@ -43,8 +43,11 @@ class MainActivity : AppCompatActivity() {
             val data = DataSnapshotAdapter().toHashMapList(dataSnapshot)
             val schedules = data.map { Schedule.buildFromDatabase(it) } .toMutableList()
             val visits = schedules.filter { it.isActive(LocalDateTime.now()) }.flatMap { it.nextVisitDates(LocalDate.now()) }
+            val visitsToShow = visits.filter { it.isFromDay(LocalDate.now()) }
+                .ifEmpty { visits.filter { it.isFromDay(LocalDate.now().plusDays(1)) } }
+                .filter { it.isAfter(LocalDateTime.now()) }
             VisitsService.visits.clear()
-            VisitsService.visits.addAll(visits)
+            VisitsService.visits.addAll(visitsToShow)
         }
         override fun onCancelled(databaseError: DatabaseError) {}
     }
