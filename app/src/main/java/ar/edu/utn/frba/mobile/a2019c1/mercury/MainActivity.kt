@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         override fun onDataChange(dataSnapshot: DataSnapshot) {
             val data = DataSnapshotAdapter().toHashMapList(dataSnapshot)
             val schedules = data.map { Schedule.buildFromDatabase(it) } .toMutableList()
-            val visits = schedules.filter { it.isActive(LocalDateTime.now()) }?.flatMap { it.nextVisitDates(LocalDate.now()) }.map { it.visit }
+            val visits = schedules.filter { it.isActive(LocalDateTime.now()) }.flatMap { it.nextVisitDates(LocalDate.now()) }
             VisitsService.visits.clear()
             VisitsService.visits.addAll(visits)
         }
