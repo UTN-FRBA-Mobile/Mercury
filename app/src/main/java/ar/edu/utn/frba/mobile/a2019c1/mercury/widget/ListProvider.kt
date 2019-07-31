@@ -56,7 +56,9 @@ class ListProvider(val context: Context, intent: Intent): RemoteViewsService.Rem
         val remoteView = RemoteViews(context.packageName, R.layout.widget_visit)
         val visit = visits.get(position)
         remoteView.setTextViewText(R.id.client_name, visit.visit.client.name)
+        remoteView.setTextViewText(R.id.client_visit_date, visit.date.toString())
         remoteView.setTextViewText(R.id.client_visit_time, visit.visit.timeToVisit.toString())
+
         return remoteView
     }
 

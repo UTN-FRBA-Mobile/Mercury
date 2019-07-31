@@ -41,4 +41,8 @@
         <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:textSize">14sp</item>
     </style>
+    <style name="widget_title">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">20sp</item>
+    </style>
 </resources>
